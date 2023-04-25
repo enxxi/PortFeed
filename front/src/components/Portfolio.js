@@ -5,6 +5,7 @@ import { Container, Col, Row } from "react-bootstrap";
 import { UserStateContext } from "../App";
 import * as Api from "../api";
 import User from "./user/User";
+import { Education } from "./Education";
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -51,6 +52,13 @@ function Portfolio() {
     return "loading...";
   }
 
+  // api 연동전 테스트용 데이터셋
+  const educationData = [
+    { school: "앨리스초등학교", major: "프론트엔드" },
+    { school: "앨리스중학교", major: "백엔드" },
+    { school: "앨리스고등학교", major: "데이터 분석" },
+  ];
+
   return (
     <Container fluid>
       <Row>
@@ -61,11 +69,13 @@ function Portfolio() {
           />
         </Col>
         <Col>
-
           <div style={{ textAlign: "center" }}>
             학력 목록, 수상이력 목록, 프로젝트 목록, 자격증 목록 만들기
+            <Education
+              isEditable={portfolioOwner.id === userState.user?.id}
+              educationData={educationData}
+            ></Education>
           </div>
-
         </Col>
       </Row>
     </Container>
