@@ -6,6 +6,7 @@ import { UserStateContext } from "../App";
 import * as Api from "../api";
 import User from "./user/User";
 import { Education } from "./Education";
+import { Certificate } from "./Certificate";
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -58,6 +59,9 @@ function Portfolio() {
     { school: "앨리스중학교", major: "백엔드" },
     { school: "앨리스고등학교", major: "데이터 분석" },
   ];
+  const certificateData = [
+    { certification: "SQLD", organization: "한국데이터산업진흥원"}
+  ]
 
   return (
     <Container fluid>
@@ -75,6 +79,10 @@ function Portfolio() {
               isEditable={portfolioOwner.id === userState.user?.id}
               educationData={educationData}
             ></Education>
+            <Certificate
+              isEditable={portfolioOwner.id === userState.user?.id}
+              certificateData={certificateData}
+            ></Certificate>
           </div>
         </Col>
       </Row>
