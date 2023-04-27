@@ -16,11 +16,6 @@ class Award {
     return awards;
   }
 
-  static async findAll() {
-    const awards = await AwardModel.find({});
-    return awards;
-  }
-
   static async update({ award_id, fieldToUpdate, newValue }) {
     const filter = { id: award_id };
     const update = { [fieldToUpdate]: newValue };
