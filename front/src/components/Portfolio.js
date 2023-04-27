@@ -7,6 +7,7 @@ import * as Api from "../api";
 import User from "./user/User";
 import { Education } from "./Education";
 import { Certificate } from "./Certificate";
+import { Project } from "./Project";
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -62,12 +63,15 @@ function Portfolio() {
   const certificateData = [
     { certification: "SQLD", organization: "한국데이터산업진흥원"}
   ]
+  const projectData = [
+    { projectitem: "포트폴리오 공유 서비스", description: "엘리스AI트랙"}
+  ]
 
   return (
     <Container fluid>
       <Row>
         <Col md="3" lg="3">
-          <User
+        <User
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
@@ -79,6 +83,10 @@ function Portfolio() {
               isEditable={portfolioOwner.id === userState.user?.id}
               educationData={educationData}
             ></Education>
+            <Project
+              isEditable={portfolioOwner.id === userState.user?.id}
+              projectData={projectData}
+            ></Project>
             <Certificate
               isEditable={portfolioOwner.id === userState.user?.id}
               certificateData={certificateData}
