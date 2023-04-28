@@ -7,7 +7,7 @@ const eduRouter = Router();
 eduRouter.use(login_required);
 
 //추가
-eduRouter.post("users/:user_id/education", async function (req, res, next) {
+eduRouter.post("education/create", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
