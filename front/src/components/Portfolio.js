@@ -7,6 +7,7 @@ import * as Api from "../api";
 import User from "./user/User";
 import { Education } from "./Education";
 import { Certificate } from "./Certificate";
+import { Award } from "./Award";
 import { Project } from "./Project";
 
 function Portfolio() {
@@ -60,12 +61,17 @@ function Portfolio() {
     { school: "앨리스중학교", major: "백엔드" },
     { school: "앨리스고등학교", major: "데이터 분석" },
   ];
+  const awardData = [
+    { awarddate: "2023-04-28", awarded: "OO대회수상"}
+  ]
   const certificateData = [
     { certification: "SQLD", organization: "한국데이터산업진흥원"}
   ]
   const projectData = [
     { projectitem: "포트폴리오 공유 서비스", description: "엘리스AI트랙"}
   ]
+  
+
 
   return (
     <Container fluid>
@@ -83,6 +89,10 @@ function Portfolio() {
               isEditable={portfolioOwner.id === userState.user?.id}
               educationData={educationData}
             ></Education>
+            <Award
+              isEditable={portfolioOwner.id === userState.user?.id}
+              certificateData={certificateData}
+            ></Award>
             <Project
               isEditable={portfolioOwner.id === userState.user?.id}
               projectData={projectData}
