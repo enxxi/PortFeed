@@ -61,23 +61,19 @@ function Portfolio() {
     { school: "앨리스중학교", major: "백엔드" },
     { school: "앨리스고등학교", major: "데이터 분석" },
   ];
-  const awardData = [
-    { awarddate: "2023-04-28", awarded: "OO대회수상"}
-  ]
+  const awardData = [{ awarddate: "2023-04-28", awarded: "OO대회수상" }];
   const certificateData = [
-    { certification: "SQLD", organization: "한국데이터산업진흥원"}
-  ]
+    { certification: "SQLD", organization: "한국데이터산업진흥원" },
+  ];
   const projectData = [
-    { projectitem: "포트폴리오 공유 서비스", description: "엘리스AI트랙"}
-  ]
-  
-
+    { projectitem: "포트폴리오 공유 서비스", description: "엘리스AI트랙" },
+  ];
 
   return (
     <Container fluid>
       <Row>
         <Col md="3" lg="3">
-        <User
+          <User
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
@@ -91,7 +87,7 @@ function Portfolio() {
             ></Education>
             <Award
               isEditable={portfolioOwner.id === userState.user?.id}
-              certificateData={certificateData}
+              awardData={awardData}
             ></Award>
             <Project
               isEditable={portfolioOwner.id === userState.user?.id}
