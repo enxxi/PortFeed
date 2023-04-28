@@ -6,7 +6,7 @@ import { AwardService } from "../services/awardService";
 const awardRouter = Router();
 awardRouter.use(login_required);
 
-awardRouter.post("/users/:user_id/award", async function (req, res, next) {
+awardRouter.post("/award/create", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
