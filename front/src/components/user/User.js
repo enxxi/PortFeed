@@ -11,9 +11,9 @@ function User({ portfolioOwnerId, isEditable }) {
 
   useEffect(() => {
     // "users/유저id" 엔드포인트로 GET 요청을 하고, user를 response의 data로 세팅함.
-    Api.get("users/all", portfolioOwnerId).then((res) => setUser(res.data));
+    Api.get("users", portfolioOwnerId).then((res) => setUser(res.data));
   }, [portfolioOwnerId]);
-  console.log(user);
+
   return (
     <>
       {isEditing ? (
