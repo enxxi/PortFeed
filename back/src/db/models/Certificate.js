@@ -35,7 +35,7 @@ class Certificate {
   }
 
   static async deleteById({ certificate_id }) {
-    const deleteResult = await AwardModel.deleteOne({ id: certificate_id });
+    const deleteResult = await CertificateModel.deleteOne({ id: certificate_id });
     const isDataDeleted = deleteResult.deletedCount === 1;
     return isDataDeleted;
   }
