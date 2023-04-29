@@ -5,107 +5,105 @@ import { CertificateService } from "../services/CertificateService";
 
 const certificateRouter = Router();
 
-//로그인이 되어야만 실행되도록
-certificateRouter.post(
-    "users/:user_id/certificate", 
-    login_required, 
+//자격증 정보 추가
+certificateRouter('/certificates/:user_id')
+  .post(login_required, 
     async function (req, res, next) {
-  try {
+    try {
     if (is.emptyObject(req.body)) {
       throw new Error(
         "headers의 Content-Type을 application/json으로 설정해주세요"
       );
     }
 
-    // req (request) 에서 데이터 가져오기
-    const user_id = req.body.user_id;
+    const user_id = req.params.user_id;
     const title = req.body.title;
     const organization = req.body.organization;
     const description = req.body.description;
 
-    // 위 데이터를 유저 db에 추가하기
-    const newcertificate = await CertificateService.addcertificate({
+    const newCertificate = await CertificateService.addCertificate({
       user_id,
       title,
       organization,
       description,
     });
 
-    if (newcertificate.errorMessage) {
+    if (newCertificate.errorMessage) {
       throw new Error(newUser.errorMessage);
     }
 
     //201 -> 201 created
-    res.status(201).json(newcertificate);
+    res.status(201).json(newCertificate);
   } catch (error) {
     next(error);
   }
-});
+})
 
-certificateRouter.get('certificates/:id', 
-    login_required, 
-    async function(req, res, next) {
-    try {
-        const user_id = req.body.user_id
-        const certificate_id = req.params.id;
-        
-        const certificate = await CertificateService.getcertificate({ user_id, certificate_id });
-
-        res.status(200).send(certificate);
-        } catch (error) {
-        next(error);
-        }
-    });
-
-certificateRouter.put('certificates/:id', 
-    login_required, 
-    async function(req, res, next) {
+//유저의 모든 자격증 정보 조회
+  .get(async function(req, res, next) {
   try {
-    const user_id = req.body.user_id;
-    const certificate_id = req.params.id;
-    const title = req.body.title ?? null;
-    const description = req.body.description ?? null;
-
-    const toUpdate = { title, description }
-
-    const updatedcertificate = await CertificateService.setcertificate({ user_id, certificate_id, toUpdate });
-
-    res.status(200).send(updatedcertificate);
-  } catch (error) {
-    next(error);
-  }
-});
-
-certificateRouter.delete("/certificates/:certificate_id", 
-    login_required, 
-    async (req, res, next) => {
-    try {
-      const certificate_id = req.params.id;
-      const deleteResult = await CertificateService.deletecertificate({ certificate_id });
-  
-      if (!deleteResult) {
-        throw new Error("해당 프로젝트를 삭제할 수 없습니다.");
-      }
+      const user_id = req.params.user_id;
       
-      //status 204 : 삭제요청 완료, 추가 정보없음?
-      res.status(204).send();
+      const certificatelist = await CertificateService.getCertificate({ user_id });
+
+      res.status(200).send(certificatelist);
+      } catch (error) {
+      next(error);
+      }
+  })
+  
+//자격증 정보 수정
+.put(login_required, 
+async function(req, res, next) {
+  try {
+      const user_id = req.params.user_id;
+      const Certificate_id = req.body.Certificate_id;
+      const title = req.body.title ?? null;
+      const organization = req.body.organization ?? null;
+      const description = req.body.description ?? null;
+
+      const toUpdate = { title, organization, description }
+
+      const updatedCertificate = await CertificateService.setCertificate({ user_id, Certificate_id, toUpdate });
+
+      res.status(200).send(updatedCertificate);
     } catch (error) {
       next(error);
     }
-  });
+  })
+
+.delete(login_required, 
+  async (req, res, next) => {
+  try {
+    const user_id = req.params.user_id;
+    const certificate_id = req.body.certificate_id;
+
+    const deleteResult = await CertificateService.deleteCertificate({ user_id, certificate_id });
+
+    if (!deleteResult) {
+      throw new Error("해당 자격증 정보를 삭제할 수 없습니다.");
+    }
+    
+    //status 204 : 삭제요청 완료, 추가 정보없음?
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+});
 
 
-certificateRouter.get("/certificates/:user_id",
+certificateRouter.get("/certificates/:user_id/:certificate_id",
     login_required,
     async function (req, res, next) {
     try {
-      const user_id = req.params.user_id;
-      const certificateList = await CertificateService.getcertificates({ user_id });
+      const {user_id, Certificate_id} = req.params;
+      const CertificateList = await CertificateService.getCertificates({ user_id });
 
       res.status(200).send(certificateList);
     } catch (error) {
       next(error);
     }
   });
+  
 
-  export { certificateRouter };
+export { certificateRouter };
