@@ -91,7 +91,7 @@ eduRouter.delete("/educations/:id", async function (req, res, next) {
   }
 });
 
-awardRouter.get("/educationList/:user_id", async function (req, res, next) {
+eduRouter.get("/educationList/:user_id", async function (req, res, next) {
   try {
     const user_id = req.params.user_id;
     const educationList = await EducationService.getEducationList({ user_id });

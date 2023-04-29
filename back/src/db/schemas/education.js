@@ -33,6 +33,6 @@ const EduSchema = new Schema(
   }
 );
 
-const EduModel = model("Education", EduSchema);
+const EducationModel = model("Education", EduSchema);
 
-export { EduModel };
+export { EducationModel };
