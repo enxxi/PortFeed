@@ -6,13 +6,13 @@ class Certificate {
     return createdNewCertificate;
   }
 
-  static async findById({ user_id }) {
+  static async findByUserId({ user_id }) {
     const Certificate = await UserModel.findOne({ user_id });
     return Certificate;
   }
 
   static async findById({ certificate_id }) {
-    const Certificate = await UserModel.findOne({ id:certificate_id });
+    const Certificate = await CertificateModel.findOne({ id:certificate_id });
     return Certificate;
   }
 
@@ -31,6 +31,7 @@ class Certificate {
       update,
       option
     );
+    
     return updatedCertificate;
   }
 

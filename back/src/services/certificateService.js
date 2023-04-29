@@ -20,9 +20,9 @@ class CertificateService {
     return Certificates;
   }
 
-  static async setCertificate({ user_id, certificate_id, toUpdate }) {
+  static async setCertificate({ certificate_id, toUpdate }) {
     // db에 자격증 id가 존재하는지 확인
-    let certificate = await certificate.findById({ user_id, certificate_id });
+    let certificate = await certificate.findById({certificate_id });
 
     // 자격증이 없는 경우 오류 메시지
     if (!Certificate) {
@@ -53,20 +53,17 @@ class CertificateService {
       return certificate;
   }
   
-  static async deleteCertificate({ user_id, certificate_id }) {
+  static async deleteCertificate({ certificate_id }) {
 
-    // 자격증이 db에 존재하는지 확인
-    const Certificate = await Certificate.findById({ user_id, certificate_id });
-    if (!Certificate) {
+    const isDataDeleted = await Certificate.deleteById({ certificate_id });
+
+    if (!isDataDeleted) {
       const errorMessage =
-        "자격증가 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+        "자격증이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
     
-    // 자격증 삭제
-    const deletedCertificate = await Certificate.deleteOne({ id: certificate_id });
-
-    return deletedCertificate;
+    return { status : "ok"};
 
   }
   

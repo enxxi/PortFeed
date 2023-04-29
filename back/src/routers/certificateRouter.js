@@ -5,9 +5,9 @@ import { CertificateService } from "../services/CertificateService";
 
 const certificateRouter = Router();
 
-//자격증 정보 추가
-certificateRouter('/certificates/:user_id')
-  .post(login_required, 
+//로그인이 되어야만 실행되도록
+certificateRouter.post(
+    "/certificate/:user_id", 
     async function (req, res, next) {
     try {
     if (is.emptyObject(req.body)) {
@@ -16,12 +16,14 @@ certificateRouter('/certificates/:user_id')
       );
     }
 
+    // req (request) 에서 데이터 가져오기
     const user_id = req.params.user_id;
     const title = req.body.title;
     const organization = req.body.organization;
     const description = req.body.description;
 
-    const newCertificate = await CertificateService.addCertificate({
+    // 위 데이터를 유저 db에 추가하기
+    const newCertificate = await CertificateService.addcertificate({
       user_id,
       title,
       organization,
@@ -37,73 +39,56 @@ certificateRouter('/certificates/:user_id')
   } catch (error) {
     next(error);
   }
-})
+});
 
-//유저의 모든 자격증 정보 조회
-  .get(async function(req, res, next) {
-  try {
-      const user_id = req.params.user_id;
-      
-      const certificatelist = await CertificateService.getCertificate({ user_id });
+certificateRouter.get('/certificate/:user_id',
+    async function(req, res, next) {
+    try {
+        const user_id = req.params.user_id
+        const certificate_id = req.body.id;
+        
+        const certificate = await CertificateService.getCertificate({ user_id, certificate_id });
 
-      res.status(200).send(certificatelist);
-      } catch (error) {
-      next(error);
-      }
-  })
-  
-//자격증 정보 수정
-.put(login_required, 
-async function(req, res, next) {
-  try {
-      const user_id = req.params.user_id;
-      const Certificate_id = req.body.Certificate_id;
-      const title = req.body.title ?? null;
-      const organization = req.body.organization ?? null;
-      const description = req.body.description ?? null;
+        res.status(200).send(certificate);
+        } catch (error) {
+        next(error);
+        }
+    });
 
-      const toUpdate = { title, organization, description }
-
-      const updatedCertificate = await CertificateService.setCertificate({ user_id, Certificate_id, toUpdate });
-
-      res.status(200).send(updatedCertificate);
-    } catch (error) {
-      next(error);
-    }
-  })
-
-.delete(login_required, 
-  async (req, res, next) => {
-  try {
+certificateRouter.put('/certificate/:user_id',
+    async function(req, res, next) {
+    try {
     const user_id = req.params.user_id;
     const certificate_id = req.body.certificate_id;
+    const title = req.body.title ?? null;
+    const description = req.body.description ?? null;
 
-    const deleteResult = await CertificateService.deleteCertificate({ user_id, certificate_id });
+    const toUpdate = { title, description }
 
-    if (!deleteResult) {
-      throw new Error("해당 자격증 정보를 삭제할 수 없습니다.");
-    }
-    
-    //status 204 : 삭제요청 완료, 추가 정보없음?
-    res.status(204).send();
+    const updatedCertificate = await CertificateService.setCertificate({ user_id, certificate_id, toUpdate });
+
+    res.status(200).send(updatedCertificate);
   } catch (error) {
     next(error);
   }
 });
 
-
-certificateRouter.get("/certificates/:user_id/:certificate_id",
-    login_required,
-    async function (req, res, next) {
+certificateRouter.delete("/certificate/:user_id", 
+    login_required, 
+    async (req, res, next) => {
     try {
-      const {user_id, Certificate_id} = req.params;
-      const CertificateList = await CertificateService.getCertificates({ user_id });
-
-      res.status(200).send(certificateList);
+      const certificate_id = req.body.certificate_id;
+      const deleteResult = await certificateService.deleteCertificate({ certificate_id });
+  
+      if (!deleteResult) {
+        throw new Error("해당 프로젝트를 삭제할 수 없습니다.");
+      }
+      
+      //status 204 : 삭제요청 완료, 추가 정보없음?
+      res.status(204).send();
     } catch (error) {
       next(error);
     }
   });
-  
 
-export { certificateRouter };
+  export { certificateRouter };
