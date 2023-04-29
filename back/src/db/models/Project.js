@@ -12,7 +12,7 @@ class Project {
   }
 
   static async findById({ project_id }) {
-    const Project = await UserModel.findOne({ id: project_id });
+    const Project = await ProjectModel.findOne({ id: project_id });
     return Project;
   }
 
@@ -35,7 +35,7 @@ class Project {
     return updatedProject;
   }
     static async deleteById({ project_id }) {
-      const deleteResult = await AwardModel.deleteOne({ id: project_id });
+      const deleteResult = await ProjectModel.deleteOne({ id: project_id });
       const isDataDeleted = deleteResult.deletedCount === 1;
       return isDataDeleted;
   }
