@@ -1,4 +1,4 @@
-import { ProjectModel } from "../schemas/Project";
+import { ProjectModel } from "../schemas/project";
 
 class Project {
   static async create({ newProject }) {
@@ -6,13 +6,13 @@ class Project {
     return createdNewProject;
   }
 
-  static async findById({ user_id }) {
-    const Project = await UserModel.findOne({ user_id });
+  static async findByUserId({ user_id }) {
+    const Project = await ProjectModel.find({ user_id });
     return Project;
   }
 
-  static async findById({ project_id }) {
-    const Project = await UserModel.findOne({ id: project_id });
+  static async findByProjectId({ project_id }) {
+    const Project = await ProjectModel.findOne({ project_id });
     return Project;
   }
 
@@ -22,7 +22,7 @@ class Project {
   }
 
   static async update({ project_id, fieldToUpdate, newValue }) {
-    const filter = { id: project_id };
+    const filter = { project_id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 
@@ -35,7 +35,7 @@ class Project {
     return updatedProject;
   }
     static async deleteById({ project_id }) {
-      const deleteResult = await AwardModel.deleteOne({ id: project_id });
+      const deleteResult = await ProjectModel.deleteOne({ project_id });
       const isDataDeleted = deleteResult.deletedCount === 1;
       return isDataDeleted;
   }

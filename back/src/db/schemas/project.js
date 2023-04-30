@@ -6,7 +6,7 @@ const ProjectSchema = new Schema(
       type: String,
       required: true,
     },
-    id: {
+    project_id: {
       type: String,
       required: true,
     },
@@ -14,12 +14,6 @@ const ProjectSchema = new Schema(
       type: String,
       required: true,
     },
-    // 보류
-    // images: {
-    //   type: Object,
-    //   required: false,
-    // },
-
     description: {
       type: String,
       required: false,
@@ -31,6 +25,6 @@ const ProjectSchema = new Schema(
   }
 );
 
-const ProjectrModel = model("Project", ProjectSchema);
+const ProjectModel = model("Project", ProjectSchema);
 
-export { ProjectrModel };
+export { ProjectModel };
