@@ -87,7 +87,7 @@ class EducationService {
 			return { errorMessage };
 		}
 
-		return { status: "ok", deleted: { education_id } };
+		return { status: "ok" };
 	}
 }
 
