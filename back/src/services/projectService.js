@@ -20,9 +20,9 @@ class ProjectService {
     return Projects;
   }
 
-  static async setProject({ project_id, toUpdate }) {
+  static async setProject({ user_id, project_id, toUpdate }) {
     // db에 프로젝트 id가 존재하는지 확인
-    let project = await Project.findById({ project_id });
+    let project = await Project.findById({ user_id, project_id });
 
     // 프로젝트가 없는 경우 오류 메시지
     if (!Project) {
@@ -48,15 +48,21 @@ class ProjectService {
       return project;
   }
 
-  static async deleteProject({ project_id }) {
-    const isDataDeleted = await Project.deleteById({ project_id });
+  static async deleteProject({ user_id, project_id }) {
 
-    if (!isDataDeleted) {
+    // 프로젝트가 db에 존재하는지 확인
+    const project = await Project.findById({ user_id, project_id });
+    if (!project) {
       const errorMessage =
         "프로젝트가 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
-    return { status: "ok" };
+
+    // 프로젝트 삭제
+    const deletedProject = await Project.deleteOne({ id: project_id });
+
+    return deletedProject;
+
   }
   
 }
