@@ -6,13 +6,13 @@ class Certificate {
     return createdNewCertificate;
   }
 
-  static async findById({ user_id }) {
-    const Certificate = await UserModel.findOne({ user_id });
+  static async findByUserId({ user_id }) {
+    const Certificate = await CertificateModel.find({ user_id });
     return Certificate;
   }
 
-  static async findById({ certificate_id }) {
-    const Certificate = await UserModel.findOne({ id:certificate_id });
+  static async findByCertificateId({ certificate_id }) {
+    const Certificate = await CertificateModel.findOne({ certificate_id });
     return Certificate;
   }
 
@@ -22,7 +22,7 @@ class Certificate {
   }
 
   static async update({ certificate_id, fieldToUpdate, newValue }) {
-    const filter = { id: certificate_id };
+    const filter = { certificate_id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 
@@ -31,11 +31,12 @@ class Certificate {
       update,
       option
     );
+    
     return updatedCertificate;
   }
 
   static async deleteById({ certificate_id }) {
-    const deleteResult = await CertificateModel.deleteOne({ id: certificate_id });
+    const deleteResult = await CertificateModel.deleteOne({ certificate_id });
     const isDataDeleted = deleteResult.deletedCount === 1;
     return isDataDeleted;
   }
