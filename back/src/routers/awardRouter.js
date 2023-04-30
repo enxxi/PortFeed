@@ -19,9 +19,7 @@ awardRouter
 
 			// req (request) 에서 데이터 가져오기
 			const user_id = req.params.user_id;
-			const title = req.body.title;
-			const organization = req.body.organization;
-			const description = req.body.description;
+			const { title, organization, description } = req.body;
 
 			// 위 데이터를 Award db에 추가하기
 			const newAward = await AwardService.addAward({
@@ -62,10 +60,7 @@ awardRouter
 		try {
 			//edu_id 추출
 			const award_id = req.body.award_id;
-			const title = req.body.title ?? null;
-			const organization = req.body.organization ?? null;
-			const description = req.body.description ?? null;
-
+			const { title, organization, description } = req.body ?? null;
 			const toUpdate = { title, organization, description };
 
 			const award = await AwardService.setAward({ award_id, toUpdate });

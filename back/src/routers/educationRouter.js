@@ -19,9 +19,7 @@ educationRouter
 
 			// req (request) 에서 데이터 가져오기
 			const user_id = req.params.user_id;
-			const school = req.body.school;
-			const major = req.body.major;
-			const degree = req.body.degree;
+			const { school, major, degree } = req.body;
 
 			// 위 데이터를 Education db에 추가하기
 			const newEducation = await EducationService.addEducation({
@@ -65,9 +63,7 @@ educationRouter
 			//edu_id 추출
 			const education_id = req.body.education_id;
 
-			const school = req.body.school ?? null;
-			const major = req.body.major ?? null;
-			const degree = req.body.degree ?? null;
+			const { school, major, degree } = req.body ?? null;
 
 			const toUpdate = { school, major, degree };
 
