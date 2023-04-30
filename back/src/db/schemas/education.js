@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 
-const EduSchema = new Schema(
+const EducationSchema = new Schema(
   {
-    id: {
+    education_id: {
       type: String,
       required: true,
     },
@@ -33,6 +33,6 @@ const EduSchema = new Schema(
   }
 );
 
-const EducationModel = model("Education", EduSchema);
+const EducationModel = model("Education", EducationSchema);
 
 export { EducationModel };
