@@ -57,51 +57,13 @@ educationRouter
 		} catch (error) {
 			next(error);
 		}
-	});
-
-// //삭제
-// .delete(async function (req, res, next) {
-// 	try {
-// 		//id가져오기
-// 		const education_id = req.body.education_id;
-
-// 		const result = await EducationService.deleteEducation({ education_id });
-
-// 		if (!result) {
-// 			throw new Error("해당 학력을 삭제할 수 없습니다.");
-// 		}
-
-// 		return res.status(200).send(result);
-// 	} catch (error) {
-// 		next(error);
-// 	}
-// });
-
-educationRouter
-	.route("/education/:education_id")
-	//삭제
-	.delete(async function (req, res, next) {
-		try {
-			//id가져오기
-			const education_id = req.params;
-
-			const result = await EducationService.deleteEducation({ education_id });
-
-			if (!result) {
-				throw new Error("해당 학력을 삭제할 수 없습니다.");
-			}
-
-			res.status(200).send(result);
-		} catch (error) {
-			next(error);
-		}
 	})
 
 	//수정
 	.patch(async function (req, res, next) {
 		try {
 			//edu_id 추출
-			const education_id = req.params.education_id;
+			const education_id = req.body.education_id;
 
 			const school = req.body.school ?? null;
 			const major = req.body.major ?? null;
@@ -123,5 +85,26 @@ educationRouter
 			next(error);
 		}
 	});
+
+//삭제
+educationRouter.delete(
+	"/education/:education_id",
+	async function (req, res, next) {
+		try {
+			//id가져오기
+			const education_id = req.params.education_id;
+
+			const result = await EducationService.deleteEducation({ education_id });
+
+			if (!result) {
+				throw new Error("해당 학력을 삭제할 수 없습니다.");
+			}
+
+			res.status(204).send(result);
+		} catch (error) {
+			next(error);
+		}
+	}
+);
 
 export { educationRouter };

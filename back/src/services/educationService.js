@@ -79,7 +79,7 @@ class EducationService {
 	}
 
 	static async deleteEducation({ education_id }) {
-		const isDataDeleted = await Education.deleteById(education_id);
+		const isDataDeleted = await Education.deleteById({ education_id });
 
 		if (!isDataDeleted) {
 			const errorMessage =
