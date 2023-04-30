@@ -100,7 +100,7 @@ educationRouter.delete(
 				throw new Error("해당 학력을 삭제할 수 없습니다.");
 			}
 
-			res.status(204).send(result);
+			return res.status(204).send(result);
 		} catch (error) {
 			next(error);
 		}
