@@ -23,15 +23,6 @@ export function Education({ isEditable, educationData }) {
   // props로 가져온 educationData 를 상태값으로 선언한다.
   const [education, setEducation] = useState(educationData);
 
-  console.log(
-    "isEditable: ",
-    isEditable,
-    "\n",
-    "educationData: ",
-    educationData,
-    "\n"
-  );
-
   // 학력 작성중인지 상태값 선언
   const [isCreating, setIsCreating] = useState(false);
 
