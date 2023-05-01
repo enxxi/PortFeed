@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 
 class AwardService {
 	static async addAward({ user_id, title, organization, description }) {
-		// id 는 유니크 값 부여
 		const award_id = uuidv4();
 		const newAward = { award_id, user_id, title, organization, description };
 
@@ -25,13 +24,14 @@ class AwardService {
 		return award;
 	}
 
+	//모든 Award의 리스트를 받아오는 함수
 	static async getAwardList({ user_id }) {
 		const awards = await Award.findByUserId({ user_id });
 		return awards;
-	} //모든 Award의 리스트를 받아오는 함수
+	}
 
+	//해당 id의 수상 경력을 수정하는 함수
 	static async setAward({ award_id, toUpdate }) {
-		// 우선 해당 id 의 award가 db에 존재하는지 여부 확인
 		let award = await Award.findById(award_id);
 
 		// db에서 찾지 못한 경우, 에러 메시지 반환
@@ -41,23 +41,21 @@ class AwardService {
 			return { errorMessage };
 		}
 
-		// 업데이트 대상의 값이 null 이 아니라면 업데이트 진행
-		if (toUpdate.title) {
-			const fieldToUpdate = "title";
-			const newValue = toUpdate.title;
-			award = await Award.update({ award_id, fieldToUpdate, newValue });
-		}
+		const fieldsToUpdate = {
+			title: "title",
+			organization: "organization",
+			description: "description",
+		};
 
-		if (toUpdate.organization) {
-			const fieldToUpdate = "organization";
-			const newValue = toUpdate.organization;
-			award = await Award.update({ award_id, fieldToUpdate, newValue });
-		}
-
-		if (toUpdate.description) {
-			const fieldToUpdate = "description";
-			const newValue = toUpdate.description;
-			award = await Award.update({ award_id, fieldToUpdate, newValue });
+		for (const [field, fieldToUpdate] of Object.entries(fieldsToUpdate)) {
+			if (toUpdate[field]) {
+				const newValue = toUpdate[field];
+				award = await Award.update({
+					award_id,
+					fieldToUpdate,
+					newValue,
+				});
+			}
 		}
 
 		return award;
