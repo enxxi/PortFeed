@@ -48,6 +48,7 @@ class EducationService {
 			school: "school",
 			major: "major",
 			degree: "degree",
+			description: "description",
 		};
 
 		for (const [field, fieldToUpdate] of Object.entries(fieldsToUpdate)) {

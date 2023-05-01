@@ -82,9 +82,9 @@ educationRouter
 			//edu_id 추출
 			const education_id = req.params.education_id;
 
-			const { school, major, degree } = req.body ?? null;
+			const { school, major, degree, description } = req.body ?? null;
 
-			const toUpdate = { school, major, degree };
+			const toUpdate = { school, major, degree, description };
 
 			const education = await EducationService.setEducation({
 				education_id,
