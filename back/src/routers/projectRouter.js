@@ -7,7 +7,7 @@ const projectRouter = Router();
 projectRouter.use(login_required)
 
 projectRouter
-  .route("/project/:user_id")
+  .route("/project/:user_id/:project_id")
   .post(async function (req, res, next) {
     try {
     if (is.emptyObject(req.body)) {
@@ -16,12 +16,17 @@ projectRouter
       );
     }
 
-    const user_id = req.params.user_id;
-    const title = req.body.title;
-    const description = req.body.description;
+    const tokenUser_id = req.currentUserId;
+    const pathUser_id = req.params.user_id;
+
+    const { title, description } = req.body;
+
+    if (tokenUser_id !== pathUser_id) {
+      throw new Error("인증정보가 올바르지 않습니다.");
+    }
 
     const newProject = await ProjectService.addProject({
-      user_id,
+      user_id : pathUser_id,
       title,
       description,
     });
@@ -54,8 +59,8 @@ projectRouter
     async function(req, res, next) {
     try {
       const project_id = req.body.project_id;
-      const title = req.body.title ?? null;
-      const description = req.body.description ?? null;
+
+      const { title, description } = req.body ?? null ;
 
       const toUpdate = { title, description }
 
@@ -68,11 +73,10 @@ projectRouter
     } catch (error) {
       next(error);
     }
-  });
+  })
 
 
-projectRouter.delete("/project/:project_id",
-  async (req, res, next) => {
+  .delete(async (req, res, next) => {
     try {
       const project_id = req.params;
       const deleteResult = await ProjectService.deleteProject({ project_id });
