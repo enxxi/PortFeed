@@ -7,12 +7,13 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
     <Card className="mb-2 ms-3 mr-5" style={{ width: "18rem" }}>
       <Card.Body>
         <Row className="justify-content-md-center">
-          <Card.Img
-            style={{ width: "10rem", height: "8rem" }}
-            className="mb-3"
-            src="http://placekitten.com/200/200"
-            alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
-          />
+        <Card.Img
+          style={{ width: "10rem", height: "8rem" }}
+          className="mb-3"
+          //기존의 고양이 사진만 띄웠는데 유저 로컬 드라이브에 있는 파일로도 나오게끔 설정
+          src={user.imageUrl || "http://placekitten.com/200/200"}
+          alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
+        />
         </Row>
         <Card.Title>{user?.name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{user?.email}</Card.Subtitle>
@@ -33,7 +34,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
             </Row>
           </Col>
         )}
-
+        
         {isNetwork && (
           <Card.Link
             className="mt-3"
