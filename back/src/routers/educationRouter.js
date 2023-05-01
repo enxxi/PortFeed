@@ -8,7 +8,7 @@ educationRouter.use(login_required);
 
 //추가
 educationRouter
-	.route("/education/:user_id")
+	.route("/education/:user_id/:education_id")
 	.post(async function (req, res, next) {
 		try {
 			if (is.emptyObject(req.body)) {
@@ -16,16 +16,18 @@ educationRouter
 					"headers의 Content-Type을 application/json으로 설정해주세요"
 				);
 			}
-
+			const tokenUser_id = req.currentUserId; //토큰에서 user_id받아오기
 			// req (request) 에서 데이터 가져오기
-			const user_id = req.params.user_id;
-			const school = req.body.school;
-			const major = req.body.major;
-			const degree = req.body.degree;
+			const pathUser_id = req.params.user_id;
+			if (tokenUser_id !== pathUser_id) {
+				throw new Error("인증정보가 올바르지 않습니다.");
+			}
+
+			const { school, major, degree } = req.body;
 
 			// 위 데이터를 Education db에 추가하기
 			const newEducation = await EducationService.addEducation({
-				user_id,
+				user_id: pathUser_id,
 				school,
 				major,
 				degree,
@@ -44,9 +46,16 @@ educationRouter
 	//학력 받아오기
 	.get(async function (req, res, next) {
 		try {
-			const user_id = req.params.user_id;
+			const tokenUser_id = req.currentUserId; //토큰에서 user_id받아오기
+			// req (request) 에서 데이터 가져오기
+			const pathUser_id = req.params.user_id;
+
+			if (tokenUser_id !== pathUser_id) {
+				throw new Error("인증정보가 올바르지 않습니다.");
+			}
+
 			const education = await EducationService.getEducationList({
-				user_id,
+				user_id: pathUser_id,
 			});
 
 			if (education.errorMessage) {
@@ -62,14 +71,20 @@ educationRouter
 	//수정
 	.patch(async function (req, res, next) {
 		try {
+			const tokenUser_id = req.currentUserId; //토큰에서 user_id받아오기
+			// req (request) 에서 데이터 가져오기
+			const pathUser_id = req.params.user_id;
+
+			if (tokenUser_id !== pathUser_id) {
+				throw new Error("인증정보가 올바르지 않습니다.");
+			}
+
 			//edu_id 추출
-			const education_id = req.body.education_id;
+			const education_id = req.params.education_id;
 
-			const school = req.body.school ?? null;
-			const major = req.body.major ?? null;
-			const degree = req.body.degree ?? null;
+			const { school, major, degree, description } = req.body ?? null;
 
-			const toUpdate = { school, major, degree };
+			const toUpdate = { school, major, degree, description };
 
 			const education = await EducationService.setEducation({
 				education_id,
@@ -84,13 +99,19 @@ educationRouter
 		} catch (error) {
 			next(error);
 		}
-	});
+	})
 
-//삭제
-educationRouter.delete(
-	"/education/:education_id",
-	async function (req, res, next) {
+	//삭제
+	.delete(async function (req, res, next) {
 		try {
+			const tokenUser_id = req.currentUserId; //토큰에서 user_id받아오기
+			// req (request) 에서 데이터 가져오기
+			const pathUser_id = req.params.user_id;
+
+			if (tokenUser_id !== pathUser_id) {
+				throw new Error("인증정보가 올바르지 않습니다.");
+			}
+
 			//id가져오기
 			const education_id = req.params.education_id;
 
@@ -104,7 +125,6 @@ educationRouter.delete(
 		} catch (error) {
 			next(error);
 		}
-	}
-);
+	});
 
 export { educationRouter };
