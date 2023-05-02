@@ -2,13 +2,14 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { CertificateService } from "../services/CertificateService";
+import { certificateValidation } from "../middlewares/validation";
 
 const certificateRouter = Router();
 certificateRouter.use(login_required);
 
 certificateRouter
   .route("/certificate/:user_id/:certificate_id")
-  .post(async function (req, res, next) {
+  .post(certificateValidation, async function (req, res, next) {
     try {
       if (is.emptyObject(req.body)) {
         throw new Error(
@@ -22,8 +23,6 @@ certificateRouter
       if (tokenUser_id !== pathUser_id) {
 				throw new Error("인증정보가 올바르지 않습니다.");
 			}
-
-      
 
       const newCertificate = await CertificateService.addCertificate({
         user_id : pathUser_id,
@@ -65,8 +64,7 @@ certificateRouter
         }
     })
 
-  .patch(
-    async function(req, res, next) {
+  .patch(certificateValidation, async function(req, res, next) {
     try {
         const tokenUser_id = req.currentUserId;
         const pathUser_id = req.params.user_id;

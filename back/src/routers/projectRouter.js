@@ -2,13 +2,14 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { ProjectService } from "../services/projectService";
+import { projectValidation } from "../middlewares/validation";
 
 const projectRouter = Router();
 projectRouter.use(login_required)
 
 projectRouter
   .route("/project/:user_id/:project_id")
-  .post(async function (req, res, next) {
+  .post(projectValidation, async function (req, res, next) {
     try {
       if (is.emptyObject(req.body)) {
         throw new Error(
@@ -59,7 +60,7 @@ projectRouter
     })
   
 
-  .patch( async function(req, res, next) {
+  .patch(projectValidation, async function(req, res, next) {
     try {
       const tokenUser_id = req.currentUserId;
 			const pathUser_id = req.params.user_id;

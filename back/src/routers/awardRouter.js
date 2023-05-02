@@ -2,6 +2,8 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { AwardService } from "../services/awardService";
+import { awardValidation } from "../middlewares/validation";
+
 
 const awardRouter = Router();
 awardRouter.use(login_required);
@@ -9,7 +11,7 @@ awardRouter.use(login_required);
 //추가
 awardRouter
 	.route("/award/:user_id/:award_id")
-	.post(async function (req, res, next) {
+	.post(awardValidation, async function (req, res, next) {
 		try {
 			if (is.emptyObject(req.body)) {
 				throw new Error(
@@ -67,7 +69,7 @@ awardRouter
 	})
 
 	//수정
-	.patch(async function (req, res, next) {
+	.patch(awardValidation, async function (req, res, next) {
 		try {
 			//user validation
 			const tokenUser_id = req.currentUserId;
