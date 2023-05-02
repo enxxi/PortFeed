@@ -20,6 +20,11 @@ class CertificateService {
     return certificateList;
   }
 
+  static async getCertificate({ certificate_id }) {
+    const certificate = await Certificate.findById({ certificate_id });
+    return certificate;
+  }
+
   static async setCertificate({ certificate_id, toUpdate }) {
     // db에 자격증 id가 존재하는지 확인
     let certificate = await Certificate.findByCertificateId( {certificate_id} );
@@ -30,15 +35,8 @@ class CertificateService {
           "해당하는 자격증 내역이 없습니다. 다시 한 번 확인해 주세요.";
         return { errorMessage };
       }
-  
-    // 자격증 수정사항 업데이트
-    if (certificate) {
-			const errorMessage =
-				"해당 id를 가진 학력은 없습니다. 다시 한 번 확인해 주세요.";
-			return { errorMessage };
-		}
 
-		const fieldsToUpdate = {
+		  const fieldsToUpdate = {
 			name: "name",
       organization: "organization",
 			description: "description",
@@ -47,7 +45,7 @@ class CertificateService {
 		for (const [field, fieldToUpdate] of Object.entries(fieldsToUpdate)) {
 			if (toUpdate[field]) {
 				const newValue = toUpdate[field];
-			    certificate = await certificate.update({
+			    certificate = await Certificate.update({
             certificate_id,
             fieldToUpdate,
             newValue,
