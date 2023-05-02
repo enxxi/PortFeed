@@ -73,7 +73,7 @@ const awardValidation = (req, res, next) => {
 module.exports = {
   userValidation,
   projectValidation,
-  certificationValidation,
+  certificateValidation,
   educationValidation,
   awardValidation,
 };
