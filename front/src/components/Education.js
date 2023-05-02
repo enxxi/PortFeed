@@ -23,15 +23,6 @@ export function Education({ isEditable, educationData }) {
   // props로 가져온 educationData 를 상태값으로 선언한다.
   const [education, setEducation] = useState(educationData);
 
-  console.log(
-    "isEditable: ",
-    isEditable,
-    "\n",
-    "educationData: ",
-    educationData,
-    "\n"
-  );
-
   // 학력 작성중인지 상태값 선언
   const [isCreating, setIsCreating] = useState(false);
 
@@ -115,11 +106,7 @@ export function Education({ isEditable, educationData }) {
         <Grid item xs={12}>
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="h4">학력</Typography>
-            {isEditable && (
-              <IconButton>
-                <Edit />
-              </IconButton>
-            )}
+            
           </Box>
         </Grid>
 

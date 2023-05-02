@@ -11,7 +11,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
           style={{ width: "10rem", height: "8rem" }}
           className="mb-3"
           //기존의 고양이 사진만 띄웠는데 유저 로컬 드라이브에 있는 파일로도 나오게끔 설정
-          src={user.imageUrl || "http://placekitten.com/200/200"}
+          src={"http://placekitten.com/200/200"}
           alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
         />
         </Row>
