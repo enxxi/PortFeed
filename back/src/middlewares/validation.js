@@ -39,6 +39,7 @@ const certificationValidation = (req, res, next) => {
     return res.status(400).json({ error: error.details[0].message });
   }
   next();
+  
 };
 
 const educationValidation = (req, res, next) => {
