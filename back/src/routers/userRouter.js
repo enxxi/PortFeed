@@ -7,7 +7,7 @@ import { userValidation } from "../middlewares/validation";
 
 const userAuthRouter = Router();
 
-userAuthRouter.post("/user/register", userValidation, async function (req, res, next) {
+userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -16,7 +16,7 @@ userAuthRouter.post("/user/register", userValidation, async function (req, res, 
     }
 
     // req (request) 에서 데이터 가져오기
-    const { name, email, password } = await userValidation(req.body);
+    const { name, email, password } = await req.body;
 
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userAuthService.addUser({
@@ -165,4 +165,4 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
     );
 });
 
-export { userAuthRouter }; 
+export { userAuthRouter };
