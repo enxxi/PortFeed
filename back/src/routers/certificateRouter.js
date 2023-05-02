@@ -1,7 +1,7 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
-import { CertificateService } from "../services/CertificateService";
+import { CertificateService } from "../services/certificateService";
 
 const certificateRouter = Router();
 certificateRouter.use(login_required);
@@ -36,33 +36,36 @@ certificateRouter
       return res.status(201).json(newCertificate);
     } catch (error) {
       next(error);
-  }
-})
+    }
+  })
 
-  .get(
-    async function(req, res, next) {
+  .get(async function (req, res, next) {
     try {
-        const user_id = req.params.user_id
+      const user_id = req.params.user_id;
 
-        const certificateList = await CertificateService.getCertificateList({ user_id });
+      const certificateList = await CertificateService.getCertificateList({
+        user_id,
+      });
 
-        return res.status(200).send(certificateList);
-        } catch (error) {
-        next(error);
-        }
-    })
+      return res.status(200).send(certificateList);
+    } catch (error) {
+      next(error);
+    }
+  })
 
-  .patch(
-    async function(req, res, next) {
+  .patch(async function (req, res, next) {
     try {
       const certificate_id = req.body.certificate_id;
       const name = req.body.name ?? null;
       const organization = req.body.organization ?? null;
       const description = req.body.description ?? null;
 
-      const toUpdate = { name, organization,description }
+      const toUpdate = { name, organization, description };
 
-      const updatedCertificate = await CertificateService.setCertificate({ certificate_id, toUpdate });
+      const updatedCertificate = await CertificateService.setCertificate({
+        certificate_id,
+        toUpdate,
+      });
 
       if (updatedCertificate.errorMessage) {
         throw new Error(updatedCertificate.errorMessage);
@@ -73,21 +76,25 @@ certificateRouter
     }
   });
 
-certificateRouter.delete("/certificate/:certificate_id",
-    async (req, res, next) => {
+certificateRouter.delete(
+  "/certificate/:certificate_id",
+  async (req, res, next) => {
     try {
       const certificate_id = req.params;
-      const deleteResult = await CertificateService.deleteCertificate({ certificate_id });
-  
+      const deleteResult = await CertificateService.deleteCertificate({
+        certificate_id,
+      });
+
       if (!deleteResult) {
         throw new Error("해당 프로젝트를 삭제할 수 없습니다.");
       }
-      
+
       //status 204 : 삭제요청 완료, 추가 정보없음?
       res.status(204).send();
     } catch (error) {
       next(error);
     }
-  });
+  }
+);
 
-  export { certificateRouter };
+export { certificateRouter };
