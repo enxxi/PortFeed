@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Row } from "react-bootstrap";
+import { Container, Grid, Select, MenuItem, Button } from "@mui/material";
 
 import * as Api from "../../api";
 import UserCard from "./UserCard";
@@ -9,7 +9,6 @@ import { UserStateContext } from "../../App";
 function Network() {
   const navigate = useNavigate();
   const userState = useContext(UserStateContext);
-  // useState 훅을 통해 users 상태를 생성함.
   const [users, setUsers] = useState([]);
 
   ///pagination////
@@ -19,22 +18,21 @@ function Network() {
   /////////////////
 
   useEffect(() => {
-    // 만약 전역 상태의 user가 null이라면, 로그인 페이지로 이동함.
     if (!userState.user) {
       navigate("/login");
       return;
     }
-    // "userlist" 엔드포인트로 GET 요청을 하고, users를 response의 data로 세팅함.
     Api.get(`userlist?page=${page}&perPage=${perPage}`).then((res) => {
       setUsers(res.data.posts);
       setTotalPage(res.data.totalPage);
     });
   }, [userState.user, navigate, page, perPage]);
-return (
+
+  return (
     <>
       <div className="d-flex justify-content-end my-3">
         <label className="me-2">페이지 당 유저 수:</label>
-        <select
+        <Select
           id="perPage"
           value={perPage}
           onChange={(e) => {
@@ -42,32 +40,34 @@ return (
             setPage(1);
           }}
         >
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="29">20</option>
-        </select>
+          <MenuItem value="5">5</MenuItem>
+          <MenuItem value="10">10</MenuItem>
+          <MenuItem value="29">20</MenuItem>
+        </Select>
       </div>
-      <Row>
+      <Grid container spacing={2} justifyContent="flex-start">
         {users.map((user) => (
-          <UserCard key={user.id} user={user} isNetwork />
+          <Grid item key={user.id} xs={12} sm={6} md={4}>
+            <UserCard user={user} isNetwork />
+          </Grid>
         ))}
-      </Row>
+      </Grid>
       <div className="d-flex justify-content-center">
-        <button
-          className="btn btn-primary"
+        <Button
+          variant="contained"
           onClick={() => setPage(page - 1)}
           disabled={page === 1}
         >
           이전 페이지
-        </button>
+        </Button>
         {page} / {totalPage}
-        <button
-          className="btn btn-primary"
+        <Button
+          variant="contained"
           onClick={() => setPage(page + 1)}
           disabled={page === totalPage}
         >
           다음 페이지
-        </button>
+        </Button>
       </div>
     </>
   );

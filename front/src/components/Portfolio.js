@@ -57,9 +57,7 @@ function Portfolio() {
 
   // api 연동전 테스트용 데이터셋
   const educationData = [
-    { school: "앨리스초등학교", major: "프론트엔드" },
-    { school: "앨리스중학교", major: "백엔드" },
-    { school: "앨리스고등학교", major: "데이터 분석" },
+    { school: "앨리스대학교", major: "컴퓨터공학" },
   ];
   const awardData = [{ awarddate: "2023-04-28", awarded: "OO대회수상" }];
   const certificateData = [
