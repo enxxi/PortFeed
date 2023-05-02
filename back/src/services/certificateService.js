@@ -14,16 +14,15 @@ class CertificateService {
 
     return createdNewCertificate;
   }
-
-  // 모든 유저의 자격증 정보조회
-  // static async getCertificates() {
-  //   const Certificates = await Certificate.findAll();
-  //   return Certificates;
-  // }
-
+  
   static async getCertificateList({ user_id }) {
     const certificateList = await Certificate.findByUserId({ user_id });
     return certificateList;
+  }
+
+  static async getCertificate({ certificate_id }) {
+    const certificate = await Certificate.findById({ certificate_id });
+    return certificate;
   }
 
   static async setCertificate({ certificate_id, toUpdate }) {
@@ -36,25 +35,23 @@ class CertificateService {
           "해당하는 자격증 내역이 없습니다. 다시 한 번 확인해 주세요.";
         return { errorMessage };
       }
-  
-    // 자격증 수정사항 업데이트
-    if (toUpdate.name) {
-        const fieldToUpdate = "name";
-        const newValue = toUpdate.name;
-        certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
-      }
-  
-      if (toUpdate.organization) {
-        const fieldToUpdate = "organization";
-        const newValue = toUpdate.organization;
-        certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
-      }
 
-      if (toUpdate.description) {
-        const fieldToUpdate = "description";
-        const newValue = toUpdate.description;
-        certificate = await Certificate.update({ certificate_id, fieldToUpdate, newValue });
-      }
+		  const fieldsToUpdate = {
+			name: "name",
+      organization: "organization",
+			description: "description",
+		};
+
+		for (const [field, fieldToUpdate] of Object.entries(fieldsToUpdate)) {
+			if (toUpdate[field]) {
+				const newValue = toUpdate[field];
+			    certificate = await Certificate.update({
+            certificate_id,
+            fieldToUpdate,
+            newValue,
+				});
+			}
+		}
   
       return certificate;
   }

@@ -7,7 +7,7 @@ const certificateRouter = Router();
 certificateRouter.use(login_required);
 
 certificateRouter
-  .route("/certificate/:user_id")
+  .route("/certificate/:user_id/:certificate_id")
   .post(async function (req, res, next) {
     try {
       if (is.emptyObject(req.body)) {
@@ -15,14 +15,18 @@ certificateRouter
           "headers의 Content-Type을 application/json으로 설정해주세요"
         );
       }
+      
+      const tokenUser_id = req.currentUserId;
+      const pathUser_id = req.params.user_id;
 
-      const user_id = req.params.user_id;
-      const name = req.body.name;
-      const organization = req.body.organization;
-      const description = req.body.description;
+      if (tokenUser_id !== pathUser_id) {
+				throw new Error("인증정보가 올바르지 않습니다.");
+			}
+
+      
 
       const newCertificate = await CertificateService.addCertificate({
-        user_id,
+        user_id : pathUser_id,
         name,
         organization,
         description,
@@ -42,9 +46,18 @@ certificateRouter
   .get(
     async function(req, res, next) {
     try {
-        const user_id = req.params.user_id
+        const tokenUser_id = req.currentUserId;
+        const pathUser_id = req.params.user_id;
 
-        const certificateList = await CertificateService.getCertificateList({ user_id });
+        if (tokenUser_id !== pathUser_id) {
+          throw new Error("인증정보가 올바르지 않습니다.");
+        }
+
+        const certificateList = await CertificateService.getCertificateList({ user_id: pathUser_id });
+        
+        if (certificateList.errorMessage) {
+          throw new Error(certificateList.errorMessage);
+        }
 
         return res.status(200).send(certificateList);
         } catch (error) {
@@ -55,12 +68,17 @@ certificateRouter
   .patch(
     async function(req, res, next) {
     try {
-      const certificate_id = req.body.certificate_id;
-      const name = req.body.name ?? null;
-      const organization = req.body.organization ?? null;
-      const description = req.body.description ?? null;
+        const tokenUser_id = req.currentUserId;
+        const pathUser_id = req.params.user_id;
 
-      const toUpdate = { name, organization,description }
+        if (tokenUser_id !== pathUser_id) {
+          throw new Error("인증정보가 올바르지 않습니다.");
+        }
+
+
+      const certificate_id = req.params.certificate_id;
+      const { name, organization, description } = req.body ?? null;
+      const toUpdate = { name, organization, description }
 
       const updatedCertificate = await CertificateService.setCertificate({ certificate_id, toUpdate });
 
@@ -71,20 +89,26 @@ certificateRouter
     } catch (error) {
       next(error);
     }
-  });
+  })
 
-certificateRouter.delete("/certificate/:certificate_id",
-    async (req, res, next) => {
+  .delete(async (req, res, next) => {
     try {
-      const certificate_id = req.params;
-      const deleteResult = await CertificateService.deleteCertificate({ certificate_id });
+        const tokenUser_id = req.currentUserId;
+        const pathUser_id = req.params.user_id;
+
+        if (tokenUser_id !== pathUser_id) {
+          throw new Error("인증정보가 올바르지 않습니다.");
+        }
+
+      const certificate_id = req.params.certificate_id;
+      const result = await CertificateService.deleteCertificate({ certificate_id });
   
-      if (!deleteResult) {
+      if (!result) {
         throw new Error("해당 프로젝트를 삭제할 수 없습니다.");
       }
       
-      //status 204 : 삭제요청 완료, 추가 정보없음?
-      res.status(204).send();
+      //status 204 : 삭제요청 완료, 추가 정보없음
+      return res.status(204).send();
     } catch (error) {
       next(error);
     }
