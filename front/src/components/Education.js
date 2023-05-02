@@ -106,11 +106,7 @@ export function Education({ isEditable, educationData }) {
         <Grid item xs={12}>
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="h4">학력</Typography>
-            {isEditable && (
-              <IconButton>
-                <Edit />
-              </IconButton>
-            )}
+            
           </Box>
         </Grid>
 

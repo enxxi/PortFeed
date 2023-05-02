@@ -107,11 +107,6 @@ export function Project({ isEditable, projectData }) {
       <Grid item xs={12}>
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="h4">프로젝트</Typography>
-            {isEditable && (
-              <IconButton>
-                <Edit />
-              </IconButton>
-            )}
           </Box>
         </Grid>
 
