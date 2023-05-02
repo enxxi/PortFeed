@@ -37,7 +37,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
       throw new Error(newUser.errorMessage);
     }
 
-    res.status(201).json(newUser);
+    return res.status(201).json(newUser);
   } catch (error) {
     res
       .status(400)
@@ -59,7 +59,7 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
       throw new Error(user.errorMessage);
     }
 
-    res.status(200).send(user);
+    return res.status(200).send(user);
   } catch (error) {
     next(error);
   }
@@ -71,9 +71,19 @@ userAuthRouter.get(
   async function (req, res, next) {
     try {
       // 전체 사용자 목록을 얻음
+      const page = Number(req.query.page);
+      const perPage = parseInt(req.query.perPage);
+      const [total, posts] = await Promise.all([
+        UserModel.countDocuments({}),
+        UserModel.find({})
+          .sort({ createdAt: -1 })
+          .skip(perPage * (page - 1))
+          .limit(perPage), //sort,skip,limit 사용
+      ]);
 
-      const users = await userAuthService.getUsers();
-      res.status(200).send(users);
+      const totalPage = Math.ceil(total / perPage);
+
+      return res.status(200).json({ posts, page, perPage, totalPage });
     } catch (error) {
       next(error);
     }
@@ -95,7 +105,7 @@ userAuthRouter.get(
         throw new Error(currentUserInfo.errorMessage);
       }
 
-      res.status(200).send(currentUserInfo);
+      return res.status(200).send(currentUserInfo);
     } catch (error) {
       next(error);
     }
@@ -124,7 +134,7 @@ userAuthRouter.put(
         throw new Error(updatedUser.errorMessage);
       }
 
-      res.status(200).json(updatedUser);
+      return res.status(200).json(updatedUser);
     } catch (error) {
       next(error);
     }
@@ -143,7 +153,7 @@ userAuthRouter.get(
         throw new Error(currentUserInfo.errorMessage);
       }
 
-      res.status(200).send(currentUserInfo);
+      return res.status(200).send(currentUserInfo);
     } catch (error) {
       next(error);
     }
