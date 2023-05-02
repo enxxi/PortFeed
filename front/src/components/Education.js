@@ -116,8 +116,8 @@ export function Education({ isEditable, educationData }) {
               <Paper>
                 <Box padding={2} display="flex" justifyContent="space-between" alignItems="center">
                   <Box display="flex" flexDirection="column">
-                    <Typography variant="body1">{item.school}</Typography>
-                    <Typography variant="body1">{item.major}</Typography>
+                    <Typography variant="body1" sx={{ textAlign: "left" }}>{item.school}</Typography>
+                    <Typography variant="body1" sx={{ textAlign: "left" }}>{item.major}</Typography>
                   </Box>
                   {
                     isEditable && (
