@@ -101,6 +101,7 @@ export function Education({ isEditable, educationData }) {
   };
 //mui로 Education MVP를 입힘. 학력사항 추가 이후 수정 가능하게 편집 버튼 추가
   return (
+    <div style={{ marginTop: "2rem" }}>
     <Container>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -187,5 +188,6 @@ export function Education({ isEditable, educationData }) {
         )
       }
     </Container>
+    </div>
   );
 }
