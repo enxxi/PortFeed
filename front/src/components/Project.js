@@ -118,8 +118,8 @@ export function Project({ isEditable, projectData }) {
               <Paper>
                 <Box padding={2} display="flex" justifyContent="space-between" alignItems="center">
                 <Box display="flex" flexDirection="column">
-                  <Typography variant="body1">{item.projectitem}</Typography>
-                  <Typography variant="body1">{item.description}</Typography>
+                  <Typography variant="body1" sx={{ textAlign: "left" }}>{item.projectitem}</Typography>
+                  <Typography variant="body1" sx={{ textAlign: "left" }}>{item.description}</Typography>
                 </Box>
                
               {isEditable && (
