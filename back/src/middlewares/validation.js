@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi from "joi";
 
 const userValidation = (req, res, next) => {
   const schema = Joi.object({
@@ -27,7 +27,7 @@ const projectValidation = (req, res, next) => {
   next();
 };
 
-const certificationValidation = (req, res, next) => {
+const certificateValidation = (req, res, next) => {
   const schema = Joi.object({
     name: Joi.string(),
     oraganization: Joi.string(),
@@ -39,16 +39,14 @@ const certificationValidation = (req, res, next) => {
     return res.status(400).json({ error: error.details[0].message });
   }
   next();
-  
 };
 
 const educationValidation = (req, res, next) => {
   const schema = Joi.object({
     school: Joi.string().regex(/^.*학교$/),
-    degree: Joi.string().valid('학사', '석사', '박사'),
+    degree: Joi.string().valid("학사", "석사", "박사"),
     major: Joi.string(),
     description: Joi.string(),
-
   });
 
   const { error } = schema.validate(req.body);
@@ -63,7 +61,6 @@ const awardValidation = (req, res, next) => {
     title: Joi.string(),
     oraganization: Joi.string(),
     description: Joi.string(),
-
   });
 
   const { error } = schema.validate(req.body);
@@ -78,5 +75,5 @@ module.exports = {
   projectValidation,
   certificationValidation,
   educationValidation,
-  awardValidation
+  awardValidation,
 };

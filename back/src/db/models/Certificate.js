@@ -1,4 +1,4 @@
-import { CertificateModel } from "../schemas/Certificate";
+import { CertificateModel } from "../schemas/certificate";
 
 class Certificate {
   static async create({ newCertificate }) {
@@ -31,7 +31,7 @@ class Certificate {
       update,
       option
     );
-    
+
     return updatedCertificate;
   }
 
