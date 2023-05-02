@@ -44,35 +44,22 @@ class EducationService {
 			return { errorMessage };
 		}
 
-		//업데이트 대상의 값이 null이 아니라면 업데이트
-		if (toUpdate.school) {
-			const fieldToUpdate = "school";
-			const newValue = toUpdate.school;
-			education = await Education.update({
-				education_id,
-				fieldToUpdate,
-				newValue,
-			});
-		}
+		const fieldsToUpdate = {
+			school: "school",
+			major: "major",
+			degree: "degree",
+			description: "description",
+		};
 
-		if (toUpdate.major) {
-			const fieldToUpdate = "major";
-			const newValue = toUpdate.major;
-			education = await Education.update({
-				education_id,
-				fieldToUpdate,
-				newValue,
-			});
-		}
-
-		if (toUpdate.degree) {
-			const fieldToUpdate = "degree";
-			const newValue = toUpdate.degree;
-			education = await Education.update({
-				education_id,
-				fieldToUpdate,
-				newValue,
-			});
+		for (const [field, fieldToUpdate] of Object.entries(fieldsToUpdate)) {
+			if (toUpdate[field]) {
+				const newValue = toUpdate[field];
+				education = await Education.update({
+					education_id,
+					fieldToUpdate,
+					newValue,
+				});
+			}
 		}
 
 		return education;

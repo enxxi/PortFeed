@@ -2,8 +2,16 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
+import { UserModel } from "../db/schemas/user";
 
 const userAuthRouter = Router();
+const Joi = require("joi");
+
+const postUserSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
+});
 
 userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
@@ -14,9 +22,9 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     }
 
     // req (request) 에서 데이터 가져오기
-    const name = req.body.name;
-    const email = req.body.email;
-    const password = req.body.password;
+    const { name, email, password } = await postUserSchema.validateAsync(
+      req.body
+    );
 
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userAuthService.addUser({
@@ -29,8 +37,11 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
       throw new Error(newUser.errorMessage);
     }
 
-    res.status(201).json(newUser);
+    return res.status(201).json(newUser);
   } catch (error) {
+    res
+      .status(400)
+      .send({ errorMessage: "요청한 데이터 형식이 올바르지 않습니다." });
     next(error);
   }
 });
@@ -48,7 +59,7 @@ userAuthRouter.post("/user/login", async function (req, res, next) {
       throw new Error(user.errorMessage);
     }
 
-    res.status(200).send(user);
+    return res.status(200).send(user);
   } catch (error) {
     next(error);
   }
@@ -60,8 +71,19 @@ userAuthRouter.get(
   async function (req, res, next) {
     try {
       // 전체 사용자 목록을 얻음
-      const users = await userAuthService.getUsers();
-      res.status(200).send(users);
+      const page = Number(req.query.page);
+      const perPage = parseInt(req.query.perPage);
+      const [total, posts] = await Promise.all([
+        UserModel.countDocuments({}),
+        UserModel.find({})
+          .sort({ createdAt: -1 })
+          .skip(perPage * (page - 1))
+          .limit(perPage), //sort,skip,limit 사용
+      ]);
+
+      const totalPage = Math.ceil(total / perPage);
+
+      return res.status(200).json({ posts, page, perPage, totalPage });
     } catch (error) {
       next(error);
     }
@@ -83,7 +105,7 @@ userAuthRouter.get(
         throw new Error(currentUserInfo.errorMessage);
       }
 
-      res.status(200).send(currentUserInfo);
+      return res.status(200).send(currentUserInfo);
     } catch (error) {
       next(error);
     }
@@ -112,7 +134,7 @@ userAuthRouter.put(
         throw new Error(updatedUser.errorMessage);
       }
 
-      res.status(200).json(updatedUser);
+      return res.status(200).json(updatedUser);
     } catch (error) {
       next(error);
     }
@@ -131,7 +153,7 @@ userAuthRouter.get(
         throw new Error(currentUserInfo.errorMessage);
       }
 
-      res.status(200).send(currentUserInfo);
+      return res.status(200).send(currentUserInfo);
     } catch (error) {
       next(error);
     }
