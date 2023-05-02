@@ -123,8 +123,8 @@ export function Award({ isEditable, awardData }) {
             <Paper>
               <Box padding={2} display="flex" justifyContent="space-between" alignItems="center">
                 <Box display="flex" flexDirection="column">
-                  <Typography variant="body1">{item.awarddate}</Typography>
-                  <Typography variant="body1">{item.awarded}</Typography>
+                  <Typography variant="body1" sx={{ textAlign: "left" }}>{item.awarddate}</Typography>
+                  <Typography variant="body1" sx={{ textAlign: "left" }}>{item.awarded}</Typography>
                 </Box>
                 {isEditable && (
                 <Box>
