@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
 import { UserStateContext, DispatchContext } from "../App";
+import { AppBar, Toolbar, Button, Typography } from "@mui/material";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 function Header() {
   const navigate = useNavigate();
@@ -23,23 +24,47 @@ function Header() {
     navigate("/");
   };
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#00bcd4', // 변경하고자 하는 배경색 코드를 입력.
+      },
+      secondary: {
+        main: '#ff0000', // 변경하고자 하는 사용중 글자색상 코드를 입력.
+      },
+      typography: {
+        fontFamily: 'Bauhaus',
+      },
+    },
+  });
+
   return (
-    <Nav activeKey={location.pathname}>
-      <Nav.Item className="me-auto mb-5">
-        <Nav.Link disabled>안녕하세요, 포트폴리오 공유 서비스입니다.</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link onClick={() => navigate("/")}>나의 페이지</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link onClick={() => navigate("/network")}>네트워크</Nav.Link>
-      </Nav.Item>
-      {isLogin && (
-        <Nav.Item>
-          <Nav.Link onClick={logout}>로그아웃</Nav.Link>
-        </Nav.Item>
-      )}
-    </Nav>
+    <ThemeProvider theme={theme}>
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" component="div" variant="text" sx={{ mr: "auto" }}>
+            Rainbow Spark
+        </Typography>
+        <Button 
+          color={location.pathname === "/" ? "secondary" : "inherit"}
+          onClick={() => navigate("/")}
+        >
+          나의 페이지
+        </Button>
+        <Button
+          color={location.pathname === "/network" ? "secondary" : "inherit"}
+          onClick={() => navigate("/network")}
+        >
+          네트워크
+        </Button>
+        {isLogin && (
+          <Button color="inherit" onClick={logout}>
+            로그아웃
+          </Button>
+        )}
+      </Toolbar>
+    </AppBar>
+    </ThemeProvider>
   );
 }
 

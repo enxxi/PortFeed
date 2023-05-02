@@ -1,7 +1,7 @@
 # 레이서 포트폴리오 서비스
 
 이 프로젝트는 자기자신의 포트폴리오를 작성하고, 또한 다른 사람의 포트폴리오를 확인할 수 있는 웹 서비스입니다. \
-웹 구현 예시: http://34.64.140.205/
+웹 구현 예시: http://kdt-ai-first-project.elicecoding.com/
 
 > 위 IP 주소는 프로젝트 진행 기간에만 유효합니다.
 
@@ -47,4 +47,5 @@ back 폴더 내부 README 참고
 ---
 
 본 프로젝트에서 제공하는 모든 코드 등의는 저작권법에 의해 보호받는 ㈜엘리스의 자산이며, 무단 사용 및 도용, 복제 및 배포를 금합니다.
-Copyright 2022 엘리스 Inc. All rights reserved.
+
+Copyright 2023 엘리스 Inc. All rights reserved.
