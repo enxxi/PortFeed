@@ -32,6 +32,7 @@ const certificateValidation = (req, res, next) => {
     name: Joi.string(),
     organization: Joi.string(),
     description: Joi.string(),
+    date: Joi.string(),
   });
 
   const { error } = schema.validate(req.body);
@@ -43,7 +44,7 @@ const certificateValidation = (req, res, next) => {
 
 const educationValidation = (req, res, next) => {
   const schema = Joi.object({
-    school: Joi.string().regex(/^.*학교$/),
+    school: Joi.string().regex(/(학교|학원)/),
     degree: Joi.string().valid("학사", "석사", "박사"),
     major: Joi.string(),
     description: Joi.string(),

@@ -6,19 +6,14 @@ class Project {
     return createdNewProject;
   }
 
+  static async findById({ project_id }) {
+    const project = await ProjectModel.findOne({ id: project_id });
+    return project;
+  }
+
   static async findByUserId({ user_id }) {
-    const Project = await ProjectModel.find({ user_id });
-    return Project;
-  }
-
-  static async findByProjectId({ project_id }) {
-    const Project = await ProjectModel.findOne({ project_id });
-    return Project;
-  }
-
-  static async findAll() {
-    const Projects = await ProjectModel.find({});
-    return Projects;
+    const projects = await ProjectModel.find({ user_id });
+    return projects;
   }
 
   static async update({ project_id, fieldToUpdate, newValue }) {
@@ -31,13 +26,13 @@ class Project {
       update,
       option
     );
-    
+
     return updatedProject;
   }
-    static async deleteById({ project_id }) {
-      const deleteResult = await ProjectModel.deleteOne({ project_id });
-      const isDataDeleted = deleteResult.deletedCount === 1;
-      return isDataDeleted;
+  static async deleteById({ project_id }) {
+    const deleteResult = await ProjectModel.deleteOne({ project_id });
+    const isDataDeleted = deleteResult.deletedCount === 1;
+    return isDataDeleted;
   }
 }
 

@@ -48,13 +48,7 @@ awardRouter
   //수상 목록 받아오기
   .get(async function (req, res, next) {
     try {
-      //user validation
-      const tokenUser_id = req.currentUserId;
       const pathUser_id = req.params.user_id;
-      if (tokenUser_id !== pathUser_id) {
-        throw new Error("인증정보가 올바르지 않습니다.");
-      }
-
       const award = await AwardService.getAwardList({ user_id: pathUser_id });
 
       if (award.errorMessage) {
@@ -118,4 +112,3 @@ awardRouter
   });
 
 export { awardRouter };
-

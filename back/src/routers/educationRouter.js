@@ -47,14 +47,7 @@ educationRouter
   //학력 받아오기
   .get(async function (req, res, next) {
     try {
-      const tokenUser_id = req.currentUserId; //토큰에서 user_id받아오기
-      // req (request) 에서 데이터 가져오기
       const pathUser_id = req.params.user_id;
-
-      if (tokenUser_id !== pathUser_id) {
-        throw new Error("인증정보가 올바르지 않습니다.");
-      }
-
       const education = await EducationService.getEducationList({
         user_id: pathUser_id,
       });

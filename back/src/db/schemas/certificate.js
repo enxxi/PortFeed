@@ -1,31 +1,35 @@
 import { Schema, model } from "mongoose";
 
 const CertificateSchema = new Schema(
-  { 
+  {
     user_id: {
       type: String,
       required: true,
     },
     certificate_id: {
       type: String,
-      required: true
+      required: true,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     organization: {
       type: String,
       required: true,
-      default: "발급기관명을 입력해주세요."
+      default: "발급기관명을 입력해주세요.",
     },
+
     description: {
       type: String,
       required: false,
-      default: "자격증 상세설명을 입력해주세요."
-    }
-
+      default: "자격증 상세설명을 입력해주세요.",
     },
+    date: {
+      type: String,
+      required: false,
+    },
+  },
   {
     timestamps: true,
   }

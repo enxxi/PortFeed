@@ -23,13 +23,14 @@ certificateRouter
       if (tokenUser_id !== pathUser_id) {
         throw new Error("인증정보가 올바르지 않습니다.");
       }
-      const { name, organization, description } = req.body;
+      const { name, organization, description, date } = req.body;
 
       const newCertificate = await CertificateService.addCertificate({
         user_id: pathUser_id,
         name,
         organization,
         description,
+        date,
       });
 
       if (newCertificate.errorMessage) {
@@ -45,22 +46,16 @@ certificateRouter
 
   .get(async function (req, res, next) {
     try {
-      const tokenUser_id = req.currentUserId;
       const pathUser_id = req.params.user_id;
-
-      if (tokenUser_id !== pathUser_id) {
-        throw new Error("인증정보가 올바르지 않습니다.");
-      }
-
-      const certificateList = await CertificateService.getCertificateList({
+      const certificate = await CertificateService.getCertificateList({
         user_id: pathUser_id,
       });
 
-      if (certificateList.errorMessage) {
-        throw new Error(certificateList.errorMessage);
+      if (certificate.errorMessage) {
+        throw new Error(certificate.errorMessage);
       }
 
-      return res.status(200).send(certificateList);
+      return res.status(200).send(certificate);
     } catch (error) {
       next(error);
     }
@@ -76,18 +71,18 @@ certificateRouter
       }
 
       const certificate_id = req.params.certificate_id;
-      const { name, organization, description } = req.body ?? null;
-      const toUpdate = { name, organization, description };
+      const { name, organization, description, date } = req.body ?? null;
+      const toUpdate = { name, organization, description, date };
 
-      const updatedCertificate = await CertificateService.setCertificate({
+      const certificate = await CertificateService.setCertificate({
         certificate_id,
         toUpdate,
       });
 
-      if (updatedCertificate.errorMessage) {
-        throw new Error(updatedCertificate.errorMessage);
+      if (certificate.errorMessage) {
+        throw new Error(certificate.errorMessage);
       }
-      return res.status(200).send(updatedCertificate);
+      return res.status(200).send(certificate);
     } catch (error) {
       next(error);
     }
@@ -103,6 +98,7 @@ certificateRouter
       }
 
       const certificate_id = req.params.certificate_id;
+
       const result = await CertificateService.deleteCertificate({
         certificate_id,
       });
@@ -112,7 +108,7 @@ certificateRouter
       }
 
       //status 204 : 삭제요청 완료, 추가 정보없음
-      return res.status(204).send();
+      return res.status(204).send(result);
     } catch (error) {
       next(error);
     }
