@@ -1,10 +1,15 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Grid, Select, MenuItem, Button } from "@mui/material";
-
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
+import Stack from "@mui/material/Stack";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import * as Api from "../../api";
 import UserCard from "./UserCard";
 import { UserStateContext } from "../../App";
+import NativeSelect from "@mui/material/NativeSelect";
 
 function Network() {
   const navigate = useNavigate();
@@ -31,47 +36,69 @@ function Network() {
 
   return (
     <>
-      <div style={{ marginLeft: "2rem" }}>
-      <div className="d-flex justify-content-end my-3">
-        <label className="me-2">페이지 당 유저 수:</label>
-        <Select
-          id="perPage"
-          value={perPage}
-          onChange={(e) => {
-            setPerPage(Number(e.target.value));
-            setPage(1);
+      <Stack spacing={2}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "1rem",
           }}
         >
-          <MenuItem value="5">5</MenuItem>
-          <MenuItem value="10">10</MenuItem>
-          <MenuItem value="29">20</MenuItem>
-        </Select>
-      </div>
-      <Grid container spacing={2} justifyContent="flex-start">
-        {users.map((user) => (
-          <Grid item key={user.id} xs={12} sm={6} md={4}>
-            <UserCard user={user} isNetwork />
-          </Grid>
-        ))}
-      </Grid>
-      <div className="d-flex justify-content-center">
-        <Button
-          variant="contained"
-          onClick={() => setPage(page - 1)}
-          disabled={page === 1}
+          <label style={{ marginTop: "0.4rem", marginRight: "1rem" }}>
+            페이지 당 유저 수:
+          </label>
+          <NativeSelect
+            style={{ marginRight: "1rem" }}
+            id="perPage"
+            value={perPage}
+            onChange={(e) => {
+              setPerPage(Number(e.target.value));
+              setPage(1);
+            }}
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+          </NativeSelect>
+        </div>
+        <Grid container spacing={2} justifyContent="flex-start">
+          {users.map((user) => (
+            <Grid item key={user.id} xs={11} sm={6} md={4}>
+              <UserCard user={user} isNetwork />
+            </Grid>
+          ))}
+        </Grid>
+        <div
+          className="d-flex justify-content-center"
+          style={{ marginBottom: "2rem" }}
         >
-          이전 페이지
-        </Button>
-        {page} / {totalPage}
-        <Button
-          variant="contained"
-          onClick={() => setPage(page + 1)}
-          disabled={page === totalPage}
-        >
-          다음 페이지
-        </Button>
-      </div>
-      </div>
+          <Pagination
+            count={totalPage}
+            page={page}
+            renderItem={(item) => (
+              <PaginationItem
+                slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                {...item}
+              />
+            )}
+            onChange={(event, value) => {
+              setPage(value);
+            }}
+          />
+        </div>
+      </Stack>
+      <style>
+        {`@media only screen and (max-width: 960px) {
+  .user-card {
+    width: 100%;
+  }
+  .user-card img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}`}
+      </style>
     </>
   );
 }

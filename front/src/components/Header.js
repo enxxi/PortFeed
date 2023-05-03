@@ -30,7 +30,7 @@ function Header() {
         main: "#117864",
       },
       secondary: {
-        main: "#ff0000",
+        main: "#ABEBC6",
       },
       typography: {
         fontFamily: "Bauhaus",
@@ -61,6 +61,7 @@ function Header() {
             variant="h6"
             component="div"
             sx={{ mr: "auto" }}
+            onClick={() => navigate("/")}
           >
             PortFeed
           </Typography>

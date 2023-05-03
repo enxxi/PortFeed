@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Grid, TextField, Button, Typography } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
@@ -11,7 +11,7 @@ function LoginForm() {
   const dispatch = useContext(DispatchContext);
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  // const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -54,7 +54,13 @@ function LoginForm() {
 
   return (
     <Container maxWidth="sm">
-      <Grid container spacing={3} justifyContent="center" alignItems="center" sx={{ mt: 5 }}>
+      <Grid
+        container
+        spacing={3}
+        justifyContent="center"
+        alignItems="center"
+        sx={{ mt: 5 }}
+      >
         <Grid item xs={12}>
           <Typography variant="h4" align="center">
             로그인
@@ -70,8 +76,10 @@ function LoginForm() {
               autoComplete="on"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              error={!isEmailValid && email !== ''}
-              helperText={!isEmailValid ? "이메일 형식이 올바르지 않습니다." : ""}
+              error={!isEmailValid && email !== ""}
+              helperText={
+                !isEmailValid ? "이메일 형식이 올바르지 않습니다." : ""
+              }
               margin="dense"
             />
             <TextField
@@ -82,18 +90,35 @@ function LoginForm() {
               autoComplete="on"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              error={!isPasswordValid && password !== ''}
-              helperText={!isPasswordValid ? "비밀번호는 4글자 이상입니다." : ""}
+              error={!isPasswordValid && password !== ""}
+              helperText={
+                !isPasswordValid ? "비밀번호는 4글자 이상입니다." : ""
+              }
               margin="dense"
             />
-            <Grid container spacing={2} justifyContent="center" alignItems="center" sx={{ mt: 3 }}>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+              sx={{ mt: 3 }}
+            >
               <Grid item>
-                <Button variant="contained" color="primary" type="submit" disabled={!isFormValid}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  disabled={!isFormValid}
+                >
                   로그인
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="outlined" color="inherit" onClick={() => navigate("/register")}>
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  onClick={() => navigate("/register")}
+                >
                   회원가입하기
                 </Button>
               </Grid>
