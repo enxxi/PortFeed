@@ -4,6 +4,8 @@ import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
 import { UserModel } from "../db/schemas/user";
 import { userValidation } from "../middlewares/validation";
+const multer = require('multer');
+const upload = multer({ dest: './src/data/profile' });
 
 const userAuthRouter = Router();
 
@@ -162,5 +164,34 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
       `안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`
     );
 });
+
+userAuthRouter.patch(
+  "/users/:id",
+  userValidation,
+  login_required,
+  upload.single('profile'),
+  async function (req, res, next) {
+    try {
+      // URI로부터 사용자 id를 추출함.
+      const user_id = req.params.id;
+
+      const profile = req.file.filename ?? null;
+      // console.log(profile)      
+      
+      const toUpdate = { profile};
+
+      // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
+      const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
+
+      if (updatedUser.errorMessage) {
+        throw new Error(updatedUser.errorMessage);
+      }
+
+      return res.status(200).json(updatedUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 export { userAuthRouter };

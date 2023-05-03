@@ -7,6 +7,7 @@ const userValidation = (req, res, next) => {
     password: Joi.string(),
     description: Joi.string().allow(null, ""),
     confirmPassword: Joi.string(),
+    profile: Joi.string(),
   });
 
   const { error } = schema.validate(req.body);

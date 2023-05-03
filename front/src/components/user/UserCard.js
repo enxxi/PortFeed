@@ -3,8 +3,12 @@ import { Paper, Grid, Button } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import UserFileEditForm from "./UserFileEditForm";
 
-function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
+function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
   const navigate = useNavigate();
+  
+  let url = "http://" + window.location.hostname + ":5001/profile/" + user?.profile;
+  if(!user?.profile) url = "http://placekitten.com/200/199";
+
   return (
     <div style={{ marginTop: "2rem" }}>
       <Paper sx={{ width: "18rem", mb: 2, ms: 3, mr: 5, p: 2 }}>
@@ -14,11 +18,11 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
               style={{ width: "8rem", height: "8rem" }}
               className="mb-3"
               //기존의 고양이 사진만 띄웠는데 유저 로컬 드라이브에 있는 파일로도 나오게끔 설정
-              src={"http://placekitten.com/200/200"}
-              alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
+              src={url}
+              alt="회원 프로필"
             />
           </Grid>
-         <UserFileEditForm user={user} isEditable={isEditable}/>
+         <UserFileEditForm user={user} isEditable={isEditable} setUser={setUser}/>
 
           <Grid item xs={12}>
             <Grid container justifyContent="center">

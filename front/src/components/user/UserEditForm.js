@@ -28,20 +28,6 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     setIsEditing(false);
   };
 
-  //프로필 사진 변경
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const reader = new FileReader();
-      //로컬에 있는 파일을 유저카드에 업로드
-      reader.onload = (e) => {
-        setUser({ ...user, imageUrl: e.target.result });
-      };
-  
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  };
-
-  //프로필 사진 변경 폼 추가
   return (
     <Card className="mb-2">
       <Card.Body>
@@ -71,11 +57,6 @@ function UserEditForm({ user, setIsEditing, setUser }) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-          </Form.Group>
-          
-          <Form.Group controlId="userEditPicture" className="mb-3">
-            <Form.Label>프로필 사진</Form.Label>
-            <Form.Control type="file" onChange={handleImageChange} />
           </Form.Group>
 
           <Form.Group as={Row} className="mt-3 text-center">

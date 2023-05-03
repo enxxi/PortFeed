@@ -7,8 +7,6 @@ function UserFileEditForm({ user, setIsEditing, setUser, isEditable }) {
     const [file, setFile] = useState();
     const [isEditing, setIsEditingFile] = useState(false);
     const {pathname} = useLocation();
-    console.log(isEditable)
-    const user_id = user?._id;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,15 +15,14 @@ function UserFileEditForm({ user, setIsEditing, setUser, isEditable }) {
         const formData = new FormData();
         formData.append('profile', file);
         
-        const result = await Api.patchFileUpload(`users/${user_id}`, formData);
+        const result = await Api.patchFileUpload(`users/${user.id}`, formData);
 
-        // result.data =data;
-        // setFile(result.data);
-        /* setUser({
-            ..., profile: result.data
-        }); */
-        
-        console.log(result);
+        setFile("");
+        setUser(user => {
+            const newUser = {...user};
+            newUser.profile = result.data.profile;
+            return newUser;
+        });
     }
 
     const handleImageChange = e => {
