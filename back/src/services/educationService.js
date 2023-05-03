@@ -52,7 +52,7 @@ class EducationService {
 		};
 
 		for (const [field, fieldToUpdate] of Object.entries(fieldsToUpdate)) {
-			if (toUpdate[field]) {
+			if (toUpdate[field] || field === "description") {
 				const newValue = toUpdate[field];
 				education = await Education.update({
 					education_id,

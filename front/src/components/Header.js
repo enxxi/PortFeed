@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserStateContext, DispatchContext } from "../App";
 import { AppBar, Toolbar, Button, Typography } from "@mui/material";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 function Header() {
   const navigate = useNavigate();
@@ -27,43 +27,64 @@ function Header() {
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#00bcd4', // 변경하고자 하는 배경색 코드를 입력.
+        main: "#117864",
       },
       secondary: {
-        main: '#ff0000', // 변경하고자 하는 사용중 글자색상 코드를 입력.
+        main: "#ff0000",
       },
       typography: {
-        fontFamily: 'Bauhaus',
+        fontFamily: "Bauhaus",
       },
     },
   });
 
+  const styles = {
+    toolbar: {
+      [theme.breakpoints.down("md")]: {
+        flexDirection: "column",
+        alignItems: "center",
+      },
+    },
+    button: {
+      [theme.breakpoints.down("md")]: {
+        margin: "10px",
+      },
+    },
+  };
+
   return (
     <ThemeProvider theme={theme}>
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" component="div" variant="text" sx={{ mr: "auto" }}>
-            Rainbow Spark
-        </Typography>
-        <Button 
-          color={location.pathname === "/" ? "secondary" : "inherit"}
-          onClick={() => navigate("/")}
-        >
-          나의 페이지
-        </Button>
-        <Button
-          color={location.pathname === "/network" ? "secondary" : "inherit"}
-          onClick={() => navigate("/network")}
-        >
-          네트워크
-        </Button>
-        {isLogin && (
-          <Button color="inherit" onClick={logout}>
-            로그아웃
+      <AppBar position="sticky" sx={{ marginBottom: "20px" }}>
+        <Toolbar style={styles.toolbar}>
+          <Typography
+            style={{ fontFamily: "Bauhaus" }}
+            variant="h6"
+            component="div"
+            sx={{ mr: "auto" }}
+          >
+            PortFeed
+          </Typography>
+          <Button
+            color={location.pathname === "/" ? "secondary" : "inherit"}
+            onClick={() => navigate("/")}
+            style={styles.button}
+          >
+            나의 페이지
           </Button>
-        )}
-      </Toolbar>
-    </AppBar>
+          <Button
+            color={location.pathname === "/network" ? "secondary" : "inherit"}
+            onClick={() => navigate("/network")}
+            style={styles.button}
+          >
+            네트워크
+          </Button>
+          {isLogin && (
+            <Button color="inherit" onClick={logout} style={styles.button}>
+              로그아웃
+            </Button>
+          )}
+        </Toolbar>
+      </AppBar>
     </ThemeProvider>
   );
 }

@@ -178,6 +178,7 @@ export function Education({ isEditable}) {
   }
 
   return (
+    <div style={{ marginTop: "2rem" }}>
     <Container>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -281,13 +282,13 @@ export function Education({ isEditable}) {
                 onChange={e=>setDegree(e.target.value)}
                 checked={degree === "학사"}
               />
-              <FormControlLabel value="박사" control={<Radio />} label="박사" 
-                onChange={e=>setDegree(e.target.value)}
-                checked={degree === "박사"}
-              />
-              <FormControlLabel value="석사" control={<Radio />} label="석사"
+              <FormControlLabel value="석사" control={<Radio />} label="석사" 
                 onChange={e=>setDegree(e.target.value)}
                 checked={degree === "석사"}
+              />
+              <FormControlLabel value="박사" control={<Radio />} label="박사"
+                onChange={e=>setDegree(e.target.value)}
+                checked={degree === "박사"}
               />
             </RadioGroup>
           </FormControl>
@@ -305,7 +306,7 @@ export function Education({ isEditable}) {
           </Grid>
         </>
       )}
-      
     </Container>
+  </div>
   );
 }

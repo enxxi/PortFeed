@@ -173,6 +173,7 @@ export function Award({ isEditable}) {
   }
 
   return (
+    <div style={{ marginTop: "2rem" }}>
     <Container>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -290,5 +291,6 @@ export function Award({ isEditable}) {
         </Grid>
       )}
     </Container>
+    </div>
   );
 }
