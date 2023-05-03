@@ -24,11 +24,12 @@ projectRouter
         throw new Error("인증정보가 올바르지 않습니다.");
       }
 
-      const { title, description } = req.body;
+      const { title, date, description } = req.body;
 
       const newProject = await ProjectService.addProject({
         user_id: pathUser_id,
         title,
+        date,
         description,
       });
 
@@ -70,8 +71,8 @@ projectRouter
 
       const project_id = req.params.project_id;
 
-      const { title, description } = req.body ?? null;
-      const toUpdate = { title, description };
+      const { title, date, description } = req.body ?? null;
+      const toUpdate = { title, date, description };
 
       const project = await ProjectService.setProject({ project_id, toUpdate });
 

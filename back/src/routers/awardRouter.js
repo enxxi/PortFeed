@@ -25,7 +25,7 @@ awardRouter
         throw new Error("인증정보가 올바르지 않습니다.");
       }
 
-      const { title, organization, description } = req.body;
+      const { title, organization, description, date } = req.body;
 
       // 위 데이터를 Award db에 추가하기
       const newAward = await AwardService.addAward({
@@ -33,6 +33,7 @@ awardRouter
         title,
         organization,
         description,
+        date,
       });
 
       if (newAward.errorMessage) {
@@ -73,8 +74,8 @@ awardRouter
 
       const award_id = req.params.award_id;
 
-      const { title, organization, description } = req.body ?? null;
-      const toUpdate = { title, organization, description };
+      const { title, organization, description, date } = req.body ?? null;
+      const toUpdate = { title, organization, description, date };
 
       const award = await AwardService.setAward({ award_id, toUpdate });
 

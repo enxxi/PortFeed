@@ -35,6 +35,7 @@ export function Award({ isEditable}) {
   // 추가 시 input 값 state 선언
   const [title, setTitle] = useState("");
   const [organization, setOrganization] = useState("");
+  const [date, setDate] = useState();
   const [description, setDescription] = useState("");
 
   // 수정중인지 상태값 선언
@@ -58,6 +59,7 @@ export function Award({ isEditable}) {
   const addAward = async () => {
     setTitle("");
     setOrganization("");
+    setDate("");
     setDescription("");
     try {
       const result = await Api.post(
@@ -66,6 +68,7 @@ export function Award({ isEditable}) {
           title,
           organization,
           description,
+          date
         }
       );
       
@@ -74,7 +77,7 @@ export function Award({ isEditable}) {
       // 상태값 갱신하며 컴포넌트를 재렌더링
       setAward((award) => {
         const newEducation = [...award];
-        newEducation.push({ title, organization, description, award_id});
+        newEducation.push({ title, organization, date, description, award_id});
         return newEducation;
       });
 
@@ -93,6 +96,7 @@ export function Award({ isEditable}) {
     });
     setTitle(award[idx].title);
     setOrganization(award[idx].organization);
+    setDate(award[idx].date);
     setDescription(award[idx].description);
   };
 
@@ -104,6 +108,7 @@ export function Award({ isEditable}) {
         {
           title,
           organization,
+          date,
           description,
         }
       );
@@ -140,6 +145,7 @@ export function Award({ isEditable}) {
         });
         setTitle("");
         setOrganization("");
+        setDate("");
         setDescription("");
       } catch (err) {
         console.log(err);
@@ -154,6 +160,7 @@ export function Award({ isEditable}) {
     setIsCreating(!isCreating)
     setTitle("");
     setOrganization("");
+    setDate("");
     setDescription("");
   }
 
@@ -161,6 +168,7 @@ export function Award({ isEditable}) {
   const handleCancleClick = () => {
     setTitle("");
     setOrganization("");
+    setDate("");
     setDescription("");
     setIsCreating(!isCreating)
     setEditingIndex(item => {
@@ -200,6 +208,7 @@ export function Award({ isEditable}) {
                 <Box>
                   <Typography sx={{width:"auto"}} variant="span">{item.title}</Typography>
                   <Typography sx={{pl:2, width:"auto"}} variant="span">{item.organization}</Typography>
+                  <Typography sx={{pl:2, width:"auto"}} variant="span">{item.date}</Typography>
                   <Typography display="flex" sx={{p:1}} variant="span">{item.description}</Typography>
                 </Box>
                 {isEditable && (
@@ -266,6 +275,17 @@ export function Award({ isEditable}) {
             label="발급기관"
             value={organization}
             onChange={(e) => setOrganization(e.target.value)}
+          />
+          <TextField 
+            sx={{m:2, width:"auto"}}
+            label="수상일"
+            type="date"
+            InputLabelProps={{
+              shrink: true
+            }}
+            id="date"
+            value={date || ""}
+            onChange={(e) => setDate(e.target.value)}
           />
           <TextField
             sx={{m:1, width:"90%"}}

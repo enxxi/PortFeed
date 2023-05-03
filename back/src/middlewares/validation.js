@@ -21,6 +21,7 @@ const projectValidation = (req, res, next) => {
   const schema = Joi.object({
     title: Joi.string(),
     description: Joi.string().allow(null, ""),
+    date: Joi.string().allow(null, ""),
   });
 
   const { error } = schema.validate(req.body);
@@ -35,7 +36,7 @@ const certificateValidation = (req, res, next) => {
     name: Joi.string(),
     organization: Joi.string(),
     description: Joi.string().allow(null, ""),
-    date: Joi.string(),
+    date: Joi.string().allow(null, ""),
   });
 
   const { error } = schema.validate(req.body);
@@ -65,6 +66,7 @@ const awardValidation = (req, res, next) => {
     title: Joi.string(),
     organization: Joi.string(),
     description: Joi.string().allow(null, ""),
+    date: Joi.string().allow(null, ""),
   });
 
   const { error } = schema.validate(req.body);

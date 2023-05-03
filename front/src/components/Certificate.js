@@ -35,6 +35,7 @@ export function Certificate({ isEditable}) {
   // 추가 시 input 값 state 선언
   const [name, setName] = useState("");
   const [organization, setOrganization] = useState("");
+  const [date, setDate] = useState();
   const [description, setDescription] = useState("");
 
   // 수정중인지 상태값 선언
@@ -58,6 +59,7 @@ export function Certificate({ isEditable}) {
   const addCertificate = async () => {
     setName("");
     setOrganization("");
+    setDate("");
     setDescription("");
     try {
       const result = await Api.post(
@@ -65,6 +67,7 @@ export function Certificate({ isEditable}) {
         {
           name,
           organization,
+          date,
           description,
         }
       );
@@ -74,7 +77,7 @@ export function Certificate({ isEditable}) {
       // 상태값 갱신하며 컴포넌트를 재렌더링
       setCertificate((certificate) => {
         const newCertificate = [...certificate];
-        newCertificate.push({ name, organization, description, certificate});
+        newCertificate.push({ name, organization, date, description, certificate_id});
         return newCertificate;
       });
 
@@ -93,6 +96,7 @@ export function Certificate({ isEditable}) {
     });
     setName(certificate[idx].name);
     setOrganization(certificate[idx].organization);
+    setDate(certificate[idx].date);
     setDescription(certificate[idx].description);
   };
 
@@ -104,6 +108,7 @@ export function Certificate({ isEditable}) {
         {
           name,
           organization,
+          date,
           description,
         }
       );
@@ -140,6 +145,7 @@ export function Certificate({ isEditable}) {
         });
         setName("");
         setOrganization("");
+        setDate("");
         setDescription("");
       } catch (err) {
         console.log(err);
@@ -161,6 +167,7 @@ export function Certificate({ isEditable}) {
   const handleCancleClick = () => {
     setName("");
     setOrganization("");
+    setDate("");
     setDescription("");
     setIsCreating(!isCreating)
     setEditingIndex(item => {
@@ -199,7 +206,8 @@ export function Certificate({ isEditable}) {
               >
                 <Box>
                   <Typography sx={{width:"auto"}} variant="span">{item.name}</Typography>
-                  <Typography display="flex" sx={{p:1}} variant="span">{item.organization}</Typography>
+                  <Typography sx={{pl:2, width:"auto"}} variant="span">{item.organization}</Typography>
+                  <Typography sx={{pl:2, width:"auto"}} variant="span">{item.date}</Typography>
                   <Typography display="flex" sx={{p:1}} variant="span">{item.description}</Typography>
                 </Box>
                 {isEditable && (
@@ -266,6 +274,17 @@ export function Certificate({ isEditable}) {
             label="발급기관"
             value={organization}
             onChange={(e) => setOrganization(e.target.value)}
+          />
+          <TextField 
+            sx={{m:2, width:"auto"}}
+            label="취득일"
+            type="date"
+            InputLabelProps={{
+              shrink: true
+            }}
+            id="date"
+            value={date || ""}
+            onChange={(e) => setDate(e.target.value)}
           />
           <TextField
             sx={{m:1, width:"90%"}}

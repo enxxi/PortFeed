@@ -2,13 +2,14 @@ import { Certificate } from "../db";
 import { v4 as uuidv4 } from "uuid";
 
 class CertificateService {
-  static async addCertificate({ name, organization, description, user_id }) {
+  static async addCertificate({ name, organization, date, description, user_id }) {
     // id 는 각 자격증에 유니크 값 부여
     const certificate_id = uuidv4();
     const newCertificate = {
       certificate_id,
       user_id,
       name,
+      date,
       organization,
       description,
     };
@@ -52,7 +53,7 @@ class CertificateService {
     };
 
     for (const [field, fieldToUpdate] of Object.entries(fieldsToUpdate)) {
-      if (toUpdate[field] || field === "description") {
+      if (toUpdate[field] || field === "description" || field === "date") {
         const newValue = toUpdate[field];
         certificate = await Certificate.update({
           certificate_id,

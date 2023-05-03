@@ -2,9 +2,9 @@ import { Award } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트�
 import { v4 as uuidv4 } from "uuid";
 
 class AwardService {
-	static async addAward({ user_id, title, organization, description }) {
+	static async addAward({ user_id, title, organization, date, description }) {
 		const award_id = uuidv4();
-		const newAward = { award_id, user_id, title, organization, description };
+		const newAward = { award_id, user_id, title, organization, date, description };
 
 		// db에 저장
 		const createdNewAward = await Award.create({ newAward });
@@ -44,11 +44,12 @@ class AwardService {
 		const fieldsToUpdate = {
 			title: "title",
 			organization: "organization",
+			date: "date",
 			description: "description",
 		};
 
 		for (const [field, fieldToUpdate] of Object.entries(fieldsToUpdate)) {
-			if (toUpdate[field] || field === "description") {
+			if (toUpdate[field] || field === "description" || field === "date") {
 				const newValue = toUpdate[field];
 				award = await Award.update({
 					award_id,

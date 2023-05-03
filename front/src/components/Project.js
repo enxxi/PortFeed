@@ -34,6 +34,7 @@ export function Project({ isEditable}) {
 
   // 추가 시 input 값 state 선언
   const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
 
   // 수정중인지 상태값 선언
@@ -56,12 +57,14 @@ export function Project({ isEditable}) {
   // 추가
   const addProject = async () => {
     setTitle("");
+    setDate("");
     setDescription("");
     try {
       const result = await Api.post(
         `project/${user_id}/0`,
         {
           title,
+          date,
           description,
         }
       );
@@ -71,7 +74,7 @@ export function Project({ isEditable}) {
       // 상태값 갱신하며 컴포넌트를 재렌더링
       setProject((project) => {
         const newProject = [...project];
-        newProject.push({ title, description, project_id});
+        newProject.push({ title, date, description, project_id});
         return newProject;
       });
 
@@ -89,6 +92,7 @@ export function Project({ isEditable}) {
       return newEditingIndex;
     });
     setTitle(project[idx].title);
+    setDate(project[idx].date);
     setDescription(project[idx].description);
   };
 
@@ -99,6 +103,7 @@ export function Project({ isEditable}) {
         `project/${user_id}/${editingIndex.id}`,
         {
           title,
+          date,
           description,
         }
       );
@@ -134,6 +139,7 @@ export function Project({ isEditable}) {
           return newProject;
         });
         setTitle("");
+        setDate("");
         setDescription("");
       } catch (err) {
         console.log(err);
@@ -147,12 +153,14 @@ export function Project({ isEditable}) {
   const handlePlusClick = () => {
     setIsCreating(!isCreating)
     setTitle("");
+    setDate("");
     setDescription("");
   }
 
   // 취소버튼 클릭
   const handleCancleClick = () => {
     setTitle("");
+    setDate("");
     setDescription("");
     setIsCreating(!isCreating)
     setEditingIndex(item => {
@@ -191,6 +199,7 @@ export function Project({ isEditable}) {
               >
                 <Box>
                   <Typography sx={{width:"auto"}} variant="span">{item.title}</Typography>
+                  <Typography sx={{p:2, width:"auto"}} variant="span">{item.date}</Typography>
                   <Typography display="flex" sx={{p:1}} variant="span">{item.description}</Typography>
                 </Box>
                 {isEditable && (
@@ -217,17 +226,17 @@ export function Project({ isEditable}) {
                   </Box>
                 )}
             </Box>))
-          :<Grid item xs={12}> 
-          <Paper>
-            <Box
-              padding={2}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >이력이 없습니다.
-            </Box>
-          </Paper>
-        </Grid>}
+          : <Grid item xs={12}> 
+              <Paper>
+                <Box
+                  padding={2}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >이력이 없습니다.
+                </Box>
+              </Paper>
+            </Grid>}
           </Paper>
         </Grid>
       </Grid>
@@ -242,13 +251,24 @@ export function Project({ isEditable}) {
 
       {isCreating && (
         <Grid >
-            <TextField
+          <TextField
             sx={{m:2, width:"auto"}}
             required
             id="outlined-required"
             label="프로젝트명"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+          />
+          <TextField 
+            sx={{m:2, width:"auto"}}
+            label="시작/종료일"
+            type="date"
+            InputLabelProps={{
+              shrink: true
+            }}
+            id="date"
+            value={date || ""}
+            onChange={(e) => setDate(e.target.value)}
           />
           <TextField
             sx={{m:1, width:"90%"}}

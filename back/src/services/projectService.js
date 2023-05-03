@@ -2,10 +2,10 @@ import { Project } from "../db";
 import { v4 as uuidv4 } from "uuid";
 
 class ProjectService {
-  static async addProject({ title, description, user_id }) {
+  static async addProject({ title, date, description, user_id }) {
     // id 는 각 프로젝트에 유니크 값 부여
     const project_id = uuidv4();
-    const newProject = { project_id, title, description, user_id };
+    const newProject = { project_id, title, date, description, user_id };
 
     // db에 저장
     const createdNewProject = await Project.create({ newProject });
@@ -43,11 +43,12 @@ class ProjectService {
 
     const fieldsToUpdate = {
       title: "title",
+      date: "date",
       description: "description",
     };
 
     for (const [field, fieldToUpdate] of Object.entries(fieldsToUpdate)) {
-      if (toUpdate[field] || field === "description") {
+      if (toUpdate[field] || field === "description" || field === "date") {
         const newValue = toUpdate[field];
         project = await Project.update({
           project_id,
