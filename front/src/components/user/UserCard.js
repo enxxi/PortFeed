@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Paper, Grid, Button } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
+import UserFileEditForm from "./UserFileEditForm";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
               alt="랜덤 고양이 사진 (http://placekitten.com API 사용)"
             />
           </Grid>
+         <UserFileEditForm user={user} isEditable={isEditable}/>
+
           <Grid item xs={12}>
             <Grid container justifyContent="center">
               <Grid item xs={12}>
