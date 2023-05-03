@@ -1,29 +1,29 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\XNOTE\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @material-ui/core
+  C:\Program Files\nodejs\node.exe C:\Users\closer\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
 
 PATH: 
-  C:\Program Files\Python310\Scripts\;C:\Program Files\Python310\;C:\Program Files\AdoptOpenJDK\jdk-11.0.10.9-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Users\dmstj\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Bandizip\;C:\Users\dmstj\AppData\Local\GitHubDesktop\bin;C:\Users\dmstj\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\dmstj\AppData\Roaming\npm
+  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\AutoSet10\Server\conf\;C:\AutoSet10\Server\bin\;C:\Program Files (x86)\Git\cmd;C:\Program Files\nodejs\;C:\Users\closer\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Bandizip\;C:\Users\closer\AppData\Local\atom\bin;C:\Users\closer\AppData\Local\afreeca;C:\Users\closer\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\closer\AppData\Roaming\npm
 
 Yarn version: 
   1.22.19
 
 Node version: 
-  18.15.0
+  18.16.0
 
 Platform: 
   win32 x64
 
 Trace: 
-  SyntaxError: Invalid value type 1848:0 in C:\Users\XNOTE\Desktop\엘리스\레인보우스파크\portfolio-share-service-racer\front\yarn.lock
-      at Parser.unexpected (C:\Users\XNOTE\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:63491:11)
-      at Parser.parse (C:\Users\XNOTE\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:63619:16)
-      at Parser.parse (C:\Users\XNOTE\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:63596:26)
-      at parse (C:\Users\XNOTE\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:63696:21)
-      at module.exports.exports.default (C:\Users\XNOTE\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:63258:96)
-      at Function.<anonymous> (C:\Users\XNOTE\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:3068:63)
+  SyntaxError: Invalid value type 1848:0 in C:\Users\closer\OneDrive\바탕 화면\test\front\yarn.lock
+      at Parser.unexpected (C:\Users\closer\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:63491:11)
+      at Parser.parse (C:\Users\closer\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:63619:16)
+      at Parser.parse (C:\Users\closer\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:63596:26)
+      at parse (C:\Users\closer\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:63696:21)
+      at module.exports.exports.default (C:\Users\closer\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:63258:96)
+      at Function.<anonymous> (C:\Users\closer\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:3068:63)
       at Generator.next (<anonymous>)
-      at step (C:\Users\XNOTE\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
-      at C:\Users\XNOTE\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
+      at step (C:\Users\closer\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\closer\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
 
 npm manifest: 
   {
