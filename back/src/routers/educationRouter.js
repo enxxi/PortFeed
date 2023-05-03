@@ -2,6 +2,7 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { EducationService } from "../services/educationService";
+import { educationValidation } from "../middlewares/validation";
 
 const educationRouter = Router();
 educationRouter.use(login_required);
@@ -9,7 +10,7 @@ educationRouter.use(login_required);
 //추가
 educationRouter
   .route("/education/:user_id/:education_id")
-  .post(async function (req, res, next) {
+  .post(educationValidation, async function (req, res, next) {
     try {
       if (is.emptyObject(req.body)) {
         throw new Error(
@@ -69,7 +70,7 @@ educationRouter
   })
 
   //수정
-  .patch(async function (req, res, next) {
+  .patch(educationValidation, async function (req, res, next) {
     try {
       const tokenUser_id = req.currentUserId; //토큰에서 user_id받아오기
       // req (request) 에서 데이터 가져오기

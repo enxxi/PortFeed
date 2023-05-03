@@ -3,15 +3,9 @@ import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
 import { UserModel } from "../db/schemas/user";
+import { userValidation } from "../middlewares/validation";
 
 const userAuthRouter = Router();
-const Joi = require("joi");
-
-const postUserSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
-});
 
 userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
@@ -22,9 +16,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     }
 
     // req (request) 에서 데이터 가져오기
-    const { name, email, password } = await postUserSchema.validateAsync(
-      req.body
-    );
+    const { name, email, password } = await req.body;
 
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userAuthService.addUser({
@@ -114,6 +106,7 @@ userAuthRouter.get(
 
 userAuthRouter.put(
   "/users/:id",
+  userValidation,
   login_required,
   async function (req, res, next) {
     try {
@@ -125,7 +118,10 @@ userAuthRouter.put(
       const password = req.body.password ?? null;
       const description = req.body.description ?? null;
 
-      const toUpdate = { name, email, password, description };
+      const profileImg = req.file ?? null;
+      console.log(img);
+
+      const toUpdate = { name, email, password, description, profileImg };
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
