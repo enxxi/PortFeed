@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserStateContext } from "../App";
 import * as Api from "../api";
 import {
   Box,
@@ -13,62 +14,136 @@ import {
   Input,
   Paper,
   Typography,
+  TextField
 } from "@mui/material";
+
 import { Delete, Edit } from "@mui/icons-material";
+import { useParams } from "react-router-dom";
 
-// props 로 User의 정보를 가져온다
-// isEditable => 본인의 포트폴리오인지 상태값
-// projectData => 해당 유저의 프로젝트 정보
-export function Project({ isEditable, projectData }) {
-  // props로 가져온 projectData 를 상태값으로 선언한다.
-  const [project, setProject] = useState(projectData);
+export function Project({ isEditable}) {
 
-  // 프로젝트 작성중인지 상태값 선언
+  //user정보 불러오기/
+  const params = useParams();
+  const {user} = useContext(UserStateContext);
+  const user_id = isEditable? user?.id : params?.userId;
+  const jwtToken = sessionStorage.getItem('userToken');
+
+  const [project, setProject] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
 
-  // 프로젝트 추가 시 input 값 state 선언
-  const [projectitem, setProjectitem] = useState("");
+  // 추가 시 input 값 state 선언
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  // 프로젝트 수정중인지 상태값 선언
-  const [editingIndex, setEditingIndex] = useState(-1);
+  // 수정중인지 상태값 선언
+  const [editingIndex, setEditingIndex] = useState({idx: -1, id: ""});
 
-  // projectitem 값 공백만 입력시 추가버튼 클릭불가처리, description은 필수값 아님
-  const isFormValid = projectitem.replaceAll(" ", "");
+  // input 값 validation
+  const isFormValid = title.replaceAll(" ", "");
 
-  // 프로젝트 추가
+  // init component
+  useEffect(() => {
+    // api 호출
+    Api.get(`project/${user_id}/0`)
+      .then((res) => {
+        setProject(res.data);
+      })
+      .catch((err) => console.log(err));
+    // 그 결과를 배열 컴포넌트에 뿌려줌
+  }, []);
+
+  // 추가
   const addProject = async () => {
+    setTitle("");
+    setDescription("");
     try {
-      // projectitem 주소(임시주소)로 post 요청을 보낸다. **** 백엔드 구성완료시 주석해제
-      // await Api.post("project", { projectitem, description });
+      const result = await Api.post(
+        `project/${user_id}/0`,
+        {
+          title,
+          description,
+        },
+        {
+          headers: {
+            Authorization: jwtToken,
+          },
+        }
+      );
+      
+      const project_id = result.data.project_id;
 
-      // 프로젝트 상태값도 갱신하며 컴포넌트를 재렌더링한다.
+      // 상태값 갱신하며 컴포넌트를 재렌더링
       setProject((project) => {
         const newProject = [...project];
-        newProject.push({ projectitem, description });
+        newProject.push({ title, description, project_id});
         return newProject;
       });
 
-      setProjectitem("");
-      setDescription("");
     } catch (err) {
       console.log(err);
     }
   };
 
-  //프로젝트 삭제
-  const removeProject = async (idx) => {
+  // 편집버튼클릭
+  const handleEditClick = async (idx, project_id) => {
+    setEditingIndex((item) => {
+      const newEditingIndex = {...item};
+      newEditingIndex.idx = idx;
+      newEditingIndex.id = project_id;
+      return newEditingIndex;
+    });
+    setTitle(project[idx].title);
+    setDescription(project[idx].description);
+  };
+
+  // 편집
+  const editProject = async () => {
+    try {
+      const result = await Api.patch(
+        `project/${user_id}/${editingIndex.id}`,
+        {
+          title,
+          description,
+        },
+        {
+          headers: {
+            Authorization: jwtToken,
+          },
+        }
+      );
+
+      setProject((prevProject) => {
+        const newProject = [...prevProject];
+        newProject[editingIndex.idx] = result.data;
+        return newProject;
+      });
+      setEditingIndex((item) => {
+        const newEditingIndex = {...item};
+        newEditingIndex.idx = -1;
+        newEditingIndex.id = "";
+        return newEditingIndex;
+      });
+      setIsCreating(false);
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // 삭제
+  const removeProject = async (idx, id) => {
     if (window.confirm("삭제 하시겠습니까?")) {
       try {
-        // project/idx 주소(임시주소)로 delete 요청을 보낸다.   **** 백엔드 구성완료시 주석해제
-        // await Api.delete("project", idx);
+        await Api.delete(`project/${user_id}/${id}`, "");
 
-        // 상태값도 갱신하며 컴포넌트를 재렌더링한다.
+        // 상태값 갱신하며 컴포넌트를 재렌더링
         setProject((project) => {
           const newProject = [...project];
           newProject.splice(idx, 1);
           return newProject;
         });
+        setTitle("");
+        setDescription("");
       } catch (err) {
         console.log(err);
       }
@@ -77,119 +152,135 @@ export function Project({ isEditable, projectData }) {
     }
   };
 
-  // 프로젝트 편집
-  const editProject = (idx) => {
-    setEditingIndex(idx);
-    setProject(project[idx].projectitem);
-    setProject(project[idx].description);
-  };
+  // +버튼 클릭
+  const handlePlusClick = () => {
+    setIsCreating(!isCreating)
+    setTitle("");
+    setDescription("");
+  }
 
-  const saveProject = async () => {
-    try {  
-      //기존의 프로젝트를 새로 입력한 프로젝트로 교체
-      setProject((prevProject) => {
-        const updatedProject = [...prevProject];
-        updatedProject[editingIndex] = { projectitem, description };
-        return updatedProject;
-      });
-  
-      setProjectitem("");
-      setDescription("");
-      setEditingIndex(-1);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // 취소버튼 클릭
+  const handleCancleClick = () => {
+    setTitle("");
+    setDescription("");
+    setIsCreating(!isCreating)
+    setEditingIndex(item => {
+      const newEditingIndex = {...item};
+      newEditingIndex.idx = -1;
+      newEditingIndex.id = "";
+      return newEditingIndex;
+    })
+
+  }
 
   return (
     <Container>
       <Grid container spacing={2}>
-      <Grid item xs={12}>
-          <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Grid item xs={12}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
             <Typography variant="h4">프로젝트</Typography>
           </Box>
         </Grid>
 
-      {
-        /* projectData 길이 만큼 순환하여 출력 */
-        project.length > 0 &&
-          project.map((item, idx) => (
-            <Grid item xs={12} key={idx}>
-              <Paper>
-                <Box padding={2} display="flex" justifyContent="space-between" alignItems="center">
-                <Box display="flex" flexDirection="column">
-                  <Typography variant="body1" sx={{ textAlign: "left" }}>{item.projectitem}</Typography>
-                  <Typography variant="body1" sx={{ textAlign: "left" }}>{item.description}</Typography>
+        <Grid item xs={12} >
+          <Paper>
+          {project.length > 0
+            ? project.map((item, idx) => (
+              <Box
+                padding={2}
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                key={idx}
+              >
+                <Box>
+                  <Typography sx={{width:"auto"}} variant="span">{item.title}</Typography>
+                  <Typography display="flex" sx={{p:1}} variant="span">{item.description}</Typography>
                 </Box>
-               
-              {isEditable && (
-              <Box>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  startIcon={<Edit />}
-                  onClick={() => {
-                    editProject(idx);
-                    setIsCreating(true);
-                  }}
-                >
-                  편집
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  startIcon={<Delete />}
-                  onClick={() => removeProject(idx)}
-                >
-                  삭제
-                </Button>
-              </Box>
-              )}
-                </Box>
-              </Paper>
-            </Grid>
-          ))
-      }
+                {isEditable && (
+                  <Box>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      startIcon={<Edit />}
+                      onClick={() => {
+                        handleEditClick(idx, item.project_id);
+                        setIsCreating(true);
+                      }}
+                    >
+                      편집
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      startIcon={<Delete />}
+                      onClick={() => removeProject(idx, item.project_id)}
+                    >
+                      삭제
+                    </Button>
+                  </Box>
+                )}
+            </Box>))
+          :<Grid item xs={12}> 
+          <Paper>
+            <Box
+              padding={2}
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >이력이 없습니다.
+            </Box>
+          </Paper>
+        </Grid>}
+          </Paper>
+        </Grid>
       </Grid>
-      {
-        /* 본인의 상세페에지이며, 작성중이 아닐시 + 버튼 출력 */
-        isEditable && !isCreating && (
+
+      {isEditable && !isCreating && (
         <Box marginTop={2}>
-          <Button onClick={() => setIsCreating(!isCreating)} variant="outlined">
+          <Button onClick={handlePlusClick} variant="outlined">
             +
           </Button>
         </Box>
-        )
-      }
-      {
-        /* 작성중일 시 input 출력 */
-        isCreating && (
-          <>
-            <Input
-              type="text"
-              placeholder="프로젝트명"
-              value={projectitem}
-              onChange={(e) => setProjectitem(e.target.value)}
-            />
-            <Input
-              type="text"
-              placeholder="프로젝트 내용"
-              value={description}
+      )}
+
+      {isCreating && (
+        <Grid >
+            <TextField
+            sx={{m:2, width:"auto"}}
+            required
+            id="outlined-required"
+            label="프로젝트명"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <TextField
+            sx={{m:1, width:"90%"}}
+            id="outlined-multiline-static"
+            label="상세"
+            multiline
+            rows={4}
+            value={description}
               onChange={(e) => setDescription(e.target.value)}
-            />
-            {editingIndex === -1 ? (
-            <Button onClick={addProject} disabled={!isFormValid}>
-              추가
-            </Button>
+          />
+        <Grid>
+            {editingIndex.idx === -1 ? (
+              <Button onClick={addProject} disabled={!isFormValid}>
+                추가
+              </Button>
             ) : (
-              <Button onClick={saveProject} disabled={!isFormValid}>
-              저장
-            </Button>
+              <Button onClick={editProject} disabled={!isFormValid}>
+                저장
+              </Button>
             )}
-            <Button onClick={() => setIsCreating(!isCreating)}>취소</Button>
-          </>
-        )
-      }
+            <Button onClick={handleCancleClick}>취소</Button>
+          </Grid>
+        </Grid>
+      )}
     </Container>
   );
 }

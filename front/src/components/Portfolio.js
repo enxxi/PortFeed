@@ -55,18 +55,6 @@ function Portfolio() {
     return "loading...";
   }
 
-  // api 연동전 테스트용 데이터셋
-  const educationData = [
-    { school: "앨리스대학교", major: "컴퓨터공학" },
-  ];
-  const awardData = [{ awarddate: "2023-04-28", awarded: "OO대회수상" }];
-  const certificateData = [
-    { certification: "SQLD", organization: "한국데이터산업진흥원" },
-  ];
-  const projectData = [
-    { projectitem: "포트폴리오 공유 서비스", description: "엘리스AI트랙" },
-  ];
-
   return (
     <Container fluid>
       <Row>
@@ -81,19 +69,15 @@ function Portfolio() {
              
             <Education
               isEditable={portfolioOwner.id === userState.user?.id}
-              educationData={educationData}
             ></Education>
             <Award
               isEditable={portfolioOwner.id === userState.user?.id}
-              awardData={awardData}
             ></Award>
             <Project
               isEditable={portfolioOwner.id === userState.user?.id}
-              projectData={projectData}
             ></Project>
             <Certificate
               isEditable={portfolioOwner.id === userState.user?.id}
-              certificateData={certificateData}
             ></Certificate>
           </div>
         </Col>

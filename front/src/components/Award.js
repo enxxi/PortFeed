@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserStateContext } from "../App";
 import * as Api from "../api";
 import {
   Box,
@@ -13,66 +14,142 @@ import {
   Input,
   Paper,
   Typography,
+  TextField
 } from "@mui/material";
+
 import { Delete, Edit } from "@mui/icons-material";
+import { useParams } from "react-router-dom";
 
-// props 로 User의 정보를 가져온다
-// isEditable => 본인의 포트폴리오인지 상태값
-// awardData => 해당 유저의 수상정보
-export function Award({ isEditable, awardData }) {
-  // props로 가져온 educationData 를 상태값으로 선언한다.
-  const [award, setAward] = useState(awardData);
+export function Award({ isEditable}) {
 
-  // 수상이력 작성중인지 상태값 선언
+  //user정보 불러오기/
+  const params = useParams();
+  const {user} = useContext(UserStateContext);
+  const user_id = isEditable? user?.id : params?.userId;
+  const jwtToken = sessionStorage.getItem('userToken');
+
+  const [award, setAward] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
 
-  // 수상추가 시 input 값 state 선언
-  const [awarddate, setAwarddate] = useState("");
-  const [awarded, setAwarded] = useState("");
+  // 추가 시 input 값 state 선언
+  const [title, setTitle] = useState("");
+  const [organization, setOrganization] = useState("");
+  const [description, setDescription] = useState("");
 
-  // 수상이력 수정중인지 상태값 선언
-  const [editingIndex, setEditingIndex] = useState(-1);
+  // 수정중인지 상태값 선언
+  const [editingIndex, setEditingIndex] = useState({idx: -1, id: ""});
 
-  // awarddate, awarded 모두 입력이 되어야지 추가 버튼이 활성화된다
-  const isFormValid = () => {
-    const isAwarddate = awarddate.trim() !== "";
-    const isAwarded = awarded.trim() !== "";
-    return isAwarddate && isAwarded;
-  };
+  // input 값 validation
+  const isFormValid = title.replaceAll(" ", "") && organization.replaceAll(" ", "");
 
-  // 수상이력 추가
+  // init component
+  useEffect(() => {
+    // api 호출
+    Api.get(`award/${user_id}/0`)
+      .then((res) => {
+        setAward(res.data);
+      })
+      .catch((err) => console.log(err));
+    // 그 결과를 배열 컴포넌트에 뿌려줌
+  }, []);
+
+  // 추가
   const addAward = async () => {
+    setTitle("");
+    setOrganization("");
+    setDescription("");
     try {
-      // award 주소(임시주소)로 post 요청을 보낸다. **** 백엔드 구성완료시 주석해제
-      // await Api.post("award", { awarddate, awarded });
+      const result = await Api.post(
+        `award/${user_id}/0`,
+        {
+          title,
+          organization,
+          description,
+        },
+        {
+          headers: {
+            Authorization: jwtToken,
+          },
+        }
+      );
+      
+      const award_id = result.data.award_id;
 
-      // 수상값도 갱신하며 컴포넌트를 재렌더링한다.
+      // 상태값 갱신하며 컴포넌트를 재렌더링
       setAward((award) => {
-        const newAward = [...award];
-        newAward.push({ awarddate, awarded });
-        return newAward;
+        const newEducation = [...award];
+        newEducation.push({ title, organization, description, award_id});
+        return newEducation;
       });
 
-      setAwarddate("");
-      setAwarded("");
     } catch (err) {
       console.log(err);
     }
   };
 
-  //수상이력 삭제
-  const removeAward = async (idx) => {
+  // 편집버튼클릭
+  const handleEditClick = async (idx, award_id) => {
+    setEditingIndex((item) => {
+      const newEditingIndex = {...item};
+      newEditingIndex.idx = idx;
+      newEditingIndex.id = award_id;
+      return newEditingIndex;
+    });
+    setTitle(award[idx].title);
+    setOrganization(award[idx].organization);
+    setDescription(award[idx].description);
+  };
+
+  // 편집
+  const editAward = async () => {
+    try {
+      const result = await Api.patch(
+        `award/${user_id}/${editingIndex.id}`,
+        {
+          title,
+          organization,
+          description,
+        },
+        {
+          headers: {
+            Authorization: jwtToken,
+          },
+        }
+      );
+
+      setAward((prevAward) => {
+        const newAward = [...prevAward];
+        newAward[editingIndex.idx] = result.data;
+        return newAward;
+      });
+      setEditingIndex((item) => {
+        const newEditingIndex = {...item};
+        newEditingIndex.idx = -1;
+        newEditingIndex.id = "";
+        return newEditingIndex;
+      });
+      setIsCreating(false);
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // 삭제
+  const removeAward = async (idx, id) => {
     if (window.confirm("삭제 하시겠습니까?")) {
       try {
-        // award/idx 주소(임시주소)로 delete 요청을 보낸다.   **** 백엔드 구성완료시 주석해제
-        // await Api.delete("education", idx);
+        await Api.delete(`award/${user_id}/${id}`, "");
 
-        // 수상값도 갱신하며 컴포넌트를 재렌더링한다.
+        // 상태값 갱신하며 컴포넌트를 재렌더링
         setAward((award) => {
           const newAward = [...award];
           newAward.splice(idx, 1);
           return newAward;
         });
+        setTitle("");
+        setOrganization("");
+        setDescription("");
       } catch (err) {
         console.log(err);
       }
@@ -81,118 +158,146 @@ export function Award({ isEditable, awardData }) {
     }
   };
 
-  // 수상이력 편집
-  const editAward = (idx) => {
-    setEditingIndex(idx);
-    setAwarddate(award[idx].awarddate);
-    setAwarded(award[idx].awarded);
-  };
+  // +버튼 클릭
+  const handlePlusClick = () => {
+    setIsCreating(!isCreating)
+    setTitle("");
+    setOrganization("");
+    setDescription("");
+  }
 
-  const saveAward = async () => {
-    try {  
-      //기존의 수상이력을 새로 입력한 수상이력으로 교체
-      setAward((prevAward) => {
-        const updatedAward = [...prevAward];
-        updatedAward[editingIndex] = { awarddate, awarded };
-        return updatedAward;
-      });
-  
-      setAwarddate("");
-      setAwarded("");
-      setEditingIndex(-1);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // 취소버튼 클릭
+  const handleCancleClick = () => {
+    setTitle("");
+    setOrganization("");
+    setDescription("");
+    setIsCreating(!isCreating)
+    setEditingIndex(item => {
+      const newEditingIndex = {...item};
+      newEditingIndex.idx = -1;
+      newEditingIndex.id = "";
+      return newEditingIndex;
+    })
 
+  }
 
-//mui로 Award MVP를 입힘. 추가 이후 편집 기능 추가
   return (
     <Container>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
             <Typography variant="h4">수상이력</Typography>
           </Box>
         </Grid>
-      </Grid>
-      {/* awardData 길이 만큼 순환하여 출력 */
-        award.length > 0 &&
-        award.map((item, idx) => (
-          <Grid item xs={12} key={idx}>
-            <Paper>
-              <Box padding={2} display="flex" justifyContent="space-between" alignItems="center">
-                <Box display="flex" flexDirection="column">
-                  <Typography variant="body1" sx={{ textAlign: "left" }}>{item.awarddate}</Typography>
-                  <Typography variant="body1" sx={{ textAlign: "left" }}>{item.awarded}</Typography>
+
+        <Grid item xs={12} >
+          <Paper>
+          {award.length > 0
+            ? award.map((item, idx) => (
+              <Box
+                padding={2}
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                key={idx}
+              >
+                <Box>
+                  <Typography sx={{width:"auto"}} variant="span">{item.title}</Typography>
+                  <Typography sx={{pl:2, width:"auto"}} variant="span">{item.organization}</Typography>
+                  <Typography display="flex" sx={{p:1}} variant="span">{item.description}</Typography>
                 </Box>
                 {isEditable && (
-                <Box>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    startIcon={<Edit />}
-                    onClick={() => {
-                      editAward(idx);
-                      setIsCreating(true);
-                    }}
-                  >
-                  편집
-                  </Button>
-                  <Button 
-                    variant="outlined"
-                    color="primary"
-                    startIcon={<Delete />}
-                    onClick={() => removeAward(idx)}
-                  >
-                    삭제
-                  </Button>
-                </Box>
+                  <Box>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      startIcon={<Edit />}
+                      onClick={() => {
+                        handleEditClick(idx, item.award_id);
+                        setIsCreating(true);
+                      }}
+                    >
+                      편집
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      startIcon={<Delete />}
+                      onClick={() => removeAward(idx, item.award_id)}
+                    >
+                      삭제
+                    </Button>
+                  </Box>
                 )}
-              </Box>
-            </Paper>
-          </Grid>
-        ))
-      }
-      {
-        /* 본인의 상세페에지이며, 작성중이 아닐시 + 버튼 출력 */
-        isEditable && !isCreating && (
-          <Box marginTop={2}>
-            <Button onClick={() => setIsCreating(!isCreating)} variant="outlined">
-              + 
-            </Button>
-          </Box>
-        )
-      }
-      {
-        /* 작성중일 시 input 출력 */
-        isCreating && (
-          <>
-            <Input
-              type="text"
-              placeholder="수상날짜 0000-00-00"
-              value={awarddate}
-              onChange={(e) => setAwarddate(e.target.value)}
-            />
-            <Input
-              type="text"
-              placeholder="수상명"
-              value={awarded}
-              onChange={(e) => setAwarded(e.target.value)}
-            />
-            {editingIndex === -1 ? (
-              <Button onClick={addAward} disabled={!isFormValid()}>
-              추가
+            </Box>))
+          :<Grid item xs={12}> 
+          <Paper>
+            <Box
+              padding={2}
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >이력이 없습니다.
+            </Box>
+          </Paper>
+        </Grid>}
+          </Paper>
+        </Grid>
+      </Grid>
+
+      {isEditable && !isCreating && (
+        <Box marginTop={2}>
+          <Button onClick={handlePlusClick} variant="outlined">
+            +
+          </Button>
+        </Box>
+      )}
+
+      {isCreating && (
+        <Grid >
+            <TextField
+            sx={{m:2, width:"auto"}}
+            required
+            id="outlined-required"
+            label="수상명"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <TextField 
+            sx={{m:2, width:"auto"}}
+            required
+            id="outlined-required"
+            label="발급기관"
+            value={organization}
+            onChange={(e) => setOrganization(e.target.value)}
+          />
+          <TextField
+            sx={{m:1, width:"90%"}}
+            id="outlined-multiline-static"
+            label="상세"
+            multiline
+            rows={4}
+            value={description}
+              onChange={(e) => setDescription(e.target.value)}
+          />
+        <Grid>
+            {editingIndex.idx === -1 ? (
+              <Button onClick={addAward} disabled={!isFormValid}>
+                추가
               </Button>
             ) : (
-              <Button onClick={saveAward} disabled={!isFormValid()}>
+              <Button onClick={editAward} disabled={!isFormValid}>
                 저장
               </Button>
             )}
-            <Button onClick={() => setIsCreating(!isCreating)}>취소</Button>
-          </>
-        )
-      }
+            <Button onClick={handleCancleClick}>취소</Button>
+          </Grid>
+        </Grid>
+      )}
     </Container>
   );
 }
