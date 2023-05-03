@@ -30,7 +30,7 @@ const projectValidation = (req, res, next) => {
 const certificateValidation = (req, res, next) => {
   const schema = Joi.object({
     name: Joi.string(),
-    oraganization: Joi.string(),
+    organization: Joi.string(),
     description: Joi.string(),
   });
 
@@ -59,7 +59,7 @@ const educationValidation = (req, res, next) => {
 const awardValidation = (req, res, next) => {
   const schema = Joi.object({
     title: Joi.string(),
-    oraganization: Joi.string(),
+    organization: Joi.string(),
     description: Joi.string(),
   });
 

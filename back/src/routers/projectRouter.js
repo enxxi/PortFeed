@@ -101,7 +101,7 @@ projectRouter
       }
       
       //status 204 : 삭제요청 완료, 추가 정보없음
-      return res.status(204).send(deleteResult)
+      return res.status(204).send(result)
     } catch (error) {
       next(error);
     }

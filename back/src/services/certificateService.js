@@ -57,7 +57,7 @@ class CertificateService {
   }
   
   static async deleteCertificate({ certificate_id }) {
-    const isDataDeleted = await Certificate.deleteById( certificate_id );
+    const isDataDeleted = await Certificate.deleteById( {certificate_id} );
 
     if (!isDataDeleted) {
       const errorMessage =

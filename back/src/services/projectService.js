@@ -60,7 +60,7 @@ class ProjectService {
   }
 
   static async deleteProject({ project_id }) {
-    const isDataDeleted = await Project.deleteById( project_id );
+    const isDataDeleted = await Project.deleteById( {project_id} );
 
     if (!isDataDeleted) {
       const errorMessage =

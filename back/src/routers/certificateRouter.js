@@ -23,6 +23,7 @@ certificateRouter
       if (tokenUser_id !== pathUser_id) {
         throw new Error("인증정보가 올바르지 않습니다.");
       }
+      const { name, organization, description } = req.body;
 
       const newCertificate = await CertificateService.addCertificate({
         user_id: pathUser_id,
