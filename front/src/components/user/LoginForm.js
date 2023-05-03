@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Grid, TextField, Button, Typography } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
@@ -8,6 +9,9 @@ import { DispatchContext } from "../../App";
 function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useContext(DispatchContext);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -66,7 +70,7 @@ function LoginForm() {
               autoComplete="on"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              error={!isEmailValid}
+              error={!isEmailValid && email !== ''}
               helperText={!isEmailValid ? "이메일 형식이 올바르지 않습니다." : ""}
               margin="dense"
             />
@@ -78,7 +82,7 @@ function LoginForm() {
               autoComplete="on"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              error={!isPasswordValid}
+              error={!isPasswordValid && password !== ''}
               helperText={!isPasswordValid ? "비밀번호는 4글자 이상입니다." : ""}
               margin="dense"
             />
