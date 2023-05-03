@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { UserStateContext } from "../App";
 import * as Api from "../api";
 import {
@@ -25,8 +25,9 @@ export function Award({ isEditable}) {
   //user정보 불러오기/
   const params = useParams();
   const {user} = useContext(UserStateContext);
-  const user_id = isEditable? user?.id : params?.userId;
-  const jwtToken = sessionStorage.getItem('userToken');
+  const user_id = useMemo(() => {
+    return isEditable? user?.id : params?.userId; 
+  }, [isEditable, user, params]);
 
   const [award, setAward] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
@@ -51,7 +52,7 @@ export function Award({ isEditable}) {
       })
       .catch((err) => console.log(err));
     // 그 결과를 배열 컴포넌트에 뿌려줌
-  }, []);
+  }, [user_id]);
 
   // 추가
   const addAward = async () => {
@@ -65,11 +66,6 @@ export function Award({ isEditable}) {
           title,
           organization,
           description,
-        },
-        {
-          headers: {
-            Authorization: jwtToken,
-          },
         }
       );
       
@@ -109,11 +105,6 @@ export function Award({ isEditable}) {
           title,
           organization,
           description,
-        },
-        {
-          headers: {
-            Authorization: jwtToken,
-          },
         }
       );
 
