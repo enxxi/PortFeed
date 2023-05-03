@@ -31,6 +31,7 @@ function Network() {
 
   return (
     <>
+      <div style={{ marginLeft: "2rem" }}>
       <div className="d-flex justify-content-end my-3">
         <label className="me-2">페이지 당 유저 수:</label>
         <Select
@@ -69,6 +70,7 @@ function Network() {
         >
           다음 페이지
         </Button>
+      </div>
       </div>
     </>
   );

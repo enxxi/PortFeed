@@ -173,6 +173,7 @@ export function Certificate({ isEditable}) {
   }
 
   return (
+    <div style={{ marginTop: "2rem" }}>
     <Container>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -198,7 +199,7 @@ export function Certificate({ isEditable}) {
               >
                 <Box>
                   <Typography sx={{width:"auto"}} variant="span">{item.name}</Typography>
-                  <Typography sx={{pl:2, width:"auto"}} variant="span">{item.organization}</Typography>
+                  <Typography display="flex" sx={{p:1}} variant="span">{item.organization}</Typography>
                   <Typography display="flex" sx={{p:1}} variant="span">{item.description}</Typography>
                 </Box>
                 {isEditable && (
@@ -290,5 +291,9 @@ export function Certificate({ isEditable}) {
         </Grid>
       )}
     </Container>
+    <div style={{ marginBottom: "2rem" }}>
+    </div>
+    </div>
+    
   );
 }
