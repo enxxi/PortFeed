@@ -5,6 +5,7 @@ const userValidation = (req, res, next) => {
     name: Joi.string(),
     email: Joi.string().email(),
     password: Joi.string(),
+    description: Joi.string().allow(null, ""),
     confirmPassword: Joi.string(),
   });
 
