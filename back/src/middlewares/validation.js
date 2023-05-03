@@ -5,6 +5,7 @@ const userValidation = (req, res, next) => {
     name: Joi.string(),
     email: Joi.string().email(),
     password: Joi.string(),
+    confirmPassword: Joi.string(),
   });
 
   const { error } = schema.validate(req.body);
@@ -17,7 +18,7 @@ const userValidation = (req, res, next) => {
 const projectValidation = (req, res, next) => {
   const schema = Joi.object({
     title: Joi.string(),
-    description: Joi.string(),
+    description: Joi.string().allow(null, ""),
   });
 
   const { error } = schema.validate(req.body);
@@ -31,7 +32,7 @@ const certificateValidation = (req, res, next) => {
   const schema = Joi.object({
     name: Joi.string(),
     organization: Joi.string(),
-    description: Joi.string(),
+    description: Joi.string().allow(null, ""),
     date: Joi.string(),
   });
 
@@ -47,7 +48,7 @@ const educationValidation = (req, res, next) => {
     school: Joi.string().regex(/(학교|학원)/),
     degree: Joi.string().valid("학사", "석사", "박사"),
     major: Joi.string(),
-    description: Joi.string(),
+    description: Joi.string().allow(null, ""),
   });
 
   const { error } = schema.validate(req.body);
@@ -61,7 +62,7 @@ const awardValidation = (req, res, next) => {
   const schema = Joi.object({
     title: Joi.string(),
     organization: Joi.string(),
-    description: Joi.string(),
+    description: Joi.string().allow(null, ""),
   });
 
   const { error } = schema.validate(req.body);
