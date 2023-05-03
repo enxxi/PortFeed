@@ -52,7 +52,7 @@ class CertificateService {
     };
 
     for (const [field, fieldToUpdate] of Object.entries(fieldsToUpdate)) {
-      if (toUpdate[field]) {
+      if (toUpdate[field] || field === "description") {
         const newValue = toUpdate[field];
         certificate = await Certificate.update({
           certificate_id,

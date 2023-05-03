@@ -7,7 +7,7 @@ import { userValidation } from "../middlewares/validation";
 
 const userAuthRouter = Router();
 
-userAuthRouter.post("/user/register", async function (req, res, next) {
+userAuthRouter.post("/user/register", userValidation, async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
