@@ -31,6 +31,7 @@ export function Award({ isEditable }) {
 
   const [award, setAward] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
+  const [awardLoaded, setAwardLoded] = useState(false);
 
   // 추가 시 input 값 state 선언
   const [title, setTitle] = useState("");
@@ -47,13 +48,16 @@ export function Award({ isEditable }) {
 
   // init component
   useEffect(() => {
-    // api 호출
-    Api.get(`award/${user_id}/0`)
+    if(user_id){
+      // api 호출
+      Api.get(`award/${user_id}/0`)
       .then((res) => {
         setAward(res.data);
+        setAwardLoded(true);
       })
       .catch((err) => console.log(err));
-    // 그 결과를 배열 컴포넌트에 뿌려줌
+      // 그 결과를 배열 컴포넌트에 뿌려줌
+    }
   }, [user_id]);
 
   // 추가
@@ -71,7 +75,7 @@ export function Award({ isEditable }) {
           description,
           date
         }
-      );
+      )
       
       const award_id = result.data.award_id;
 
@@ -82,7 +86,7 @@ export function Award({ isEditable }) {
         return newEducation;
       });
     } catch (err) {
-      console.log(err);
+      console.log(err.message)
     }
   };
 
@@ -196,7 +200,21 @@ export function Award({ isEditable }) {
 
           <Grid item xs={12} style={{ backgroundColor: "#F0F0F0" }}>
             <Paper>
-              {award.length > 0 ? (
+              {!awardLoaded
+              ? (
+                <Grid item xs={12}>
+                  <Paper>
+                    <Box
+                      padding={2}
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                    </Box>
+                  </Paper>
+                </Grid>
+                )
+              : award.length > 0 ? (
                 award.map((item, idx) => (
                   <Box
                     padding={2}

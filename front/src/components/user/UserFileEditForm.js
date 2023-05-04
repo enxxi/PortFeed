@@ -9,6 +9,7 @@ function UserFileEditForm({ user, setIsEditing, setUser, isEditable }) {
     const [file, setFile] = useState();
     const [isEditing, setIsEditingFile] = useState(false);
     const {pathname} = useLocation();
+    const [fileSelected, setFileSelected] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,14 +26,21 @@ function UserFileEditForm({ user, setIsEditing, setUser, isEditable }) {
             newUser.profile = result.data.profile;
             return newUser;
         });
-        setIsEditingFile(true)
+        setIsEditingFile(false)
 
       console.log(result);
   };
 
   const handleImageChange = (e) => {
+    !e.target.files[0]? setFileSelected(false) : setFileSelected(true)
     setFile(e.target.files[0]);
+
   };
+
+  const handleClickCancle = () => {
+    setIsEditingFile(false)
+    setFileSelected(false);
+  }
 
   //프로필 사진 변경 폼 추가
   return (
@@ -52,12 +60,13 @@ function UserFileEditForm({ user, setIsEditing, setUser, isEditable }) {
 
           <Form.Group as={Row} className="mt-3 text-center">
             <Col sm={{ span: 20 }}>
-              <Button variant="primary" type="submit" className="me-3">
+              <Button variant="primary" type="submit" className="me-3"
+                disabled={!fileSelected}>
                 확인
               </Button>
               <Button
                 variant="secondary"
-                onClick={() => setIsEditingFile(false)}
+                onClick={handleClickCancle}
               >
                 취소
               </Button>

@@ -78,7 +78,7 @@ const awardValidation = (req, res, next) => {
     title: Joi.string(),
     organization: Joi.string(),
     description: Joi.string().allow(null, ""),
-    date: Joi.string().allow(""),
+    date: Joi.string(),
   });
 
   const { error } = schema.validate(req.body);

@@ -35,7 +35,7 @@ export function Education({ isEditable }) {
 
   const [education, setEducation] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
-
+  const [educationLoaded, setEducationLoaded] = useState(false);
   // 추가 시 input 값 state 선언
   const [school, setSchool] = useState("");
   const [major, setMajor] = useState("");
@@ -54,6 +54,7 @@ export function Education({ isEditable }) {
     Api.get(`education/${user_id}/0`)
       .then((res) => {
         setEducation(res.data);
+        setEducationLoaded(true);
       })
       .catch((err) => console.log(err));
     // 그 결과를 배열 컴포넌트에 뿌려줌
@@ -69,6 +70,8 @@ export function Education({ isEditable }) {
         school,
         major,
         degree,
+      }).catch(err => {
+        throw new Error(err.response.data.error);
       });
 
       const education_id = result.data.education_id;
@@ -80,7 +83,7 @@ export function Education({ isEditable }) {
         return newEducation;
       });
     } catch (err) {
-      console.log(err);
+      alert(err.message)
     }
   };
 
@@ -188,7 +191,19 @@ export function Education({ isEditable }) {
           </Grid>
           <Grid item xs={12} style={{ backgroundColor: "#F0F0F0" }}>
             <Paper>
-              {education.length > 0 ? (
+              {!educationLoaded? (
+                <Grid item xs={12}>
+                  <Paper>
+                    <Box
+                      padding={2}
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                    </Box>
+                  </Paper>
+                </Grid>
+              ): education.length > 0 ? (
                 education.map((item, idx) => (
                   <Box
                     key={idx}

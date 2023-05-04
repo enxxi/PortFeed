@@ -35,9 +35,11 @@ function LoginForm() {
       const res = await Api.post("user/login", {
         email,
         password,
+      }).catch(err => {
+        throw new Error(err.response.data);
       });
-
       const user = res.data;
+      
       const jwtToken = user.token;
       sessionStorage.setItem("userToken", jwtToken);
 
@@ -48,7 +50,8 @@ function LoginForm() {
 
       navigate("/", { replace: true });
     } catch (err) {
-      console.log("로그인에 실패하였습니다.\n", err);
+      console.log(err.message);
+      alert(err.message)
     }
   };
 
