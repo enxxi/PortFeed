@@ -11,14 +11,18 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
   // const [imageUrl, setImageUrl] = useState("http://placekitten.com/200/200");
 
   useEffect(() => {
-    if(user){
-      if(user?.profile) {
-        setUrl("http://" + window.location.hostname + ":5001/profile/" + user?.profile)
+    if (user) {
+      if (user?.profile) {
+        setUrl(
+          "http://" +
+            window.location.hostname +
+            ":5001/profile/" +
+            user?.profile
+        );
       } else {
-        setUrl("http://placekitten.com/200/199")
+        setUrl("http://placekitten.com/200/199");
       }
     }
-
   }, [user]);
 
   return (
@@ -36,14 +40,20 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
       >
         <Grid container sx={{ justifyContent: "center", alignItems: "center" }}>
           <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
-            {!url? (<div style={{ width: "8rem", height: "8rem" }} className="mb-3"></div>) :(
-            <img
-              style={{ width: "8rem", height: "8rem" }}
-              className="mb-3"
-              //기존의 고양이 사진만 띄웠는데 유저 로컬 드라이브에 있는 파일로도 나오게끔 설정
-              src={url}
-              alt="회원 프로필"
-            />)}
+            {!url ? (
+              <div
+                style={{ width: "8rem", height: "8rem" }}
+                className="mb-3"
+              ></div>
+            ) : (
+              <img
+                style={{ width: "8rem", height: "8rem" }}
+                className="mb-3"
+                //기존의 고양이 사진만 띄웠는데 유저 로컬 드라이브에 있는 파일로도 나오게끔 설정
+                src={url}
+                alt="회원 프로필"
+              />
+            )}
           </Grid>
           <UserFileEditForm
             user={user}

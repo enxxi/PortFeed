@@ -19,6 +19,8 @@ import {
 
 import { Delete, Edit } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import { useParams } from "react-router-dom";
 
 export function Certificate({ isEditable}) {
@@ -194,7 +196,7 @@ export function Certificate({ isEditable}) {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography style={{ color: "#117864" }} variant="h4">자격증</Typography>
+            <Typography style={{ color: "#117864" }} variant="h4" sx={{ fontFamily: "GmarketSans" }}>자격증</Typography>
           </Box>
         </Grid>
 
@@ -228,17 +230,16 @@ export function Certificate({ isEditable}) {
                 </Box>
                 {isEditable && (
                   <Box>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      startIcon={<Edit />}
+                    <IconButton
+                          color="primary"
+                          aria-label="edit"
                       onClick={() => {
                         handleEditClick(idx, item.certificate_id);
                         setIsCreating(true);
                       }}
                     >
-                      편집
-                    </Button>
+                      <BorderColorIcon sx={{ width: "24px", height: "24px" }} />
+                    </IconButton>
                     <IconButton
                       variant="outlined"
                       onClick={() => removeCertificate(idx, item.certificate_id)}
@@ -267,9 +268,12 @@ export function Certificate({ isEditable}) {
 
       {isEditable && !isCreating && (
         <Box marginTop={2}>
-          <Button onClick={handlePlusClick} variant="outlined">
-            +
-          </Button>
+           <IconButton
+            style={{ color: '#117864'}}
+            aria-label="add"
+            onClick={handlePlusClick} >
+            <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
+          </IconButton>
         </Box>
       )}
 

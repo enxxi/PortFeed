@@ -33,7 +33,7 @@ function Header() {
         main: "#ABEBC6",
       },
       typography: {
-        fontFamily: "Gugi",
+        fontFamily: "GmarketSans",
       },
     },
   });
@@ -57,7 +57,7 @@ function Header() {
       <AppBar position="sticky" sx={{ marginBottom: "20px" }}>
         <Toolbar style={styles.toolbar}>
           <Typography
-            style={{ fontFamily: "Gugi" }}
+            style={{ fontFamily: "GmarketSans" }}
             variant="h6"
             component="div"
             sx={{ mr: "auto" }}
@@ -69,6 +69,7 @@ function Header() {
             color={location.pathname === "/" ? "secondary" : "inherit"}
             onClick={() => navigate("/")}
             style={styles.button}
+            sx={{ fontFamily: "GmarketSans" }}
           >
             나의 페이지
           </Button>
@@ -76,11 +77,17 @@ function Header() {
             color={location.pathname === "/network" ? "secondary" : "inherit"}
             onClick={() => navigate("/network")}
             style={styles.button}
+            sx={{ fontFamily: "GmarketSans" }}
           >
             네트워크
           </Button>
           {isLogin && (
-            <Button color="inherit" onClick={logout} style={styles.button}>
+            <Button
+              color="inherit"
+              onClick={logout}
+              style={styles.button}
+              sx={{ fontFamily: "GmarketSans" }}
+            >
               로그아웃
             </Button>
           )}

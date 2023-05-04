@@ -19,6 +19,8 @@ import {
 
 import { Delete, Edit } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import { useParams } from "react-router-dom";
 
 export function Award({ isEditable }) {
@@ -192,7 +194,7 @@ export function Award({ isEditable }) {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography style={{ color: "#117864" }} variant="h4">
+              <Typography style={{ color: "#117864" }} variant="h4" sx={{ fontFamily: "GmarketSans" }}>
                 수상이력
               </Typography>
             </Box>
@@ -239,17 +241,16 @@ export function Award({ isEditable }) {
                     </Box>
                     {isEditable && (
                       <Box>
-                        <Button
-                          variant="outlined"
+                        <IconButton
                           color="primary"
-                          startIcon={<Edit />}
+                          aria-label="edit"
                           onClick={() => {
                             handleEditClick(idx, item.award_id);
                             setIsCreating(true);
                           }}
                         >
-                          편집
-                        </Button>
+                          <BorderColorIcon sx={{ width: "24px", height: "24px" }} />
+                        </IconButton>
                         <IconButton
                           variant="outlined"
                           onClick={() => removeAward(idx, item.award_id)}
@@ -282,9 +283,12 @@ export function Award({ isEditable }) {
 
         {isEditable && !isCreating && (
           <Box marginTop={2}>
-            <Button onClick={handlePlusClick} variant="outlined">
-              +
-            </Button>
+            <IconButton
+            style={{ color: '#117864'}}
+            aria-label="add"
+            onClick={handlePlusClick}>
+              <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
+          </IconButton>
           </Box>
         )}
 
