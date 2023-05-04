@@ -19,6 +19,8 @@ import {
 
 import { Delete, Edit } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import { useParams } from "react-router-dom";
 
 export function Project({ isEditable}) {
@@ -192,7 +194,7 @@ export function Project({ isEditable}) {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography style={{ color: "#117864" }} variant="h4">프로젝트</Typography>
+            <Typography style={{ color: "#117864" }} variant="h4" sx={{ fontFamily: "GmarketSans" }}>프로젝트</Typography>
           </Box>
         </Grid>
 
@@ -221,21 +223,20 @@ export function Project({ isEditable}) {
                 <Box>
                   <Typography sx={{width:"auto"}} variant="span">{item.title}</Typography>
                   <Typography sx={{p:2, width:"auto"}} variant="span">{item.date}</Typography>
-                  <Typography display="flex" sx={{p:1}} variant="span">{item.description}</Typography>
+                  <Typography display="flex" sx={{p:0}} variant="span">{item.description}</Typography>
                 </Box>
                 {isEditable && (
                   <Box>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      startIcon={<Edit />}
+                    <IconButton
+                        color="primary"
+                        aria-label="edit"
                       onClick={() => {
                         handleEditClick(idx, item.project_id);
                         setIsCreating(true);
                       }}
                     >
-                      편집
-                    </Button>
+                      <BorderColorIcon sx={{ width: "24px", height: "24px" }} />
+                    </IconButton>
                     <IconButton
                       variant="outlined"
                       onClick={() => removeProject(idx, item.project_id)}
@@ -264,9 +265,12 @@ export function Project({ isEditable}) {
 
       {isEditable && !isCreating && (
         <Box marginTop={2}>
-          <Button onClick={handlePlusClick} variant="outlined">
-            +
-          </Button>
+          <IconButton
+            style={{ color: '#117864'}}
+            aria-label="add-award"
+            onClick={handlePlusClick}>
+            <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
+          </IconButton>
         </Box>
       )}
 
