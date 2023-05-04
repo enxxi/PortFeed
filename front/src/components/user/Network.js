@@ -18,7 +18,7 @@ function Network() {
 
   ///pagination////
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(6);
   const [totalPage, setTotalPage] = useState(1);
   /////////////////
 
@@ -56,9 +56,9 @@ function Network() {
               setPage(1);
             }}
           >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
+            <option value="6">6</option>
+            <option value="12">12</option>
+            <option value="18">18</option>
           </NativeSelect>
         </div>
         <Grid container spacing={2} justifyContent="flex-start">
@@ -83,6 +83,7 @@ function Network() {
             )}
             onChange={(event, value) => {
               setPage(value);
+              window.scrollTo(0, 0);
             }}
           />
         </div>
