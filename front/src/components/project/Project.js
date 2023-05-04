@@ -41,7 +41,7 @@ export function Project({ isEditable}) {
   const [editingIndex, setEditingIndex] = useState({idx: -1, id: ""});
 
   // input 값 validation
-  const isFormValid = title.replaceAll(" ", "");
+  const isFormValid = title.replaceAll(" ", "") && date.replaceAll(" ", "");
 
   // init component
   useEffect(() => {
@@ -261,15 +261,15 @@ export function Project({ isEditable}) {
           />
           <TextField 
             sx={{m:2, width:"auto"}}
-            label="시작/종료일"
-            type="date"
-            InputLabelProps={{
-              shrink: true
-            }}
+            required
+            label="기간"
+            type="string"
+            placeholder="6개월"
             id="date"
             value={date || ""}
             onChange={(e) => setDate(e.target.value)}
           />
+          
           <TextField
             sx={{m:1, width:"90%"}}
             id="outlined-multiline-static"

@@ -42,7 +42,7 @@ export function Award({ isEditable }) {
 
   // input 값 validation
   const isFormValid =
-    title.replaceAll(" ", "") && organization.replaceAll(" ", "");
+    title.replaceAll(" ", "") && organization.replaceAll(" ", "") && date.replaceAll(" ", "");
 
   // init component
   useEffect(() => {
@@ -212,7 +212,7 @@ export function Award({ isEditable }) {
                         {item.organization}
                       </Typography>
                       <Typography sx={{ pl: 2, width: "auto" }} variant="span">
-                        {item.date}
+                        {item.date? `${item.date}년 취득` : ""}
                       </Typography>
                       <Typography display="flex" sx={{ p: 1 }} variant="span">
                         {item.description}
@@ -289,8 +289,11 @@ export function Award({ isEditable }) {
             />
             <TextField 
               sx={{m:2, width:"auto"}}
-              label="수상일"
-              type="date"
+              required
+              label="수상년도"
+              type="number"
+              InputProps={{ inputProps: { min: 2000, max: 2023 } }}
+              placeholder="2000"
               InputLabelProps={{
                 shrink: true
               }}

@@ -42,7 +42,9 @@ export function Certificate({ isEditable}) {
   const [editingIndex, setEditingIndex] = useState({idx: -1, id: ""});
 
   // input 값 validation
-  const isFormValid = name.replaceAll(" ", "") && organization.replaceAll(" ", "");
+  const isFormValid = name.replaceAll(" ", "") && 
+                      organization.replaceAll(" ", "") && 
+                      date.replaceAll(" ", "");
 
   // init component
   useEffect(() => {
@@ -207,7 +209,7 @@ export function Certificate({ isEditable}) {
                 <Box>
                   <Typography sx={{width:"auto"}} variant="span">{item.name}</Typography>
                   <Typography sx={{pl:2, width:"auto"}} variant="span">{item.organization}</Typography>
-                  <Typography sx={{pl:2, width:"auto"}} variant="span">{item.date}</Typography>
+                  <Typography sx={{pl:2, width:"auto"}} variant="span">{item.date? `${item.date}년 수상` : ""}</Typography>
                   <Typography display="flex" sx={{p:1}} variant="span">{item.description}</Typography>
                 </Box>
                 {isEditable && (
@@ -277,8 +279,10 @@ export function Certificate({ isEditable}) {
           />
           <TextField 
             sx={{m:2, width:"auto"}}
-            label="취득일"
-            type="date"
+            label="수상년도"
+            type="number"
+            InputProps={{ inputProps: { min: 2000, max: 2023 } }}
+            placeholder="2000"
             InputLabelProps={{
               shrink: true
             }}
