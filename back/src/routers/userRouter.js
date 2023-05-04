@@ -186,7 +186,6 @@ userAuthRouter.patch(
   upload.single("profile"),
   async function (req, res, next) {
     try {
-      console.log("path", req.file);
       // URI로부터 사용자 id를 추출함.
       const user_id = req.params.id;
 

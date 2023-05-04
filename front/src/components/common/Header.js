@@ -33,7 +33,7 @@ function Header() {
         main: "#ABEBC6",
       },
       typography: {
-        fontFamily: "Bauhaus",
+        fontFamily: "Gugi",
       },
     },
   });
@@ -57,7 +57,7 @@ function Header() {
       <AppBar position="sticky" sx={{ marginBottom: "20px" }}>
         <Toolbar style={styles.toolbar}>
           <Typography
-            style={{ fontFamily: "Bauhaus" }}
+            style={{ fontFamily: "Gugi" }}
             variant="h6"
             component="div"
             sx={{ mr: "auto" }}
