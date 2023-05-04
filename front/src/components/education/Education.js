@@ -98,6 +98,7 @@ export function Education({ isEditable }) {
     setSchool(education[idx].school);
     setMajor(education[idx].major);
     setDegree(education[idx].degree);
+    setIsSchoolValid(true)
   };
 
   // 편집
@@ -232,7 +233,7 @@ export function Education({ isEditable }) {
                     justifyContent="space-between"
                     alignItems="center"
                   >
-                    <Box>
+                    <Box sx={{ backgroundColor: '#f0f0f0', padding: '1rem' }}>
                       <Typography
                         sx={{ width: "auto", fontFamily: "GmarketSans" }}
                         variant="span"
@@ -427,7 +428,7 @@ export function Education({ isEditable }) {
               {editingIndex.idx === -1 ? (
                 <Button
                   onClick={addEducation}
-                  disabled={!isFormValid}
+                  disabled={!isFormValid || school === ""}
                   style={{
                     backgroundColor: "#007bff",
                     borderColor: "#007bff",

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Paper, Grid, Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -9,6 +9,13 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
   const navigate = useNavigate();
   const [url, setUrl] = useState("");
   // const [imageUrl, setImageUrl] = useState("http://placekitten.com/200/200");
+  const path = useLocation();
+
+  //uri에 따라 css handling
+  const cardHeight = path.pathname === "/network"? `350px`: ``;
+  const cardMaxHeight = path.pathname === "/network"? `400px`: ``;
+  const cardOverFlow = path.pathname === "/network"? `auto`: ``;
+
 
   useEffect(() => {
     if (user) {
@@ -36,6 +43,9 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
           ms: 3,
           mr: 5,
           p: 2,
+          height: cardHeight, 
+          maxHeight: cardMaxHeight, 
+          overflow: cardOverFlow
         }}
       >
         <Grid container sx={{ justifyContent: "center", alignItems: "center" }}>

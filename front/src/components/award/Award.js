@@ -104,6 +104,7 @@ export function Award({ isEditable }) {
     setOrganization(award[idx].organization);
     setDate(award[idx].date);
     setDescription(award[idx].description);
+    setIsdateValid(true)
   };
 
   // 편집
@@ -242,7 +243,7 @@ export function Award({ isEditable }) {
                     alignItems="center"
                     key={idx}
                   >
-                    <Box>
+                    <Box sx={{ backgroundColor: '#f0f0f0', padding: '1rem' }}>
                       <Typography
                         sx={{ width: "auto", fontFamily: "GmarketSans" }}
                         variant="span"
@@ -263,7 +264,7 @@ export function Award({ isEditable }) {
                       </Typography>
                       <Typography
                         display="flex"
-                        sx={{ p: 1, fontFamily: "GmarketSans" }}
+                        sx={{ pl: 2, fontFamily: "GmarketSans", whiteSpace: "pre-wrap" }}
                         variant="span"
                       >
                         {item.description}
@@ -327,6 +328,19 @@ export function Award({ isEditable }) {
         )}
 
         {isCreating && (
+          <Paper
+          sx={{
+            border: "2px #112222",
+            borderRadius: "5px",
+            width: "auto",
+            mt: 2,
+            mb: 2,
+            ms: 3,
+            mr: 5,
+            p: 2,
+            textAlign: "center",
+          }}
+        >
           <Grid>
             <TextField
               sx={{
@@ -401,17 +415,53 @@ export function Award({ isEditable }) {
             />
             <Grid>
               {editingIndex.idx === -1 ? (
-                <Button onClick={addAward} disabled={!isFormValid}>
-                  추가
-                </Button>
+                <Button
+                onClick={addAward}
+                disabled={!isFormValid || date === ""}
+                style={{
+                  backgroundColor: "#007bff",
+                  borderColor: "#007bff",
+                  borderRadius: "5px",
+                  color: "white",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                }}
+              >
+                추가
+              </Button>
               ) : (
-                <Button onClick={editAward} disabled={!isFormValid}>
+                <Button
+                  onClick={editAward}
+                  disabled={!isFormValid}
+                  style={{
+                    backgroundColor: "#28a745",
+                    borderColor: "#28a745",
+                    borderRadius: "5px",
+                    color: "white",
+                    fontSize: "16px",
+                    cursor: "pointer",
+                  }}
+                >
                   저장
                 </Button>
               )}
-              <Button onClick={handleCancleClick}>취소</Button>
+                            <Button
+                onClick={handleCancleClick}
+                style={{
+                  backgroundColor: "#6c757d",
+                  borderColor: "#6c757d",
+                  borderRadius: "5px",
+                  color: "white",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                  margin: "5px",
+                }}
+              >
+                취소
+              </Button>
             </Grid>
           </Grid>
+          </Paper>
         )}
       </Container>
     </div>

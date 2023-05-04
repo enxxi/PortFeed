@@ -45,7 +45,7 @@ export function Project({ isEditable }) {
 
   // input 값 validation
   const isFormValid = title.replaceAll(" ", "") && date.replaceAll(" ", "");
-
+console.log(project)
   // init component
   useEffect(() => {
     // api 호출
@@ -215,7 +215,7 @@ export function Project({ isEditable }) {
                     alignItems="center"
                     key={idx}
                   >
-                    <Box>
+                    <Box sx={{ backgroundColor: '#f0f0f0', padding: '1rem' }}>
                       <Typography
                         sx={{ width: "auto", fontFamily: "GmarketSans" }}
                         variant="span"
@@ -231,9 +231,10 @@ export function Project({ isEditable }) {
                       <Typography
                         display="flex"
                         sx={{
-                          p: 1,
+                          pl: 2,
                           fontFamily: "GmarketSans",
                           color: "#6E6E6E",
+                          whiteSpace: "pre-wrap"
                         }}
                         variant="span"
                       >
@@ -243,7 +244,7 @@ export function Project({ isEditable }) {
                     {isEditable && (
                       <Box>
                         <IconButton
-                          color="primary"
+                          color="inherit"
                           aria-label="edit"
                           onClick={() => {
                             handleEditClick(idx, item.project_id);
@@ -257,7 +258,7 @@ export function Project({ isEditable }) {
                         <IconButton
                           variant="outlined"
                           onClick={() => removeProject(idx, item.project_id)}
-                          color="black"
+                          color="error"
                           aria-label="delete"
                         >
                           <DeleteIcon />
@@ -297,6 +298,19 @@ export function Project({ isEditable }) {
         )}
 
         {isCreating && (
+          <Paper
+          sx={{
+            border: "2px #112222",
+            borderRadius: "5px",
+            width: "auto",
+            mt: 2,
+            mb: 2,
+            ms: 3,
+            mr: 5,
+            p: 2,
+            textAlign: "center",
+          }}
+        >
           <Grid>
             <TextField
               sx={{
@@ -346,17 +360,53 @@ export function Project({ isEditable }) {
             />
             <Grid>
               {editingIndex.idx === -1 ? (
-                <Button onClick={addProject} disabled={!isFormValid}>
-                  추가
-                </Button>
-              ) : (
-                <Button onClick={editProject} disabled={!isFormValid}>
-                  저장
-                </Button>
-              )}
-              <Button onClick={handleCancleClick}>취소</Button>
+                <Button
+                onClick={addProject}
+                disabled={!isFormValid}
+                style={{
+                  backgroundColor: "#007bff",
+                  borderColor: "#007bff",
+                  borderRadius: "5px",
+                  color: "white",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                }}
+              >
+                추가
+              </Button>
+            ) : (
+              <Button
+                onClick={editProject}
+                disabled={!isFormValid}
+                style={{
+                  backgroundColor: "#28a745",
+                  borderColor: "#28a745",
+                  borderRadius: "5px",
+                  color: "white",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                }}
+              >
+                저장
+              </Button>
+            )}
+            <Button
+              onClick={handleCancleClick}
+              style={{
+                backgroundColor: "#6c757d",
+                borderColor: "#6c757d",
+                borderRadius: "5px",
+                color: "white",
+                fontSize: "16px",
+                cursor: "pointer",
+                margin: "5px",
+              }}
+            >
+              취소
+            </Button>
             </Grid>
           </Grid>
+          </Paper>
         )}
       </Container>
     </div>
