@@ -21,8 +21,6 @@ const projectValidation = (req, res, next) => {
   const schema = Joi.object({
     title: Joi.string(),
     description: Joi.string().allow(null, ""),
-    // fromdate: Joi.string().isoDate(),
-    // todate: Joi.string().isoDate(),
     date: Joi.string().allow(null, ""),
   });
 
@@ -54,7 +52,6 @@ const educationValidation = (req, res, next) => {
     degree: Joi.string().valid("학사", "석사", "박사"),
     major: Joi.string(),
     description: Joi.string().allow(null, ""),
-    // date: Joi.string().regex(/^\d{4}$/),
   });
 
   const { error } = schema.validate(req.body);

@@ -77,9 +77,9 @@ educationRouter
       const education_id = req.params.education_id;
 
       //date 추가됨
-      const { school, major, degree, description, date } = req.body ?? null;
+      const { school, major, degree, description } = req.body ?? null;
 
-      const toUpdate = { school, major, degree, description, date };
+      const toUpdate = { school, major, degree, description };
 
       const education = await EducationService.setEducation({
         education_id,
