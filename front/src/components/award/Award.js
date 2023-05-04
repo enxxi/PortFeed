@@ -19,7 +19,7 @@ import {
 
 import { Delete, Edit } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import { useParams } from "react-router-dom";
 
@@ -44,21 +44,21 @@ export function Award({ isEditable }) {
   // 수정중인지 상태값 선언
   const [editingIndex, setEditingIndex] = useState({ idx: -1, id: "" });
 
-  const [isDateValid, setIsdateValid] = useState(true)
+  const [isDateValid, setIsdateValid] = useState(true);
 
   const now = new Date();
   const currentYear = now.getFullYear();
 
   // init component
   useEffect(() => {
-    if(user_id){
+    if (user_id) {
       // api 호출
       Api.get(`award/${user_id}/0`)
-      .then((res) => {
-        setAward(res.data);
-        setAwardLoded(true);
-      })
-      .catch((err) => console.log(err));
+        .then((res) => {
+          setAward(res.data);
+          setAwardLoded(true);
+        })
+        .catch((err) => console.log(err));
       // 그 결과를 배열 컴포넌트에 뿌려줌
     }
   }, [user_id]);
@@ -70,28 +70,25 @@ export function Award({ isEditable }) {
     setDate("");
     setDescription("");
     try {
-      const result = await Api.post(
-        `award/${user_id}/0`,
-        {
-          title,
-          organization,
-          description,
-          date
-        }
-      ).catch(err => {
+      const result = await Api.post(`award/${user_id}/0`, {
+        title,
+        organization,
+        description,
+        date,
+      }).catch((err) => {
         throw new Error(err.response.data.error);
       });
-      
+
       const award_id = result.data.award_id;
 
       // 상태값 갱신하며 컴포넌트를 재렌더링
       setAward((award) => {
         const newEducation = [...award];
-        newEducation.push({ title, organization, date, description, award_id});
+        newEducation.push({ title, organization, date, description, award_id });
         return newEducation;
       });
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     }
   };
 
@@ -112,15 +109,12 @@ export function Award({ isEditable }) {
   // 편집
   const editAward = async () => {
     try {
-      const result = await Api.patch(
-        `award/${user_id}/${editingIndex.id}`,
-        {
-          title,
-          organization,
-          date,
-          description,
-        }
-      ).catch(err => {
+      const result = await Api.patch(`award/${user_id}/${editingIndex.id}`, {
+        title,
+        organization,
+        date,
+        description,
+      }).catch((err) => {
         throw new Error(err.response.data.error);
       });
 
@@ -145,9 +139,9 @@ export function Award({ isEditable }) {
   const removeAward = async (idx, id) => {
     if (window.confirm("삭제 하시겠습니까?")) {
       try {
-        await Api.delete(`award/${user_id}/${id}`, "").catch(err => {
+        await Api.delete(`award/${user_id}/${id}`, "").catch((err) => {
           throw new Error(err.response.data.error);
-        });;
+        });
 
         // 상태값 갱신하며 컴포넌트를 재렌더링
         setAward((award) => {
@@ -193,16 +187,18 @@ export function Award({ isEditable }) {
 
   const validateDate = (date) => {
     return date >= 2000 && date <= currentYear;
-  }
+  };
 
   const handleDateChange = (e) => {
     setDate(e.target.value);
     setIsdateValid(validateDate(e.target.value));
-  }
-  
+  };
+
   // input 값 validation
   const isFormValid =
-    title.replaceAll(" ", "") && organization.replaceAll(" ", "") && isDateValid;
+    title.replaceAll(" ", "") &&
+    organization.replaceAll(" ", "") &&
+    isDateValid;
 
   return (
     <div style={{ marginTop: "2rem" }}>
@@ -214,7 +210,11 @@ export function Award({ isEditable }) {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography style={{ color: "#117864" }} variant="h4" sx={{ fontFamily: "GmarketSans" }}>
+              <Typography
+                style={{ color: "#117864" }}
+                variant="h4"
+                sx={{ fontFamily: "GmarketSans" }}
+              >
                 수상이력
               </Typography>
             </Box>
@@ -222,8 +222,7 @@ export function Award({ isEditable }) {
 
           <Grid item xs={12} style={{ backgroundColor: "#F0F0F0" }}>
             <Paper>
-              {!awardLoaded
-              ? (
+              {!awardLoaded ? (
                 <Grid item xs={12}>
                   <Paper>
                     <Box
@@ -231,12 +230,10 @@ export function Award({ isEditable }) {
                       display="flex"
                       justifyContent="space-between"
                       alignItems="center"
-                    >
-                    </Box>
+                    ></Box>
                   </Paper>
                 </Grid>
-                )
-              : award.length > 0 ? (
+              ) : award.length > 0 ? (
                 award.map((item, idx) => (
                   <Box
                     padding={2}
@@ -246,16 +243,29 @@ export function Award({ isEditable }) {
                     key={idx}
                   >
                     <Box>
-                      <Typography sx={{ width: "auto" }} variant="span">
+                      <Typography
+                        sx={{ width: "auto", fontFamily: "GmarketSans" }}
+                        variant="span"
+                      >
                         {item.title}
                       </Typography>
-                      <Typography sx={{ pl: 2, width: "auto" }} variant="span">
+                      <Typography
+                        sx={{ pl: 2, width: "auto", fontFamily: "GmarketSans" }}
+                        variant="span"
+                      >
                         {item.organization}
                       </Typography>
-                      <Typography sx={{ pl: 2, width: "auto" }} variant="span">
-                        {item.date? `${item.date}년 수상` : ""}
+                      <Typography
+                        sx={{ pl: 2, width: "auto", fontFamily: "GmarketSans" }}
+                        variant="span"
+                      >
+                        {item.date ? `${item.date}년 수상` : ""}
                       </Typography>
-                      <Typography display="flex" sx={{ p: 1 }} variant="span">
+                      <Typography
+                        display="flex"
+                        sx={{ p: 1, fontFamily: "GmarketSans" }}
+                        variant="span"
+                      >
                         {item.description}
                       </Typography>
                     </Box>
@@ -269,7 +279,9 @@ export function Award({ isEditable }) {
                             setIsCreating(true);
                           }}
                         >
-                          <BorderColorIcon sx={{ width: "24px", height: "24px" }} />
+                          <BorderColorIcon
+                            sx={{ width: "24px", height: "24px" }}
+                          />
                         </IconButton>
                         <IconButton
                           variant="outlined"
@@ -304,11 +316,12 @@ export function Award({ isEditable }) {
         {isEditable && !isCreating && (
           <Box marginTop={2}>
             <IconButton
-            style={{ color: '#117864'}}
-            aria-label="add"
-            onClick={handlePlusClick}>
+              style={{ color: "#117864" }}
+              aria-label="add"
+              onClick={handlePlusClick}
+            >
               <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
-          </IconButton>
+            </IconButton>
           </Box>
         )}
 
@@ -330,21 +343,25 @@ export function Award({ isEditable }) {
               value={organization}
               onChange={(e) => setOrganization(e.target.value)}
             />
-            <TextField 
-              sx={{m:2, width:"auto"}}
+            <TextField
+              sx={{ m: 2, width: "auto" }}
               required
               label="수상년도"
               type="number"
               InputProps={{ inputProps: { min: 2000, max: 2023 } }}
               placeholder="2000"
               InputLabelProps={{
-                shrink: true
+                shrink: true,
               }}
               id="date"
               value={date || ""}
               onChange={handleDateChange}
               error={!isDateValid && date !== ""}
-              helperText={!isDateValid && date !== "" && `2000~${currentYear}년 사이로 입력해주세요.`}
+              helperText={
+                !isDateValid &&
+                date !== "" &&
+                `2000~${currentYear}년 사이로 입력해주세요.`
+              }
             />
             <TextField
               sx={{ m: 1, width: "90%" }}

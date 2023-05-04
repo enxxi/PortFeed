@@ -23,7 +23,7 @@ import {
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import { useParams } from "react-router-dom";
 
@@ -43,8 +43,7 @@ export function Education({ isEditable }) {
   const [major, setMajor] = useState("");
   const [degree, setDegree] = useState("");
 
-  const [isSchoolValid , setIsSchoolValid] = useState(true);
-
+  const [isSchoolValid, setIsSchoolValid] = useState(true);
 
   // 수정중인지 상태값 선언
   const [editingIndex, setEditingIndex] = useState({ idx: -1, id: "" });
@@ -71,7 +70,7 @@ export function Education({ isEditable }) {
         school,
         major,
         degree,
-      }).catch(err => {
+      }).catch((err) => {
         throw new Error(err.response.data.error);
       });
 
@@ -84,7 +83,7 @@ export function Education({ isEditable }) {
         return newEducation;
       });
     } catch (err) {
-      alert(err.message)
+      alert(err.message);
     }
   };
 
@@ -111,7 +110,7 @@ export function Education({ isEditable }) {
           major,
           degree,
         }
-      ).catch(err => {
+      ).catch((err) => {
         throw new Error(err.response.data.error);
       });
 
@@ -136,8 +135,7 @@ export function Education({ isEditable }) {
   const removeEducation = async (idx, id) => {
     if (window.confirm("삭제 하시겠습니까?")) {
       try {
-        await Api.delete(`education/${user_id}/${id}`, "")
-        .catch(err => {
+        await Api.delete(`education/${user_id}/${id}`, "").catch((err) => {
           throw new Error(err.response.data.error);
         });
 
@@ -183,15 +181,15 @@ export function Education({ isEditable }) {
   const validateSchool = (school) => {
     const regex = /학교|학원/;
     return regex.test(school);
-  }
+  };
 
   const handleSchoolChange = (e) => {
     setSchool(e.target.value);
     setIsSchoolValid(validateSchool(e.target.value));
-  }
-  
-    // input 값 validation
-    const isFormValid = isSchoolValid && major.replaceAll(" ", "") && degree;
+  };
+
+  // input 값 validation
+  const isFormValid = isSchoolValid && major.replaceAll(" ", "") && degree;
 
   return (
     <div style={{ marginTop: "2rem" }}>
@@ -203,14 +201,18 @@ export function Education({ isEditable }) {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography style={{ color: "#117864" }} variant="h4" sx={{ fontFamily: "GmarketSans" }}>
+              <Typography
+                style={{ color: "#117864" }}
+                variant="h4"
+                sx={{ fontFamily: "GmarketSans" }}
+              >
                 학력
               </Typography>
             </Box>
           </Grid>
           <Grid item xs={12} style={{ backgroundColor: "#F0F0F0" }}>
             <Paper>
-              {!educationLoaded? (
+              {!educationLoaded ? (
                 <Grid item xs={12}>
                   <Paper>
                     <Box
@@ -218,11 +220,10 @@ export function Education({ isEditable }) {
                       display="flex"
                       justifyContent="space-between"
                       alignItems="center"
-                    >
-                    </Box>
+                    ></Box>
                   </Paper>
                 </Grid>
-              ): education.length > 0 ? (
+              ) : education.length > 0 ? (
                 education.map((item, idx) => (
                   <Box
                     key={idx}
@@ -232,13 +233,22 @@ export function Education({ isEditable }) {
                     alignItems="center"
                   >
                     <Box>
-                      <Typography sx={{ width: "auto" }} variant="span">
+                      <Typography
+                        sx={{ width: "auto", fontFamily: "GmarketSans" }}
+                        variant="span"
+                      >
                         {item.school}
                       </Typography>
-                      <Typography sx={{ pl: 2, width: "auto" }} variant="span">
+                      <Typography
+                        sx={{ pl: 2, width: "auto", fontFamily: "GmarketSans" }}
+                        variant="span"
+                      >
                         {item.major}
                       </Typography>
-                      <Typography sx={{ pl: 2, width: "auto" }} variant="span">
+                      <Typography
+                        sx={{ pl: 2, width: "auto", fontFamily: "GmarketSans" }}
+                        variant="span"
+                      >
                         {item.degree}
                       </Typography>
                     </Box>
@@ -252,7 +262,9 @@ export function Education({ isEditable }) {
                             setIsCreating(true);
                           }}
                         >
-                          <BorderColorIcon sx={{ width: "24px", height: "24px" }} />
+                          <BorderColorIcon
+                            sx={{ width: "24px", height: "24px" }}
+                          />
                         </IconButton>
                         <IconButton
                           variant="outlined"
@@ -288,34 +300,45 @@ export function Education({ isEditable }) {
 
         {isEditable && !isCreating && (
           <Box marginTop={2}>
-             <IconButton
-            style={{ color: '#117864'}}
-            aria-label="add"
-            onClick={handlePlusClick} >
-            <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
-          </IconButton>
+            <IconButton
+              style={{ color: "#117864" }}
+              aria-label="add"
+              onClick={handlePlusClick}
+            >
+              <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
+            </IconButton>
           </Box>
         )}
 
         {isCreating && (
           <>
             <TextField
-              sx={{ m: 2, width: "auto" }}
+              sx={{ m: 2, width: "auto", fontFamily: "GmarketSans" }}
               required
               id="outlined-required"
               label="학교"
               value={school}
               onChange={handleSchoolChange}
               error={!isSchoolValid && school !== ""}
-              helperText={!isSchoolValid && school !== "" && "학교 또는 학원이 들어가게 작성해주세요."}
+              helperText={
+                !isSchoolValid &&
+                school !== "" &&
+                "학교 또는 학원이 들어가게 작성해주세요."
+              }
+              InputLabelProps={{
+                sx: { fontFamily: "GmarketSans" },
+              }}
             />
             <TextField
-              sx={{ m: 2, width: "auto" }}
+              sx={{ m: 2, width: "auto", fontFamily: "GmarketSans" }}
               required
               id="outlined-required"
               label="전공"
               value={major}
               onChange={(e) => setMajor(e.target.value)}
+              InputLabelProps={{
+                sx: { fontFamily: "GmarketSans" },
+              }}
             />
             <FormControl
               sx={{
@@ -325,7 +348,10 @@ export function Education({ isEditable }) {
                 borderRadius: "5px",
               }}
             >
-              <FormLabel id="demo-row-radio-buttons-group-label">
+              <FormLabel
+                id="demo-row-radio-buttons-group-label"
+                sx={{ fontFamily: "GmarketSans" }}
+              >
                 과정*
               </FormLabel>
               <RadioGroup
@@ -335,22 +361,37 @@ export function Education({ isEditable }) {
               >
                 <FormControlLabel
                   value="학사"
-                  control={<Radio />}
-                  label="학사"
+                  control={
+                    <Radio sx={{ "&.Mui-checked": { color: "green" } }} />
+                  }
+                  label={
+                    <span style={{ fontFamily: "GmarketSans" }}>학사</span>
+                  }
+                  sx={{ fontFamily: "GmarketSans" }}
                   onChange={(e) => setDegree(e.target.value)}
                   checked={degree === "학사"}
                 />
                 <FormControlLabel
                   value="석사"
-                  control={<Radio />}
-                  label="석사"
+                  control={
+                    <Radio sx={{ "&.Mui-checked": { color: "green" } }} />
+                  }
+                  label={
+                    <span style={{ fontFamily: "GmarketSans" }}>석사</span>
+                  }
+                  sx={{ fontFamily: "GmarketSans" }}
                   onChange={(e) => setDegree(e.target.value)}
                   checked={degree === "석사"}
                 />
                 <FormControlLabel
                   value="박사"
-                  control={<Radio />}
-                  label="박사"
+                  control={
+                    <Radio sx={{ "&.Mui-checked": { color: "green" } }} />
+                  }
+                  label={
+                    <span style={{ fontFamily: "GmarketSans" }}>박사</span>
+                  }
+                  sx={{ fontFamily: "GmarketSans" }}
                   onChange={(e) => setDegree(e.target.value)}
                   checked={degree === "박사"}
                 />
@@ -373,7 +414,7 @@ export function Education({ isEditable }) {
       </Container>
       <style>
         {`
-          @media only screen and (max-width: 600px) {
+          @media only screen and (max-width: 1280px) {
             .menu {
               display: none;
             }

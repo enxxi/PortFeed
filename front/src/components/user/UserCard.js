@@ -62,13 +62,25 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
           />
           <Grid item xs={12}>
             <Grid container justifyContent="center">
-              <Grid item xs={12} sx={{ textAlign: "center" }}>
+              <Grid
+                item
+                xs={12}
+                sx={{ textAlign: "center", fontFamily: "GmarketSans" }}
+              >
                 <h2>{user?.name}</h2>
               </Grid>
-              <Grid item xs={12} sx={{ textAlign: "center" }}>
+              <Grid
+                item
+                xs={12}
+                sx={{ textAlign: "center", fontFamily: "GmarketSans" }}
+              >
                 <p>{user?.email}</p>
               </Grid>
-              <Grid item xs={12} sx={{ textAlign: "center" }}>
+              <Grid
+                item
+                xs={12}
+                sx={{ textAlign: "center", fontFamily: "GmarketSans" }}
+              >
                 <p>{user?.description}</p>
               </Grid>
               {isEditable && (
@@ -77,8 +89,8 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
                     <Grid item xs={12} sm={6}>
                       <Button
                         variant="outlined"
-                        color="primary"
-                        startIcon={<Edit />}
+                        color="success"
+                        sx={{ fontFamily: "GmarketSans" }}
                         onClick={() => setIsEditing(true)}
                         fullWidth
                       >
@@ -109,7 +121,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
       </Paper>
       <style>
         {`
-          @media (max-width: 600px) {
+          @media (max-width: 1280px) {
             .MuiPaper-root {
               width: 100%;
               margin-left: 0;
