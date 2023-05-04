@@ -194,7 +194,7 @@ export function Education({ isEditable }) {
     const isFormValid = isSchoolValid && major.replaceAll(" ", "") && degree;
 
   return (
-    <div style={{ marginTop: "2rem" }}>
+    <div style={{ marginTop: "2rem",  }}>
       <Container>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -245,7 +245,7 @@ export function Education({ isEditable }) {
                     {isEditable && (
                       <Box>
                         <IconButton
-                          color="primary"
+                          color="inherit"
                           aria-label="edit"
                           onClick={() => {
                             handleEditClick(idx, item.education_id);
@@ -259,7 +259,7 @@ export function Education({ isEditable }) {
                           onClick={() =>
                             removeEducation(idx, item.education_id)
                           }
-                          color="black"
+                          color="error"
                           aria-label="delete"
                         >
                           <DeleteIcon />
@@ -298,7 +298,18 @@ export function Education({ isEditable }) {
         )}
 
         {isCreating && (
-          <>
+          <Paper
+            sx={{
+              border: "3px solid #112222",
+              borderRadius: "5px",
+              width: "70%",
+              mt: 2,
+              mb: 2,
+              ms: 3,
+              mr: 5,
+              p: 2,
+            }}
+          >
             <TextField
               sx={{ m: 2, width: "auto" }}
               required
@@ -358,17 +369,45 @@ export function Education({ isEditable }) {
             </FormControl>
             <Grid>
               {editingIndex.idx === -1 ? (
-                <Button onClick={addEducation} disabled={!isFormValid}>
+                <Button onClick={addEducation} disabled={!isFormValid}
+                style={{
+                  backgroundColor: "#007bff",
+                  borderColor: "#007bff",
+                  borderRadius: "5px",
+                  color: "white",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                }}>
                   추가
                 </Button>
               ) : (
-                <Button onClick={editEducation} disabled={!isFormValid}>
+                <Button onClick={editEducation} disabled={!isFormValid}
+                style={{
+                  backgroundColor: "#28a745",
+                  borderColor: "#28a745",
+                  borderRadius: "5px",
+                  color: "white",
+                  fontSize: "16px",
+                  cursor: "pointer"
+                }}>
                   저장
                 </Button>
               )}
-              <Button onClick={handleCancleClick}>취소</Button>
+              <Button onClick={handleCancleClick}
+              style={{
+                backgroundColor: "#6c757d",
+                borderColor: "#6c757d",
+                borderRadius: "5px",
+                color: "white",
+                fontSize: "16px",
+                cursor: "pointer",
+                margin: "5px"
+
+              }}>
+                취소
+                </Button>
             </Grid>
-          </>
+          </Paper>
         )}
       </Container>
       <style>

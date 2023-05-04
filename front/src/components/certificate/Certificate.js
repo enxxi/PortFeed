@@ -250,7 +250,7 @@ export function Certificate({ isEditable}) {
                 {isEditable && (
                   <Box>
                     <IconButton
-                          color="primary"
+                          color="inherit"
                           aria-label="edit"
                       onClick={() => {
                         handleEditClick(idx, item.certificate_id);
@@ -262,7 +262,7 @@ export function Certificate({ isEditable}) {
                     <IconButton
                       variant="outlined"
                       onClick={() => removeCertificate(idx, item.certificate_id)}
-                      color="black"
+                      color="error"
                       aria-label="delete"
                     >
                       <DeleteIcon />

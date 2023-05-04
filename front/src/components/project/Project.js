@@ -228,7 +228,7 @@ export function Project({ isEditable}) {
                 {isEditable && (
                   <Box>
                     <IconButton
-                        color="primary"
+                        color="inherit"
                         aria-label="edit"
                       onClick={() => {
                         handleEditClick(idx, item.project_id);
@@ -240,7 +240,7 @@ export function Project({ isEditable}) {
                     <IconButton
                       variant="outlined"
                       onClick={() => removeProject(idx, item.project_id)}
-                      color="black"
+                      color="error"
                       aria-label="delete"
                     >
                       <DeleteIcon />
