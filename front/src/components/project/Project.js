@@ -230,7 +230,11 @@ export function Project({ isEditable }) {
                       </Typography>
                       <Typography
                         display="flex"
-                        sx={{ p: 0, fontFamily: "GmarketSans" }}
+                        sx={{
+                          p: 1,
+                          fontFamily: "GmarketSans",
+                          color: "#6E6E6E",
+                        }}
                         variant="span"
                       >
                         {item.description}
@@ -295,17 +299,34 @@ export function Project({ isEditable }) {
         {isCreating && (
           <Grid>
             <TextField
-              sx={{ m: 2, width: "auto" }}
+              sx={{
+                m: 2,
+                width: "auto",
+                "& input": {
+                  fontFamily: "GmarketSans",
+                },
+              }}
               required
               id="outlined-required"
-              label="프로젝트명"
+              label={
+                <span style={{ fontFamily: "GmarketSans" }}>프로젝트명</span>
+              }
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
             <TextField
-              sx={{ m: 2, width: "auto" }}
+              sx={{
+                m: 2,
+                width: "auto",
+                "& input": {
+                  fontFamily: "GmarketSans",
+                },
+                "&::placeholder": {
+                  fontFamily: "GmarketSans",
+                },
+              }}
               required
-              label="기간"
+              label={<span style={{ fontFamily: "GmarketSans" }}>기간</span>}
               type="string"
               placeholder="6개월"
               id="date"
@@ -316,11 +337,12 @@ export function Project({ isEditable }) {
             <TextField
               sx={{ m: 1, width: "90%" }}
               id="outlined-multiline-static"
-              label="상세"
+              label={<span style={{ fontFamily: "GmarketSans" }}>상세</span>}
               multiline
               rows={4}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              inputProps={{ style: { fontFamily: "GmarketSans" } }}
             />
             <Grid>
               {editingIndex.idx === -1 ? (

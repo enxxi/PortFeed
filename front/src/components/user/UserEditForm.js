@@ -15,8 +15,6 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidDescription, setIsValidDescription] = useState(true);
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -26,7 +24,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
         name,
         email,
         description,
-      }).catch(err => {
+      }).catch((err) => {
         console.log(err);
         throw new Error(err.response.data.error);
       });
@@ -34,45 +32,41 @@ function UserEditForm({ user, setIsEditing, setUser }) {
       const updatedUser = res.data;
       // 해당 유저 정보로 user을 세팅함.
       setUser(updatedUser);
-  
+
       // isEditing을 false로 세팅함.
       setIsEditing(false);
-
-    } catch(err) {
+    } catch (err) {
       alert(err);
     }
-
   };
 
   const validateName = (name) => {
-    return name.replaceAll(" ", "")? true : false
-  }
+    return name.replaceAll(" ", "") ? true : false;
+  };
   const validateEmail = (email) => {
     return email
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-  }
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
   const validateDescription = (description) => {
     return description.length < 20;
-  }
-
+  };
 
   const handleChangeName = (e) => {
-    console.log(isValidName)
-    setName(e.target.value)
+    console.log(isValidName);
+    setName(e.target.value);
     setIsValidName(validateName(e.target.value));
-  }
+  };
   const handleChangeEmail = (e) => {
-    setEmail(e.target.value)
+    setEmail(e.target.value);
     setIsValidEmail(validateEmail(e.target.value));
-  }
+  };
   const handleChangeDescription = (e) => {
-    setDescription(e.target.value)
+    setDescription(e.target.value);
     setIsValidDescription(validateDescription(e.target.value));
-  }
-
+  };
 
   return (
     <Card className="mb-2">
@@ -84,8 +78,11 @@ function UserEditForm({ user, setIsEditing, setUser }) {
               placeholder="이름"
               value={name}
               onChange={handleChangeName}
+              style={{ fontFamily: "GmarketSans" }}
             />
-            {!isValidName && (<FormHelperText>이름을 작성해주세요.</FormHelperText>)}
+            {!isValidName && (
+              <FormHelperText>이름을 작성해주세요.</FormHelperText>
+            )}
           </Form.Group>
 
           <Form.Group controlId="userEditEmail" className="mb-3">
@@ -93,9 +90,12 @@ function UserEditForm({ user, setIsEditing, setUser }) {
               type="email"
               placeholder="이메일"
               value={email}
+              style={{ fontFamily: "GmarketSans" }}
               onChange={handleChangeEmail}
             />
-            {!isValidEmail && (<FormHelperText>이메일 형식에 맞게 작성해주세요.</FormHelperText>)}
+            {!isValidEmail && (
+              <FormHelperText>이메일 형식에 맞게 작성해주세요.</FormHelperText>
+            )}
           </Form.Group>
 
           <Form.Group controlId="userEditDescription">
@@ -104,17 +104,33 @@ function UserEditForm({ user, setIsEditing, setUser }) {
               placeholder="정보, 인사말"
               value={description}
               onChange={handleChangeDescription}
+              style={{ fontFamily: "GmarketSans" }}
             />
-            {!isValidDescription && (<FormHelperText>20자 이내로 작성해주세요.</FormHelperText>)}
+            {!isValidDescription && (
+              <FormHelperText>20자 이내로 작성해주세요.</FormHelperText>
+            )}
           </Form.Group>
 
           <Form.Group as={Row} className="mt-3 text-center">
             <Col sm={{ span: 20 }}>
-              <Button variant="primary" type="submit" className="me-3"
-              disabled={!isValidName || !isValidEmail || !isValidDescription}>
+              <Button
+                variant="primary"
+                type="submit"
+                className="me-3"
+                style={{
+                  fontFamily: "GmarketSans",
+                  borderRadius: "30px",
+                  backgroundColor: "#117864",
+                }}
+                disabled={!isValidName || !isValidEmail || !isValidDescription}
+              >
                 확인
               </Button>
-              <Button variant="secondary" onClick={() => setIsEditing(false)}>
+              <Button
+                variant="secondary"
+                style={{ fontFamily: "GmarketSans", borderRadius: "30px" }}
+                onClick={() => setIsEditing(false)}
+              >
                 취소
               </Button>
             </Col>

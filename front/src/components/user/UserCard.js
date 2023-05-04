@@ -92,6 +92,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
                         color="success"
                         sx={{ fontFamily: "GmarketSans" }}
                         onClick={() => setIsEditing(true)}
+                        style={{ borderRadius: "20px" }}
                         fullWidth
                       >
                         편집
@@ -105,6 +106,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
                   <Grid container justifyContent="center">
                     <Grid item xs={12} sm={6}>
                       <Button
+                        sx={{ fontFamily: "GmarketSans" }}
                         variant="text"
                         onClick={() => navigate(`/users/${user.id}`)}
                         fullWidth

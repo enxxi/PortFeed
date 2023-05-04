@@ -192,7 +192,7 @@ export function Education({ isEditable }) {
   const isFormValid = isSchoolValid && major.replaceAll(" ", "") && degree;
 
   return (
-    <div style={{ marginTop: "2rem",  }}>
+    <div style={{ marginTop: "2rem" }}>
       <Container>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -321,11 +321,18 @@ export function Education({ isEditable }) {
               ms: 3,
               mr: 5,
               p: 2,
-              textAlign:"center"
+              textAlign: "center",
             }}
           >
             <TextField
-              sx={{ m: 2, width: "auto", fontFamily: "GmarketSans" }}
+              sx={{
+                m: 2,
+                width: "auto",
+                fontFamily: "GmarketSans",
+                "& input": {
+                  fontFamily: "GmarketSans",
+                },
+              }}
               required
               id="outlined-required"
               label="학교"
@@ -342,7 +349,14 @@ export function Education({ isEditable }) {
               }}
             />
             <TextField
-              sx={{ m: 2, width: "auto", fontFamily: "GmarketSans" }}
+              sx={{
+                m: 2,
+                width: "auto",
+                fontFamily: "GmarketSans",
+                "& input": {
+                  fontFamily: "GmarketSans",
+                },
+              }}
               required
               id="outlined-required"
               label="전공"
@@ -362,7 +376,7 @@ export function Education({ isEditable }) {
             >
               <FormLabel
                 id="demo-row-radio-buttons-group-label"
-                sx={{ fontFamily: "GmarketSans" }}
+                sx={{ fontFamily: "GmarketSans", fontSize: "14px" }}
               >
                 과정*
               </FormLabel>
@@ -411,43 +425,50 @@ export function Education({ isEditable }) {
             </FormControl>
             <Grid>
               {editingIndex.idx === -1 ? (
-                <Button onClick={addEducation} disabled={!isFormValid}
+                <Button
+                  onClick={addEducation}
+                  disabled={!isFormValid}
+                  style={{
+                    backgroundColor: "#007bff",
+                    borderColor: "#007bff",
+                    borderRadius: "5px",
+                    color: "white",
+                    fontSize: "16px",
+                    cursor: "pointer",
+                  }}
+                >
+                  추가
+                </Button>
+              ) : (
+                <Button
+                  onClick={editEducation}
+                  disabled={!isFormValid}
+                  style={{
+                    backgroundColor: "#28a745",
+                    borderColor: "#28a745",
+                    borderRadius: "5px",
+                    color: "white",
+                    fontSize: "16px",
+                    cursor: "pointer",
+                  }}
+                >
+                  저장
+                </Button>
+              )}
+              <Button
+                onClick={handleCancleClick}
                 style={{
-                  backgroundColor: "#007bff",
-                  borderColor: "#007bff",
+                  backgroundColor: "#6c757d",
+                  borderColor: "#6c757d",
                   borderRadius: "5px",
                   color: "white",
                   fontSize: "16px",
                   cursor: "pointer",
-                }}>
-                  추가
-                </Button>
-              ) : (
-                <Button onClick={editEducation} disabled={!isFormValid}
-                style={{
-                  backgroundColor: "#28a745",
-                  borderColor: "#28a745",
-                  borderRadius: "5px",
-                  color: "white",
-                  fontSize: "16px",
-                  cursor: "pointer"
-                }}>
-                  저장
-                </Button>
-              )}
-              <Button onClick={handleCancleClick}
-              style={{
-                backgroundColor: "#6c757d",
-                borderColor: "#6c757d",
-                borderRadius: "5px",
-                color: "white",
-                fontSize: "16px",
-                cursor: "pointer",
-                margin: "5px"
-
-              }}>
+                  margin: "5px",
+                }}
+              >
                 취소
-                </Button>
+              </Button>
             </Grid>
           </Paper>
         )}

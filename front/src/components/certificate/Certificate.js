@@ -265,7 +265,11 @@ export function Certificate({ isEditable }) {
                       >
                         {item.date ? `${item.date}년 취득` : ""}
                       </Typography>
-                      <Typography display="flex" sx={{ p: 1 }} variant="span">
+                      <Typography
+                        display="flex"
+                        sx={{ p: 1, fontFamily: "GmarketSans" }}
+                        variant="span"
+                      >
                         {item.description}
                       </Typography>
                     </Box>
@@ -305,6 +309,7 @@ export function Certificate({ isEditable }) {
                       display="flex"
                       justifyContent="space-between"
                       alignItems="center"
+                      sx={{ fontFamily: "GmarketSans" }}
                     >
                       이력이 없습니다.
                     </Box>
@@ -333,24 +338,33 @@ export function Certificate({ isEditable }) {
               sx={{ m: 2, width: "auto" }}
               required
               id="outlined-required"
-              label="자격증"
+              label={<span style={{ fontFamily: "GmarketSans" }}>자격증</span>}
               value={name}
+              inputProps={{ style: { fontFamily: "GmarketSans" } }}
               onChange={(e) => setName(e.target.value)}
             />
             <TextField
-              sx={{ m: 2, width: "auto" }}
+              sx={{ m: 2, width: "auto", fontFamily: "GmarketSans" }}
               required
               id="outlined-required"
-              label="발급기관"
+              inputProps={{ style: { fontFamily: "GmarketSans" } }}
+              label={
+                <span style={{ fontFamily: "GmarketSans" }}>발급기관</span>
+              }
               value={organization}
               onChange={(e) => setOrganization(e.target.value)}
             />
             <TextField
               sx={{ m: 2, width: "auto" }}
               required
-              label="발급년도"
+              label={
+                <span style={{ fontFamily: "GmarketSans" }}>발급년도</span>
+              }
               type="number"
-              InputProps={{ inputProps: { min: 2000, max: 2023 } }}
+              InputProps={{
+                sx: { fontFamily: "GmarketSans" },
+                inputProps: { min: 2000, max: 2023 },
+              }}
               placeholder="2000"
               InputLabelProps={{
                 shrink: true,
@@ -368,10 +382,11 @@ export function Certificate({ isEditable }) {
             <TextField
               sx={{ m: 1, width: "90%" }}
               id="outlined-multiline-static"
-              label="상세"
+              label={<span style={{ fontFamily: "GmarketSans" }}>상세</span>}
               multiline
               rows={4}
               value={description}
+              inputProps={{ style: { fontFamily: "GmarketSans" } }}
               onChange={(e) => setDescription(e.target.value)}
             />
             <Grid>
