@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Button, Form, Card, Col, Row } from "react-bootstrap";
-import { IconButton } from "@mui/material";
+import { Grid, IconButton } from "@mui/material";
 import ImageRoundedIcon from "@mui/icons-material/ImageRounded";
 import * as Api from "../../lib/apis/api";
 
@@ -44,17 +44,19 @@ function UserFileEditForm({ user, setIsEditing, setUser, isEditable }) {
 
   //프로필 사진 변경 폼 추가
   return (
-    <>
+    <Grid mb="20px">
       {pathname === "/network" || !isEditable ? (
         ""
       ) : !isEditing ? (
-        <IconButton size="small" onClick={() => setIsEditingFile(true)}>
+        <IconButton size="string" color="secondary" onClick={() => setIsEditingFile(true)}>
           <ImageRoundedIcon />
         </IconButton>
       ) : (
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="userEditPicture" className="mb-3">
-            <Form.Label>프로필 사진</Form.Label>
+            <Form.Label style={{
+                  fontFamily: "GmarketSans",
+                }}>프로필 사진 변경</Form.Label>
             <Form.Control type="file" onChange={handleImageChange} />
           </Form.Group>
 
@@ -74,7 +76,7 @@ function UserFileEditForm({ user, setIsEditing, setUser, isEditable }) {
           </Form.Group>
         </Form>
       )}
-    </>
+    </Grid>
   );
 }
 

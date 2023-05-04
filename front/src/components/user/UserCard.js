@@ -15,8 +15,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
   const cardHeight = path.pathname === "/network"? `350px`: ``;
   const cardMaxHeight = path.pathname === "/network"? `400px`: ``;
   const cardOverFlow = path.pathname === "/network"? `auto`: ``;
-
-
+  
   useEffect(() => {
     if (user) {
       if (user?.profile) {
@@ -46,6 +45,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
           height: cardHeight, 
           maxHeight: cardMaxHeight, 
           overflow: cardOverFlow
+          
         }}
       >
         <Grid container sx={{ justifyContent: "center", alignItems: "center" }}>

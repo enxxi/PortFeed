@@ -36,7 +36,7 @@ function Network() {
 
   return (
     <>
-      <Stack spacing={2}>
+      <Stack spacing={2} sx={{overflowX:"hidden", overflowY:"auto"}}>
         <div
           style={{
             display: "flex",
@@ -61,9 +61,9 @@ function Network() {
             <option value="18">18</option>
           </NativeSelect>
         </div>
-        <Grid container spacing={2} justifyContent="flex-start">
+        <Grid container spacing={2} justifyContent="center" padding="0px 50px">
           {users.map((user) => (
-            <Grid item key={user.id} xs={11} sm={6} md={4}>
+            <Grid item key={user.id} lg={3} md={4} sm={6} xs={12} sx={{display:"flex", justifyContent:"center"}}>
               <UserCard user={user} isNetwork />
             </Grid>
           ))}
