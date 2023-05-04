@@ -5,7 +5,7 @@ const userValidation = (req, res, next) => {
     name: Joi.string(),
     email: Joi.string().email(),
     password: Joi.string(),
-    description: Joi.string().allow(null, ""),
+    description: Joi.string().max(20).allow(null, ""),
     confirmPassword: Joi.string(),
     profile: Joi.string(),
   });

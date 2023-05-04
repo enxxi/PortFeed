@@ -25,10 +25,10 @@ const CertificateSchema = new Schema(
       required: false,
       default: "자격증 상세설명을 입력해주세요.",
     },
-    date: {
-      type: String,
-      required: false,
-    },
+    // date: {
+    //   type: String,
+    //   required: true,
+    // },
   },
   {
     timestamps: true,

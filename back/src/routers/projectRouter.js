@@ -24,13 +24,16 @@ projectRouter
         throw new Error("인증정보가 올바르지 않습니다.");
       }
 
-      const { title, date, description } = req.body;
+      //fromdate, todate 추가됨
+      const { title, date, description, fromdate, todate } = req.body;
 
       const newProject = await ProjectService.addProject({
         user_id: pathUser_id,
         title,
         date,
         description,
+        fromdate, 
+        todate
       });
 
       if (newProject.errorMessage) {

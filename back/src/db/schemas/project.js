@@ -19,11 +19,16 @@ const ProjectSchema = new Schema(
       required: false,
       default: "포트폴리오 상세설명을 추가해주세요.",
     },
-    date: {
-      type: String,
-      required: false,
-      default: "0000-00-00 - 0000-00-00",
-    },
+    // fromdate: {
+    //   type: String,
+    //   required: true,
+    //   default: "0000-00-00",
+    // },
+    // todate: {
+    //   type: String,
+    //   required: true,
+    //   default: "0000-00-00",
+    // },
   },
   {
     timestamps: true,
