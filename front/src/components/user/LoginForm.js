@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Container, Grid, TextField, Button, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 
-import * as Api from "../../api";
+import * as Api from "../../lib/apis/api";
 import { DispatchContext } from "../../App";
 
 function LoginForm() {

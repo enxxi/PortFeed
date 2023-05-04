@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import * as Api from "../../api";
+import * as Api from "../../lib/apis/api";
 
 function RegisterForm() {
   const navigate = useNavigate();

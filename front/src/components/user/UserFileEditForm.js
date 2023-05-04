@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Button, Form, Card, Col, Row } from "react-bootstrap";
 import { IconButton } from "@mui/material";
 import ImageRoundedIcon from "@mui/icons-material/ImageRounded";
-import * as Api from "../../api";
+import * as Api from "../../lib/apis/api";
 
 function UserFileEditForm({ user, setIsEditing, setUser, isEditable }) {
     const [file, setFile] = useState();

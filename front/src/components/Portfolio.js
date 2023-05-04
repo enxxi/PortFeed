@@ -3,12 +3,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Container, Col, Row } from "react-bootstrap";
 
 import { UserStateContext } from "../App";
-import * as Api from "../api";
+import * as Api from "../lib/apis/api";
 import User from "./user/User";
-import { Education } from "./Education";
-import { Certificate } from "./Certificate";
-import { Award } from "./Award";
-import { Project } from "./Project";
+import { Education } from "./education/Education";
+import { Certificate } from "./certificate/Certificate";
+import { Award } from "./award/Award";
+import { Project } from "./project/Project";
 
 function Portfolio() {
   const navigate = useNavigate();

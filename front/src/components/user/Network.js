@@ -6,7 +6,7 @@ import PaginationItem from "@mui/material/PaginationItem";
 import Stack from "@mui/material/Stack";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import * as Api from "../../api";
+import * as Api from "../../lib/apis/api";
 import UserCard from "./UserCard";
 import { UserStateContext } from "../../App";
 import NativeSelect from "@mui/material/NativeSelect";
