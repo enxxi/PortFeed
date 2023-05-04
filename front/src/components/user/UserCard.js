@@ -1,13 +1,40 @@
 import { useNavigate } from "react-router-dom";
 import { Paper, Grid, Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Delete, Edit } from "@mui/icons-material";
 import UserFileEditForm from "./UserFileEditForm";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
   const navigate = useNavigate();
-  
-  let url = "http://" + window.location.hostname + ":5001/profile/" + user?.profile;
-  if(!user?.profile) url = "http://placekitten.com/200/199";
+  const [imageUrl, setImageUrl] = useState("http://placekitten.com/200/200");
+  useEffect(() => {
+    console.log("none");
+    if (user?.profile) {
+      /*    Api.get(user?.profileImage.path).then((res) => {
+      setImageUrl(URL.createObjectURL(res.data));
+    }) */
+      axios
+        .get(
+          "http://" +
+            window.location.hostname +
+            ":5001/profile/" +
+            user?.profile,
+          {
+            responseType: "blob", // blob 데이터로 받기 위해 responseType 설정
+          }
+        )
+        .then((res) => {
+          const imageUrl = URL.createObjectURL(res.data); // Blob 데이터를 가리키는 URL 생성
+          console.log(imageUrl);
+          setImageUrl(imageUrl);
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [user?.profile]);
+
+  // let url = "http://" + window.location.hostname + ":5001/profile/" + user?.profile;
+  // if(!user?.profile) url = "http://placekitten.com/200/199";
 
   return (
     <div style={{ marginTop: "2rem" }}>
@@ -28,11 +55,15 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
               style={{ width: "8rem", height: "8rem" }}
               className="mb-3"
               //기존의 고양이 사진만 띄웠는데 유저 로컬 드라이브에 있는 파일로도 나오게끔 설정
-              src={url}
+              src={imageUrl}
               alt="회원 프로필"
             />
           </Grid>
-          <UserFileEditForm user={user} isEditable={isEditable} setUser={setUser}/>
+          <UserFileEditForm
+            user={user}
+            isEditable={isEditable}
+            setUser={setUser}
+          />
           <Grid item xs={12}>
             <Grid container justifyContent="center">
               <Grid item xs={12} sx={{ textAlign: "center" }}>
