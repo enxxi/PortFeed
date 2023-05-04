@@ -23,6 +23,7 @@ const projectValidation = (req, res, next) => {
     description: Joi.string().allow(null, ""),
     // fromdate: Joi.string().isoDate(),
     // todate: Joi.string().isoDate(),
+    date: Joi.string().allow(null, ""),
   });
 
   const { error } = schema.validate(req.body);
@@ -37,7 +38,7 @@ const certificateValidation = (req, res, next) => {
     name: Joi.string(),
     organization: Joi.string(),
     description: Joi.string().allow(null, ""),
-    // date: Joi.string().regex(/^\d{4}$/),
+    date: Joi.string().allow(null, ""),
   });
 
   const { error } = schema.validate(req.body);
@@ -68,7 +69,7 @@ const awardValidation = (req, res, next) => {
     title: Joi.string(),
     organization: Joi.string(),
     description: Joi.string().allow(null, ""),
-    // date: Joi.string().regex(/^\d{4}$/),
+    date: Joi.string().allow(null, ""),
   });
 
   const { error } = schema.validate(req.body);
