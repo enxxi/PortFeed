@@ -36,7 +36,7 @@ export function Certificate({ isEditable}) {
   // 추가 시 input 값 state 선언
   const [name, setName] = useState("");
   const [organization, setOrganization] = useState("");
-  const [date, setDate] = useState();
+  const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
 
   // 수정중인지 상태값 선언
@@ -44,8 +44,8 @@ export function Certificate({ isEditable}) {
 
   // input 값 validation
   const isFormValid = name.replaceAll(" ", "") && 
-                      organization.replaceAll(" ", "") && 
-                      date.replaceAll(" ", "");
+                      organization.replaceAll(" ", "") &&
+                      date.replaceAll(" ", "")
 
   // init component
   useEffect(() => {
@@ -280,6 +280,7 @@ export function Certificate({ isEditable}) {
           />
           <TextField 
             sx={{m:2, width:"auto"}}
+            required
             label="발급년도"
             type="number"
             InputProps={{ inputProps: { min: 2000, max: 2023 } }}

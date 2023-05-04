@@ -43,7 +43,7 @@ export function Award({ isEditable }) {
 
   // input 값 validation
   const isFormValid =
-    title.replaceAll(" ", "") && organization.replaceAll(" ", "") && date.replaceAll(" ", "");
+    title.replaceAll(" ", "") && organization.replaceAll(" ", "") && date.replaceAll(" ", "");;
 
   // init component
   useEffect(() => {

@@ -30,6 +30,8 @@ async function post(endpoint, data) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
     },
+  }).catch(err => {
+    throw new Error(err.response.data);
   });
 }
 
