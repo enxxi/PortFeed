@@ -62,19 +62,23 @@ function LoginForm() {
         spacing={3}
         justifyContent="center"
         alignItems="center"
-        sx={{ mt: 5 }}
+        sx={{ mt: 9,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center" }}
       >
         <Grid item xs={12}>
           <Typography variant="h4" align="center">
             로그인
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={{ textAlign: "center" }}>
           <form onSubmit={handleSubmit}>
             <TextField
               label="이메일 주소"
               variant="outlined"
-              fullWidth
+              sx = {{width: "60%"}}
               type="email"
               autoComplete="on"
               value={email}
@@ -88,6 +92,7 @@ function LoginForm() {
             <TextField
               label="비밀번호"
               variant="outlined"
+              sx = {{width: "60%"}}
               fullWidth
               type="password"
               autoComplete="on"

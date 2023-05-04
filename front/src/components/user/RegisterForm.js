@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory, useNavigate } from "react-router-dom";
 import {
   Container,
@@ -10,7 +10,11 @@ import {
 
 import * as Api from "../../lib/apis/api";
 
+import { DispatchContext } from "../../App";
+
 function RegisterForm() {
+  const dispatch = useContext(DispatchContext);
+
   const navigate = useNavigate();
 
   //useState로 email 상태를 생성함.
@@ -58,8 +62,23 @@ function RegisterForm() {
         throw new Error(err.response.data);
       });;
 
-      // 로그인 페이지로 이동함.
-      navigate("/login");
+      const res = await Api.post("user/login", {
+        email,
+        password,
+      }).catch(err => {
+        throw new Error(err.response.data);
+      });
+      const user = res.data;
+      
+      const jwtToken = user.token;
+      sessionStorage.setItem("userToken", jwtToken);
+
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: user,
+      });
+
+      navigate("/", { replace: true });
     } catch (err) {
       alert(err.message)
     }
