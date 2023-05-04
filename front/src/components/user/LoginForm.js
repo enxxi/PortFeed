@@ -81,7 +81,7 @@ function LoginForm() {
               onChange={(e) => setEmail(e.target.value)}
               error={!isEmailValid && email !== ""}
               helperText={
-                !isEmailValid ? "이메일 형식이 올바르지 않습니다." : ""
+                !isEmailValid && email !== "" ? "이메일 형식이 올바르지 않습니다." : ""
               }
               margin="dense"
             />
@@ -95,7 +95,7 @@ function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
               error={!isPasswordValid && password !== ""}
               helperText={
-                !isPasswordValid ? "비밀번호는 4글자 이상입니다." : ""
+                !isPasswordValid && password !== "" ? "비밀번호는 4글자 이상입니다." : ""
               }
               margin="dense"
             />

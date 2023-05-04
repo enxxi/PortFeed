@@ -42,9 +42,10 @@ export function Award({ isEditable }) {
   // 수정중인지 상태값 선언
   const [editingIndex, setEditingIndex] = useState({ idx: -1, id: "" });
 
-  // input 값 validation
-  const isFormValid =
-    title.replaceAll(" ", "") && organization.replaceAll(" ", "") && date.replaceAll(" ", "");
+  const [isDateValid, setIsdateValid] = useState(true)
+
+  const now = new Date();
+  const currentYear = now.getFullYear();
 
   // init component
   useEffect(() => {
@@ -75,7 +76,9 @@ export function Award({ isEditable }) {
           description,
           date
         }
-      )
+      ).catch(err => {
+        throw new Error(err.response.data.error);
+      });
       
       const award_id = result.data.award_id;
 
@@ -86,7 +89,7 @@ export function Award({ isEditable }) {
         return newEducation;
       });
     } catch (err) {
-      console.log(err.message)
+      alert(err.message)
     }
   };
 
@@ -115,7 +118,9 @@ export function Award({ isEditable }) {
           date,
           description,
         }
-      );
+      ).catch(err => {
+        throw new Error(err.response.data.error);
+      });
 
       setAward((prevAward) => {
         const newAward = [...prevAward];
@@ -130,7 +135,7 @@ export function Award({ isEditable }) {
       });
       setIsCreating(false);
     } catch (err) {
-      console.log(err);
+      alert(err.message);
     }
   };
 
@@ -138,7 +143,9 @@ export function Award({ isEditable }) {
   const removeAward = async (idx, id) => {
     if (window.confirm("삭제 하시겠습니까?")) {
       try {
-        await Api.delete(`award/${user_id}/${id}`, "");
+        await Api.delete(`award/${user_id}/${id}`, "").catch(err => {
+          throw new Error(err.response.data.error);
+        });;
 
         // 상태값 갱신하며 컴포넌트를 재렌더링
         setAward((award) => {
@@ -151,7 +158,7 @@ export function Award({ isEditable }) {
         setDate("");
         setDescription("");
       } catch (err) {
-        console.log(err);
+        alert(err.message);
       }
     } else {
       return;
@@ -181,6 +188,19 @@ export function Award({ isEditable }) {
       return newEditingIndex;
     });
   };
+
+  const validateDate = (date) => {
+    return date >= 2000 && date <= currentYear;
+  }
+
+  const handleDateChange = (e) => {
+    setDate(e.target.value);
+    setIsdateValid(validateDate(e.target.value));
+  }
+  
+  // input 값 validation
+  const isFormValid =
+    title.replaceAll(" ", "") && organization.replaceAll(" ", "") && isDateValid;
 
   return (
     <div style={{ marginTop: "2rem" }}>
@@ -318,7 +338,9 @@ export function Award({ isEditable }) {
               }}
               id="date"
               value={date || ""}
-              onChange={(e) => setDate(e.target.value)}
+              onChange={handleDateChange}
+              error={!isDateValid && date !== ""}
+              helperText={!isDateValid && date !== "" && `2000~${currentYear}년 사이로 입력해주세요.`}
             />
             <TextField
               sx={{ m: 1, width: "90%" }}

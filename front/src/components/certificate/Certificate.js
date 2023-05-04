@@ -43,10 +43,10 @@ export function Certificate({ isEditable}) {
   // 수정중인지 상태값 선언
   const [editingIndex, setEditingIndex] = useState({idx: -1, id: ""});
 
-  // input 값 validation
-  const isFormValid = name.replaceAll(" ", "") && 
-                      organization.replaceAll(" ", "") &&
-                      date.replaceAll(" ", "")
+  const [isDateValid, setIsdateValid] = useState(true)
+
+  const now = new Date();
+  const currentYear = now.getFullYear();
 
   // init component
   useEffect(() => {
@@ -75,7 +75,9 @@ export function Certificate({ isEditable}) {
           date,
           description,
         }
-      );
+      ).catch(err => {
+        throw new Error(err.response.data.error);
+      });
       
       const certificate_id = result.data.certificate_id;
 
@@ -87,7 +89,7 @@ export function Certificate({ isEditable}) {
       });
 
     } catch (err) {
-      console.log(err);
+      alert(err.message);
     }
   };
 
@@ -116,7 +118,9 @@ export function Certificate({ isEditable}) {
           date,
           description,
         }
-      );
+      ).catch(err => {
+        throw new Error(err.response.data.error);
+      });
 
       setCertificate((prevCertificate) => {
         const newCertificate = [...prevCertificate];
@@ -132,7 +136,7 @@ export function Certificate({ isEditable}) {
       setIsCreating(false);
 
     } catch (err) {
-      console.log(err);
+      alert(err.message);
     }
   };
 
@@ -140,7 +144,10 @@ export function Certificate({ isEditable}) {
   const removeCertificate = async (idx, id) => {
     if (window.confirm("삭제 하시겠습니까?")) {
       try {
-        await Api.delete(`certificate/${user_id}/${id}`, "");
+        await Api.delete(`certificate/${user_id}/${id}`, "")
+        .catch(err => {
+          throw new Error(err.response.data.error);
+        });
 
         // 상태값 갱신하며 컴포넌트를 재렌더링
         setCertificate((certificate) => {
@@ -153,7 +160,7 @@ export function Certificate({ isEditable}) {
         setDate("");
         setDescription("");
       } catch (err) {
-        console.log(err);
+        alert(err.message);
       }
     } else {
       return;
@@ -181,8 +188,20 @@ export function Certificate({ isEditable}) {
       newEditingIndex.id = "";
       return newEditingIndex;
     })
-
   }
+
+  const validateDate = (date) => {
+    return date >= 2000 && date <= currentYear;
+  }
+
+  const handleDateChange = (e) => {
+    setDate(e.target.value);
+    setIsdateValid(validateDate(e.target.value));
+  }
+  
+  // input 값 validation
+  const isFormValid =
+  name.replaceAll(" ", "") && organization.replaceAll(" ", "") && isDateValid;
 
   return (
     <div style={{ marginTop: "2rem" }}>
@@ -303,7 +322,9 @@ export function Certificate({ isEditable}) {
             }}
             id="date"
             value={date || ""}
-            onChange={(e) => setDate(e.target.value)}
+            onChange={handleDateChange}
+            error={!isDateValid && date !== ""}
+            helperText={!isDateValid && date !== "" && `2000~${currentYear}년 사이로 입력해주세요.`}
           />
           <TextField
             sx={{m:1, width:"90%"}}

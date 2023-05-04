@@ -84,7 +84,7 @@ function RegisterForm() {
               onChange={(e) => setEmail(e.target.value)}
               error={!isEmailValid && email !== ''}
               helperText={
-                !isEmailValid && "이메일 형식이 올바르지 않습니다."
+                !isEmailValid && email !== "" && "이메일 형식이 올바르지 않습니다."
               }
             />
 
@@ -99,7 +99,7 @@ function RegisterForm() {
               onChange={(e) => setPassword(e.target.value)}
               error={!isPasswordValid && password !== ''}
               helperText={
-                !isPasswordValid && "비밀번호는 4글자 이상으로 설정해 주세요."
+                !isPasswordValid && password !== "" && "비밀번호는 4글자 이상으로 설정해 주세요."
               }
             />
             
@@ -114,7 +114,7 @@ function RegisterForm() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               error={!isPasswordValid && password !== ''}
               helperText={
-                !isPasswordSame && "비밀번호가 일치하지 않습니다."
+                !isPasswordSame && confirmPassword !== "" && "비밀번호가 일치하지 않습니다."
               }
             />
 
@@ -129,7 +129,7 @@ function RegisterForm() {
               onChange={(e) => setName(e.target.value)}
               error={!isNameValid && name !== ''}
               helperText={
-                !isNameValid && "이름은 2글자 이상으로 설정해 주세요."
+                !isNameValid && name !== "" && "이름은 2글자 이상으로 설정해 주세요."
               }
             />
 

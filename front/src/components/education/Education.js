@@ -41,12 +41,11 @@ export function Education({ isEditable }) {
   const [major, setMajor] = useState("");
   const [degree, setDegree] = useState("");
 
+  const [isSchoolValid , setIsSchoolValid] = useState(true);
+
+
   // 수정중인지 상태값 선언
   const [editingIndex, setEditingIndex] = useState({ idx: -1, id: "" });
-
-  // input 값 validation
-  const isFormValid =
-    school.replaceAll(" ", "") && major.replaceAll(" ", "") && degree;
 
   // init component
   useEffect(() => {
@@ -110,7 +109,9 @@ export function Education({ isEditable }) {
           major,
           degree,
         }
-      );
+      ).catch(err => {
+        throw new Error(err.response.data.error);
+      });
 
       setEducation((prevEducation) => {
         const newEducation = [...prevEducation];
@@ -125,7 +126,7 @@ export function Education({ isEditable }) {
       });
       setIsCreating(false);
     } catch (err) {
-      console.log(err);
+      alert(err.message);
     }
   };
 
@@ -133,7 +134,10 @@ export function Education({ isEditable }) {
   const removeEducation = async (idx, id) => {
     if (window.confirm("삭제 하시겠습니까?")) {
       try {
-        await Api.delete(`education/${user_id}/${id}`, "");
+        await Api.delete(`education/${user_id}/${id}`, "")
+        .catch(err => {
+          throw new Error(err.response.data.error);
+        });
 
         // 상태값 갱신하며 컴포넌트를 재렌더링
         setEducation((education) => {
@@ -145,7 +149,7 @@ export function Education({ isEditable }) {
         setMajor("");
         setDegree("");
       } catch (err) {
-        console.log(err);
+        alert(err.message);
       }
     } else {
       return;
@@ -173,6 +177,19 @@ export function Education({ isEditable }) {
       return newEditingIndex;
     });
   };
+
+  const validateSchool = (school) => {
+    const regex = /학교|학원/;
+    return regex.test(school);
+  }
+
+  const handleSchoolChange = (e) => {
+    setSchool(e.target.value);
+    setIsSchoolValid(validateSchool(e.target.value));
+  }
+  
+    // input 값 validation
+    const isFormValid = isSchoolValid && major.replaceAll(" ", "") && degree;
 
   return (
     <div style={{ marginTop: "2rem" }}>
@@ -284,7 +301,9 @@ export function Education({ isEditable }) {
               id="outlined-required"
               label="학교"
               value={school}
-              onChange={(e) => setSchool(e.target.value)}
+              onChange={handleSchoolChange}
+              error={!isSchoolValid && school !== ""}
+              helperText={!isSchoolValid && school !== "" && "학교 또는 학원이 들어가게 작성해주세요."}
             />
             <TextField
               sx={{ m: 2, width: "auto" }}

@@ -70,7 +70,9 @@ export function Project({ isEditable}) {
           date,
           description,
         }
-      );
+      ).catch(err => {
+        throw new Error(err.response.data.error);
+      });
       
       const project_id = result.data.project_id;
 
@@ -82,7 +84,7 @@ export function Project({ isEditable}) {
       });
 
     } catch (err) {
-      console.log(err);
+      alert(err.message);
     }
   };
 
@@ -109,7 +111,9 @@ export function Project({ isEditable}) {
           date,
           description,
         }
-      );
+      ).catch(err => {
+        throw new Error(err.response.data.error);
+      });
 
       setProject((prevProject) => {
         const newProject = [...prevProject];
@@ -125,7 +129,7 @@ export function Project({ isEditable}) {
       setIsCreating(false);
 
     } catch (err) {
-      console.log(err);
+      alert(err.message);
     }
   };
 
@@ -133,7 +137,10 @@ export function Project({ isEditable}) {
   const removeProject = async (idx, id) => {
     if (window.confirm("삭제 하시겠습니까?")) {
       try {
-        await Api.delete(`project/${user_id}/${id}`, "");
+        await Api.delete(`project/${user_id}/${id}`, "")
+        .catch(err => {
+          throw new Error(err.response.data.error);
+        });
 
         // 상태값 갱신하며 컴포넌트를 재렌더링
         setProject((project) => {
@@ -145,7 +152,7 @@ export function Project({ isEditable}) {
         setDate("");
         setDescription("");
       } catch (err) {
-        console.log(err);
+        alert(err.message);
       }
     } else {
       return;
