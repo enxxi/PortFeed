@@ -9,15 +9,12 @@ import { awardController } from "../controllers/awardController";
 const awardRouter = Router();
 awardRouter.use(login_required);
 
-//추가
 awardRouter
   .route("/award/:user_id/:award_id")
   .post(userTokenValidation, awardValidation, awardController.awardPostFunction)
 
-  //수상 목록 받아오기
   .get(awardController.awardGetFunction)
 
-  //수정
   .patch(
     userTokenValidation,
     awardValidation,
