@@ -32,6 +32,7 @@ export function Project({ isEditable}) {
 
   const [project, setProject] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
+  const [projectLoaded, setProjectLoaded] = useState(false);
 
   // 추가 시 input 값 state 선언
   const [title, setTitle] = useState("");
@@ -50,6 +51,7 @@ export function Project({ isEditable}) {
     Api.get(`project/${user_id}/0`)
       .then((res) => {
         setProject(res.data);
+        setProjectLoaded(true);
       })
       .catch((err) => console.log(err));
     // 그 결과를 배열 컴포넌트에 뿌려줌
@@ -189,7 +191,18 @@ export function Project({ isEditable}) {
 
         <Grid item xs={12} style={{ backgroundColor: "#F0F0F0" }}>
           <Paper>
-          {project.length > 0
+          {!projectLoaded
+          ? <Grid item xs={12}> 
+              <Paper>
+                <Box
+                  padding={2}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center">
+                </Box>
+              </Paper>
+            </Grid>
+          : project.length > 0
             ? project.map((item, idx) => (
               <Box
                 padding={2}

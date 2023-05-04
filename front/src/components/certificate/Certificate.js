@@ -32,6 +32,7 @@ export function Certificate({ isEditable}) {
 
   const [certificate, setCertificate] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
+  const [certificateLoaded, setCertificateLoded] = useState(false);
 
   // 추가 시 input 값 state 선언
   const [name, setName] = useState("");
@@ -53,6 +54,7 @@ export function Certificate({ isEditable}) {
     Api.get(`certificate/${user_id}/0`)
       .then((res) => {
         setCertificate(res.data);
+        setCertificateLoded(true);
       })
       .catch((err) => console.log(err));
     // 그 결과를 배열 컴포넌트에 뿌려줌
@@ -198,7 +200,18 @@ export function Certificate({ isEditable}) {
 
         <Grid item xs={12} style={{ backgroundColor: "#F0F0F0" }}>
           <Paper>
-          {certificate.length > 0
+          {!certificateLoaded 
+          ? <Grid item xs={12}> 
+              <Paper>
+                <Box
+                  padding={2}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center">
+                </Box>
+              </Paper>
+            </Grid>
+          : certificate.length > 0
             ? certificate.map((item, idx) => (
               <Box
                 padding={2}

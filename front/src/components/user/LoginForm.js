@@ -35,7 +35,9 @@ function LoginForm() {
       const res = await Api.post("user/login", {
         email,
         password,
-      })
+      }).catch(err => {
+        throw new Error(err.response.data);
+      });
       const user = res.data;
       
       const jwtToken = user.token;

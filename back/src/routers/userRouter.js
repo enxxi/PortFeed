@@ -47,9 +47,6 @@ userAuthRouter.post(
 
       return res.status(201).json(newUser);
     } catch (error) {
-      res
-        .status(400)
-        .send({ errorMessage: "요청한 데이터 형식이 올바르지 않습니다." });
       next(error);
     }
   }

@@ -7,34 +7,19 @@ import UserFileEditForm from "./UserFileEditForm";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
   const navigate = useNavigate();
-  const [imageUrl, setImageUrl] = useState("http://placekitten.com/200/200");
-  useEffect(() => {
-    console.log("none");
-    if (user?.profile) {
-      /*    Api.get(user?.profileImage.path).then((res) => {
-      setImageUrl(URL.createObjectURL(res.data));
-    }) */
-      axios
-        .get(
-          "http://" +
-            window.location.hostname +
-            ":5001/profile/" +
-            user?.profile,
-          {
-            responseType: "blob", // blob 데이터로 받기 위해 responseType 설정
-          }
-        )
-        .then((res) => {
-          const imageUrl = URL.createObjectURL(res.data); // Blob 데이터를 가리키는 URL 생성
-          console.log(imageUrl);
-          setImageUrl(imageUrl);
-        })
-        .catch((error) => console.error(error));
-    }
-  }, [user?.profile]);
+  const [url, setUrl] = useState("");
+  // const [imageUrl, setImageUrl] = useState("http://placekitten.com/200/200");
 
-  // let url = "http://" + window.location.hostname + ":5001/profile/" + user?.profile;
-  // if(!user?.profile) url = "http://placekitten.com/200/199";
+  useEffect(() => {
+    if(user){
+      if(user?.profile) {
+        setUrl("http://" + window.location.hostname + ":5001/profile/" + user?.profile)
+      } else {
+        setUrl("http://placekitten.com/200/199")
+      }
+    }
+
+  }, [user]);
 
   return (
     <div style={{ marginTop: "2rem" }}>
@@ -51,13 +36,14 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
       >
         <Grid container sx={{ justifyContent: "center", alignItems: "center" }}>
           <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+            {!url? (<div style={{ width: "8rem", height: "8rem" }} className="mb-3"></div>) :(
             <img
               style={{ width: "8rem", height: "8rem" }}
               className="mb-3"
               //기존의 고양이 사진만 띄웠는데 유저 로컬 드라이브에 있는 파일로도 나오게끔 설정
-              src={imageUrl}
+              src={url}
               alt="회원 프로필"
-            />
+            />)}
           </Grid>
           <UserFileEditForm
             user={user}
