@@ -300,14 +300,15 @@ export function Education({ isEditable }) {
         {isCreating && (
           <Paper
             sx={{
-              border: "3px solid #112222",
+              border: "2px #112222",
               borderRadius: "5px",
-              width: "70%",
+              width: "auto",
               mt: 2,
               mb: 2,
               ms: 3,
               mr: 5,
               p: 2,
+              textAlign:"center"
             }}
           >
             <TextField
