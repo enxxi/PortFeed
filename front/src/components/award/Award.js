@@ -272,7 +272,7 @@ export function Award({ isEditable }) {
                     {isEditable && (
                       <Box>
                         <IconButton
-                          color="primary"
+                          color="inherit"
                           aria-label="edit"
                           onClick={() => {
                             handleEditClick(idx, item.award_id);
@@ -286,7 +286,7 @@ export function Award({ isEditable }) {
                         <IconButton
                           variant="outlined"
                           onClick={() => removeAward(idx, item.award_id)}
-                          color="black"
+                          color="error"
                           aria-label="delete"
                         >
                           <DeleteIcon />

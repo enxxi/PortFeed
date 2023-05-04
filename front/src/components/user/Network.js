@@ -18,7 +18,7 @@ function Network() {
 
   ///pagination////
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(6);
   const [totalPage, setTotalPage] = useState(1);
   /////////////////
 
@@ -83,6 +83,7 @@ function Network() {
             )}
             onChange={(event, value) => {
               setPage(value);
+              window.scrollTo(0, 0);
             }}
           />
         </div>
