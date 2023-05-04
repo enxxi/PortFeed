@@ -1,5 +1,17 @@
 import Joi from "joi";
 
+const userTokenValidation = (req, res, next) => {
+  const tokenUser_id = req.currentUserId;
+  const pathUser_id = req.params.user_id;
+  if (tokenUser_id === pathUser_id) {
+    console.log("OK");
+  }
+  if (tokenUser_id !== pathUser_id) {
+    return next(new Error("인증정보가 올바르지 않습니다."));
+  }
+  next();
+};
+
 const userValidation = (req, res, next) => {
   const schema = Joi.object({
     name: Joi.string(),
@@ -66,7 +78,7 @@ const awardValidation = (req, res, next) => {
     title: Joi.string(),
     organization: Joi.string(),
     description: Joi.string().allow(null, ""),
-    date: Joi.string().allow(null, ""),
+    date: Joi.string().allow(""),
   });
 
   const { error } = schema.validate(req.body);
@@ -77,6 +89,7 @@ const awardValidation = (req, res, next) => {
 };
 
 module.exports = {
+  userTokenValidation,
   userValidation,
   projectValidation,
   certificateValidation,
