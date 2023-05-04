@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 
 import { Delete, Edit } from "@mui/icons-material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useParams } from "react-router-dom";
 
 export function Project({ isEditable}) {
@@ -182,11 +183,11 @@ export function Project({ isEditable}) {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography variant="h4">프로젝트</Typography>
+            <Typography style={{ color: "#117864" }} variant="h4">프로젝트</Typography>
           </Box>
         </Grid>
 
-        <Grid item xs={12} >
+        <Grid item xs={12} style={{ backgroundColor: "#F0F0F0" }}>
           <Paper>
           {project.length > 0
             ? project.map((item, idx) => (
@@ -215,14 +216,14 @@ export function Project({ isEditable}) {
                     >
                       편집
                     </Button>
-                    <Button
+                    <IconButton
                       variant="outlined"
-                      color="error"
-                      startIcon={<Delete />}
                       onClick={() => removeProject(idx, item.project_id)}
+                      color="black"
+                      aria-label="delete"
                     >
-                      삭제
-                    </Button>
+                      <DeleteIcon />
+                    </IconButton>
                   </Box>
                 )}
             </Box>))

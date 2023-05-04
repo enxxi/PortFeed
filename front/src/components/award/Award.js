@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 
 import { Delete, Edit } from "@mui/icons-material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useParams } from "react-router-dom";
 
 export function Award({ isEditable }) {
@@ -212,7 +213,7 @@ export function Award({ isEditable }) {
                         {item.organization}
                       </Typography>
                       <Typography sx={{ pl: 2, width: "auto" }} variant="span">
-                        {item.date? `${item.date}년 취득` : ""}
+                        {item.date? `${item.date}년 수상` : ""}
                       </Typography>
                       <Typography display="flex" sx={{ p: 1 }} variant="span">
                         {item.description}
@@ -231,14 +232,14 @@ export function Award({ isEditable }) {
                         >
                           편집
                         </Button>
-                        <Button
+                        <IconButton
                           variant="outlined"
-                          color="error"
-                          startIcon={<Delete />}
                           onClick={() => removeAward(idx, item.award_id)}
+                          color="black"
+                          aria-label="delete"
                         >
-                          삭제
-                        </Button>
+                          <DeleteIcon />
+                        </IconButton>
                       </Box>
                     )}
                   </Box>

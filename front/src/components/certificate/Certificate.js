@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 
 import { Delete, Edit } from "@mui/icons-material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useParams } from "react-router-dom";
 
 export function Certificate({ isEditable}) {
@@ -191,11 +192,11 @@ export function Certificate({ isEditable}) {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography variant="h4">자격증</Typography>
+            <Typography style={{ color: "#117864" }} variant="h4">자격증</Typography>
           </Box>
         </Grid>
 
-        <Grid item xs={12} >
+        <Grid item xs={12} style={{ backgroundColor: "#F0F0F0" }}>
           <Paper>
           {certificate.length > 0
             ? certificate.map((item, idx) => (
@@ -209,7 +210,7 @@ export function Certificate({ isEditable}) {
                 <Box>
                   <Typography sx={{width:"auto"}} variant="span">{item.name}</Typography>
                   <Typography sx={{pl:2, width:"auto"}} variant="span">{item.organization}</Typography>
-                  <Typography sx={{pl:2, width:"auto"}} variant="span">{item.date? `${item.date}년 수상` : ""}</Typography>
+                  <Typography sx={{pl:2, width:"auto"}} variant="span">{item.date? `${item.date}년 취득` : ""}</Typography>
                   <Typography display="flex" sx={{p:1}} variant="span">{item.description}</Typography>
                 </Box>
                 {isEditable && (
@@ -225,14 +226,14 @@ export function Certificate({ isEditable}) {
                     >
                       편집
                     </Button>
-                    <Button
+                    <IconButton
                       variant="outlined"
-                      color="error"
-                      startIcon={<Delete />}
                       onClick={() => removeCertificate(idx, item.certificate_id)}
+                      color="black"
+                      aria-label="delete"
                     >
-                      삭제
-                    </Button>
+                      <DeleteIcon />
+                    </IconButton>
                   </Box>
                 )}
             </Box>))
@@ -279,7 +280,7 @@ export function Certificate({ isEditable}) {
           />
           <TextField 
             sx={{m:2, width:"auto"}}
-            label="수상년도"
+            label="발급년도"
             type="number"
             InputProps={{ inputProps: { min: 2000, max: 2023 } }}
             placeholder="2000"
