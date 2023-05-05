@@ -10,10 +10,10 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
   const path = useLocation();
 
   //uri에 따라 css handling
-  const cardHeight = path.pathname === "/network"? `380px`: ``;
-  const cardMaxHeight = path.pathname === "/network"? `450px`: ``;
-  const cardOverFlow = path.pathname === "/network"? `auto`: ``;
-  
+  const cardHeight = path.pathname === "/network" ? `380px` : ``;
+  const cardMaxHeight = path.pathname === "/network" ? `450px` : ``;
+  const cardOverFlow = path.pathname === "/network" ? `auto` : ``;
+
   useEffect(() => {
     if (user) {
       if (user?.profile) {
@@ -24,7 +24,11 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
             user?.profile
         );
       } else {
-        setUrl("http://placekitten.com/200/199");
+        setUrl(
+          "http://" +
+            window.location.hostname +
+            ":5001/profile/1683294028117-461835501-working.png"
+        );
       }
     }
   }, [user]);
@@ -40,10 +44,9 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
           ms: 3,
           mr: 5,
           p: 2,
-          height: cardHeight, 
-          maxHeight: cardMaxHeight, 
-          overflow: cardOverFlow
-          
+          height: cardHeight,
+          maxHeight: cardMaxHeight,
+          overflow: cardOverFlow,
         }}
       >
         <Grid container sx={{ justifyContent: "center", alignItems: "center" }}>
