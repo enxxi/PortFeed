@@ -275,6 +275,7 @@ export function Project({ isEditable }) {
                     <Box
                       padding={2}
                       display="flex"
+                      sx={{ fontFamily: "GmarketSans" }}
                       justifyContent="space-between"
                       alignItems="center"
                     >

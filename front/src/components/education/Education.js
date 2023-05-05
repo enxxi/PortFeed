@@ -289,6 +289,7 @@ export function Education({ isEditable }) {
                       display="flex"
                       justifyContent="space-between"
                       alignItems="center"
+                      sx={{ fontFamily: "GmarketSans" }}
                     >
                       이력이 없습니다.
                     </Box>
