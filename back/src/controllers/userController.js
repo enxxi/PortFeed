@@ -52,7 +52,7 @@ class userController {
   }
 
   static async userGetListFunction(req, res, next) {
-    logger.info(`POST /user/userlist 200 "네트워크로 이동"`);
+    logger.info(`Get /user/userlist 200 "네트워크로 이동"`);
     try {
       // 전체 사용자 목록을 얻음
       const page = Number(req.query.page) ?? 1;
