@@ -27,7 +27,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
         setUrl(
           "http://" +
             window.location.hostname +
-            ":5001/profile/1683294028117-461835501-working.png"
+            ":5001/profile/1683296958434-563586485-working.png"
         );
       }
     }
