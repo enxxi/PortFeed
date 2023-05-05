@@ -240,6 +240,7 @@ export function Certificate({ isEditable }) {
                     justifyContent="space-between"
                     alignItems="center"
                     key={idx}
+                    sx={{textAlign: 'left'}}
                   >
                     <Box sx={{ backgroundColor: "#f0f0f0", padding: "1rem" }}>
                       <Typography
@@ -263,7 +264,7 @@ export function Certificate({ isEditable }) {
                       <Typography
                         display="flex"
                         sx={{
-                          pl: 2,
+                          pl: 0,
                           fontFamily: "GmarketSans",
                           color: "#6E6E6E",
                           whiteSpace: "pre-wrap",
