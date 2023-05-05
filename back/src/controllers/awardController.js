@@ -1,6 +1,6 @@
 import is from "@sindresorhus/is";
 import { AwardService } from "../services/awardService";
-
+const logger = require("../config/logger");
 class awardController {
   static async awardPostFunction(req, res, next) {
     try {
@@ -22,7 +22,7 @@ class awardController {
         description,
         date,
       });
-
+      logger.info('POST /award/:user_id/:award_id 201 "수상이력이 추가되었습니다"');
       if (newAward.errorMessage) {
         throw new Error(newAward.errorMessage);
       }
@@ -49,6 +49,7 @@ class awardController {
   }
 
   static async awardPatchFunction(req, res, next) {
+    logger.info('PATCH /award/:user_id/:award_id 201 "수상이력이 수정되었습니다"');
     try {
       const award_id = req.params.award_id;
 
@@ -68,6 +69,7 @@ class awardController {
   }
 
   static async awardDeleteFunction(req, res, next) {
+    logger.info('DELETE /award/:user_id/:award_id 201 "수상이력이 삭제되었습니다"');
     try {
       const award_id = req.params.award_id;
 

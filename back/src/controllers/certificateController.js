@@ -1,6 +1,6 @@
 import is from "@sindresorhus/is";
 import { CertificateService } from "../services/certificateService";
-
+const logger = require("../config/logger");
 class certificateController {
   static async certificatePostFunction(req, res, next) {
     try {
@@ -19,7 +19,7 @@ class certificateController {
         description,
         date,
       });
-
+      logger.info('POST /certificate/:user_id/:certificate_id 201 "자격증이 추가되었습니다"');
       if (newCertificate.errorMessage) {
         throw new Error(newCertificate.errorMessage);
       }
@@ -49,6 +49,7 @@ class certificateController {
   }
 
   static async certificatePatchFunction(req, res, next) {
+    logger.info('PATCH /certificate/:user_id/:certificate_id 201 "자격증이 수정되었습니다"');
     try {
       const certificate_id = req.params.certificate_id;
       const { name, organization, description, date } = req.body ?? null;
@@ -69,6 +70,7 @@ class certificateController {
   }
 
   static async certificateDeleteFunction(req, res, next) {
+    logger.info('DELETE /certificate/:user_id/:certificate_id 201 "자격증이 삭제되었습니다"');
     try {
       const certificate_id = req.params.certificate_id;
 

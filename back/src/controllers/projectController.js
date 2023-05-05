@@ -1,6 +1,6 @@
 import is from "@sindresorhus/is";
 import { ProjectService } from "../services/projectService";
-
+const logger = require("../config/logger");
 class projectController {
   static async projectPostFunction(req, res, next) {
     try {
@@ -23,7 +23,7 @@ class projectController {
         fromdate,
         todate,
       });
-
+      logger.info('POST /project 200 "프로젝트가 추가되었습니다"');
       if (newProject.errorMessage) {
         throw new Error(newProject.errorMessage);
       }
@@ -36,6 +36,7 @@ class projectController {
   }
 
   static async projectGetFunction(req, res, next) {
+    
     try {
       const pathUser_id = req.params.user_id;
       const project = await ProjectService.getProjectList({
@@ -53,6 +54,7 @@ class projectController {
   }
 
   static async projectPatchFunction(req, res, next) {
+    logger.info('PATCH /project/:user_id/:project_id 200 "프로젝트가 편집되었습니다"');
     try {
       const project_id = req.params.project_id;
 
@@ -74,6 +76,7 @@ class projectController {
   }
 
   static async projectDeleteFunction(req, res, next) {
+    logger.info('DELETE /project 204 "프로젝트가 삭제되었습니다"');
     try {
       const project_id = req.params.project_id;
       const result = await ProjectService.deleteProject({ project_id });
@@ -81,6 +84,7 @@ class projectController {
       if (!result) {
         throw new Error("해당 프로젝트를 삭제할 수 없습니다.");
       }
+
 
       //status 204 : 삭제요청 완료, 추가 정보없음
       return res.status(204).send(result);
@@ -91,3 +95,4 @@ class projectController {
 }
 
 export { projectController };
+

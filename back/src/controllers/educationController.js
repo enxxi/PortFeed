@@ -1,6 +1,6 @@
 import { EducationService } from "../services/educationService";
 import is from "@sindresorhus/is";
-
+const logger = require("../config/logger");
 class eduController {
   static async educationPostFunction(req, res, next) {
     try {
@@ -21,7 +21,7 @@ class eduController {
         major,
         degree,
       });
-
+      logger.info('POST /education/:user_id/:education_id 201 "학력이 추가되었습니다"');
       if (newEducation.errorMessage) {
         throw new Error(newEducation.errorMessage);
       }
@@ -32,6 +32,7 @@ class eduController {
     }
   }
   static async educationGetFunction(req, res, next) {
+    
     try {
       const pathUser_id = req.params.user_id;
       const education = await EducationService.getEducationList({
@@ -48,6 +49,7 @@ class eduController {
     }
   }
   static async educationPatchFunction(req, res, next) {
+    logger.info('PATCH /education/:user_id/:education_id 200 "학력이 수정되었습니다"');
     try {
       //edu_id 추출
       const education_id = req.params.education_id;
@@ -73,6 +75,7 @@ class eduController {
   }
 
   static async educationDeleteFunction(req, res, next) {
+    logger.info('DELETE /education/:user_id/:education_id 200 "학력이 삭제되었습니다"');
     try {
       //id가져오기
       const education_id = req.params.education_id;

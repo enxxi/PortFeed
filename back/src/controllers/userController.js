@@ -1,7 +1,7 @@
 import is from "@sindresorhus/is";
 import { userAuthService } from "../services/userService";
 import { UserModel } from "../db/schemas/user";
-
+const logger = require("../config/logger");
 class userController {
   static async userPostFunction(req, res, next) {
     try {
@@ -32,6 +32,7 @@ class userController {
   }
 
   static async userLoginFunction(req, res, next) {
+    logger.info(`POST /user/register 200 "회원가입 완료"`);
     try {
       // req (request) 에서 데이터 가져오기
       const email = req.body.email;
@@ -51,14 +52,15 @@ class userController {
   }
 
   static async userGetListFunction(req, res, next) {
+    logger.info(`POST /user/userlist 200 "네트워크로 이동"`);
     try {
       // 전체 사용자 목록을 얻음
-      const page = Number(req.query.page) ?? 1;
+      const page = Number(req.query.page);
       const perPage = parseInt(req.query.perPage);
       const [total, posts] = await Promise.all([
         UserModel.countDocuments({}),
         UserModel.find({})
-          .sort({ createdAt: 1 })
+          .sort({ createdAt: -1 })
           .skip(perPage * (page - 1))
           .limit(perPage), //sort,skip,limit 사용
       ]);
@@ -72,6 +74,7 @@ class userController {
   }
 
   static async userGetCurrentFunction(req, res, next) {
+    
     try {
       // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
       const user_id = req.currentUserId;
@@ -82,7 +85,7 @@ class userController {
       if (currentUserInfo.errorMessage) {
         throw new Error(currentUserInfo.errorMessage);
       }
-
+      
       return res.status(200).send(currentUserInfo);
     } catch (error) {
       next(error);
@@ -90,6 +93,7 @@ class userController {
   }
 
   static async userPutFunction(req, res, next) {
+  
     try {
       // URI로부터 사용자 id를 추출함.
       const user_id = req.params.id;
@@ -115,6 +119,7 @@ class userController {
   }
 
   static async userGetInfoFunction(req, res, next) {
+    logger.info(`GET /user/current 200 "나의 페이지로 이동"`);
     try {
       const user_id = req.params.id;
       const currentUserInfo = await userAuthService.getUserInfo({ user_id });
