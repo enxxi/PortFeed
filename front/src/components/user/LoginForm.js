@@ -1,7 +1,14 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Grid, TextField, Button, Typography, useMediaQuery } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import {
+  Container,
+  Grid,
+  TextField,
+  Button,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 import * as Api from "../../lib/apis/api";
 import { DispatchContext } from "../../App";
@@ -35,11 +42,11 @@ function LoginForm() {
       const res = await Api.post("user/login", {
         email,
         password,
-      }).catch(err => {
+      }).catch((err) => {
         throw new Error(err.response.data);
       });
       const user = res.data;
-      
+
       const jwtToken = user.token;
       sessionStorage.setItem("userToken", jwtToken);
 
@@ -51,7 +58,7 @@ function LoginForm() {
       navigate("/", { replace: true });
     } catch (err) {
       console.log(err.message);
-      alert(err.message)
+      alert(err.message);
     }
   };
 
@@ -62,37 +69,49 @@ function LoginForm() {
         spacing={3}
         justifyContent="center"
         alignItems="center"
-        sx={{ mt: 9,
+        sx={{
+          mt: 9,
           width: "100%",
           display: "flex",
           justifyContent: "center",
-          alignItems: "center" }}
+          alignItems: "center",
+        }}
       >
         <Grid item xs={12}>
-          <Typography variant="h4" align="center">
+          <Typography
+            variant="h4"
+            align="center"
+            sx={{ fontFamily: "GmarketSans" }}
+          >
             로그인
           </Typography>
         </Grid>
         <Grid item xs={12} sx={{ textAlign: "center" }}>
           <form onSubmit={handleSubmit}>
             <TextField
-              label="이메일 주소"
+              label={
+                <span style={{ fontFamily: "GmarketSans" }}>이메일 주소</span>
+              }
               variant="outlined"
-              sx = {{width: "60%"}}
+              sx={{ width: "60%" }}
               type="email"
               autoComplete="on"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               error={!isEmailValid && email !== ""}
               helperText={
-                !isEmailValid && email !== "" ? "이메일 형식이 올바르지 않습니다." : ""
+                !isEmailValid && email !== ""
+                  ? "이메일 형식이 올바르지 않습니다."
+                  : ""
               }
               margin="dense"
             />
             <TextField
-              label="비밀번호"
+              label={
+                <span style={{ fontFamily: "GmarketSans" }}>비밀번호</span>
+              }
               variant="outlined"
-              sx = {{width: "60%"}}
+              sx={{ width: "60%" }}
               fullWidth
               type="password"
               autoComplete="on"
@@ -100,7 +119,9 @@ function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
               error={!isPasswordValid && password !== ""}
               helperText={
-                !isPasswordValid && password !== "" ? "비밀번호는 4글자 이상입니다." : ""
+                !isPasswordValid && password !== ""
+                  ? "비밀번호는 4글자 이상입니다."
+                  : ""
               }
               margin="dense"
             />
@@ -117,6 +138,7 @@ function LoginForm() {
                   color="primary"
                   type="submit"
                   disabled={!isFormValid}
+                  sx={{ fontFamily: "GmarketSans" }}
                 >
                   로그인
                 </Button>
@@ -126,6 +148,7 @@ function LoginForm() {
                   variant="outlined"
                   color="inherit"
                   onClick={() => navigate("/register")}
+                  sx={{ fontFamily: "GmarketSans" }}
                 >
                   회원가입하기
                 </Button>

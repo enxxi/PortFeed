@@ -232,6 +232,7 @@ export function Education({ isEditable }) {
                     display="flex"
                     justifyContent="space-between"
                     alignItems="center"
+                    sx={{textAlign: 'left'}}
                   >
                     <Box sx={{ backgroundColor: "#f0f0f0", padding: "1rem" }}>
                       <Typography
@@ -289,6 +290,7 @@ export function Education({ isEditable }) {
                       display="flex"
                       justifyContent="space-between"
                       alignItems="center"
+                      sx={{ fontFamily: "GmarketSans" }}
                     >
                       이력이 없습니다.
                     </Box>

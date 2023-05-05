@@ -65,22 +65,26 @@ function Header() {
           >
             PortFeed
           </Typography>
-          <Button
-            color={location.pathname === "/" ? "secondary" : "inherit"}
-            onClick={() => navigate("/")}
-            style={styles.button}
-            sx={{ fontFamily: "GmarketSans" }}
-          >
-            나의 페이지
-          </Button>
-          <Button
-            color={location.pathname === "/network" ? "secondary" : "inherit"}
-            onClick={() => navigate("/network")}
-            style={styles.button}
-            sx={{ fontFamily: "GmarketSans" }}
-          >
-            네트워크
-          </Button>
+          {isLogin && (
+            <Button
+              color={location.pathname === "/" ? "secondary" : "inherit"}
+              onClick={() => navigate("/")}
+              style={styles.button}
+              sx={{ fontFamily: "GmarketSans" }}
+            >
+              나의 페이지
+            </Button>
+          )}
+          {isLogin && (
+            <Button
+              color={location.pathname === "/network" ? "secondary" : "inherit"}
+              onClick={() => navigate("/network")}
+              style={styles.button}
+              sx={{ fontFamily: "GmarketSans" }}
+            >
+              네트워크
+            </Button>
+          )}
           {isLogin && (
             <Button
               color="inherit"

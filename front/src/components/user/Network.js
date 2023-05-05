@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Grid} from "@mui/material";
+import { Grid } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import Stack from "@mui/material/Stack";
@@ -18,7 +18,7 @@ function Network() {
 
   ///pagination////
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(6);
+  const [perPage, setPerPage] = useState(8);
   const [totalPage, setTotalPage] = useState(1);
   /////////////////
 
@@ -36,7 +36,7 @@ function Network() {
 
   return (
     <>
-      <Stack spacing={2} sx={{overflowX:"hidden", overflowY:"auto"}}>
+      <Stack spacing={2} sx={{ overflowX: "hidden", overflowY: "auto" }}>
         <div
           style={{
             display: "flex",
@@ -56,14 +56,22 @@ function Network() {
               setPage(1);
             }}
           >
-            <option value="6">6</option>
-            <option value="12">12</option>
-            <option value="18">18</option>
+            <option value="8">8</option>
+            <option value="16">16</option>
+            <option value="24">24</option>
           </NativeSelect>
         </div>
         <Grid container spacing={2} justifyContent="center" padding="0px 50px">
           {users.map((user) => (
-            <Grid item key={user.id} lg={3} md={4} sm={6} xs={12} sx={{display:"flex", justifyContent:"center"}}>
+            <Grid
+              item
+              key={user.id}
+              lg={3}
+              md={4}
+              sm={6}
+              xs={12}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
               <UserCard user={user} isNetwork />
             </Grid>
           ))}
