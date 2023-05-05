@@ -307,7 +307,7 @@ export function Project({ isEditable }) {
               border: "2px #112222",
               borderRadius: "5px",
               width: "auto",
-
+              mt: 2,
               mb: 2,
               ms: 3,
               ml: 3,
