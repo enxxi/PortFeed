@@ -1,4 +1,4 @@
 node_modules
 .env
-logs/access.log
-src/data\profile/
+logs/
+src/data/profile/
