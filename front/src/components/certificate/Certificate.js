@@ -241,7 +241,7 @@ export function Certificate({ isEditable }) {
                     alignItems="center"
                     key={idx}
                   >
-                    <Box sx={{ backgroundColor: '#f0f0f0', padding: '1rem' }}>
+                    <Box sx={{ backgroundColor: "#f0f0f0", padding: "1rem" }}>
                       <Typography
                         sx={{ width: "auto", fontFamily: "GmarketSans" }}
                         variant="span"
@@ -262,7 +262,11 @@ export function Certificate({ isEditable }) {
                       </Typography>
                       <Typography
                         display="flex"
-                        sx={{ pl: 2, fontFamily: "GmarketSans", whiteSpace: "pre-wrap" }}
+                        sx={{
+                          pl: 2,
+                          fontFamily: "GmarketSans",
+                          whiteSpace: "pre-wrap",
+                        }}
                         variant="span"
                       >
                         {item.description}
@@ -329,123 +333,128 @@ export function Certificate({ isEditable }) {
 
         {isCreating && (
           <Paper
-          sx={{
-            border: "2px #112222",
-            borderRadius: "5px",
-            width: "auto",
-            mt: 2,
-            mb: 2,
-            ms: 3,
-            mr: 5,
-            p: 2,
-            textAlign: "center",
-          }}
-        >
-          <Grid>
-            <TextField
-              sx={{ m: 2, width: "auto" }}
-              required
-              id="outlined-required"
-              label={<span style={{ fontFamily: "GmarketSans" }}>자격증</span>}
-              value={name}
-              inputProps={{ style: { fontFamily: "GmarketSans" } }}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <TextField
-              sx={{ m: 2, width: "auto", fontFamily: "GmarketSans" }}
-              required
-              id="outlined-required"
-              inputProps={{ style: { fontFamily: "GmarketSans" } }}
-              label={
-                <span style={{ fontFamily: "GmarketSans" }}>발급기관</span>
-              }
-              value={organization}
-              onChange={(e) => setOrganization(e.target.value)}
-            />
-            <TextField
-              sx={{ m: 2, width: "auto" }}
-              required
-              label={
-                <span style={{ fontFamily: "GmarketSans" }}>발급년도</span>
-              }
-              type="number"
-              InputProps={{
-                sx: { fontFamily: "GmarketSans" },
-                inputProps: { min: 2000, max: 2023 },
-              }}
-              placeholder="2000"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              id="date"
-              value={date || ""}
-              onChange={handleDateChange}
-              error={!isDateValid && date !== ""}
-              helperText={
-                !isDateValid &&
-                date !== "" &&
-                `2000~${currentYear}년 사이로 입력해주세요.`
-              }
-            />
-            <TextField
-              sx={{ m: 1, width: "90%" }}
-              id="outlined-multiline-static"
-              label={<span style={{ fontFamily: "GmarketSans" }}>상세</span>}
-              multiline
-              rows={4}
-              value={description}
-              inputProps={{ style: { fontFamily: "GmarketSans" } }}
-              onChange={(e) => setDescription(e.target.value)}
-            />
+            sx={{
+              border: "2px #112222",
+              borderRadius: "5px",
+              width: "auto",
+              mt: 2,
+              mb: 2,
+              ms: 3,
+              mr: 5,
+              p: 2,
+              textAlign: "center",
+            }}
+          >
             <Grid>
-              {editingIndex.idx === -1 ? (
+              <TextField
+                sx={{ m: 2, width: "auto" }}
+                required
+                id="outlined-required"
+                label={
+                  <span style={{ fontFamily: "GmarketSans" }}>자격증</span>
+                }
+                value={name}
+                inputProps={{ style: { fontFamily: "GmarketSans" } }}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <TextField
+                sx={{ m: 2, width: "auto", fontFamily: "GmarketSans" }}
+                required
+                id="outlined-required"
+                inputProps={{ style: { fontFamily: "GmarketSans" } }}
+                label={
+                  <span style={{ fontFamily: "GmarketSans" }}>발급기관</span>
+                }
+                value={organization}
+                onChange={(e) => setOrganization(e.target.value)}
+              />
+              <TextField
+                sx={{ m: 2, width: "auto" }}
+                required
+                label={
+                  <span style={{ fontFamily: "GmarketSans" }}>발급년도</span>
+                }
+                type="number"
+                InputProps={{
+                  sx: { fontFamily: "GmarketSans" },
+                  inputProps: { min: 2000, max: 2023 },
+                }}
+                placeholder="2000"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                id="date"
+                value={date || ""}
+                onChange={handleDateChange}
+                error={!isDateValid && date !== ""}
+                helperText={
+                  !isDateValid &&
+                  date !== "" &&
+                  `2000~${currentYear}년 사이로 입력해주세요.`
+                }
+              />
+              <TextField
+                sx={{ m: 1, width: "90%" }}
+                id="outlined-multiline-static"
+                label={<span style={{ fontFamily: "GmarketSans" }}>상세</span>}
+                multiline
+                rows={4}
+                value={description}
+                inputProps={{ style: { fontFamily: "GmarketSans" } }}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <Grid>
+                {editingIndex.idx === -1 ? (
+                  <Button
+                    onClick={addCertificate}
+                    disabled={!isFormValid || date === ""}
+                    style={{
+                      backgroundColor: "#117864",
+                      borderColor: "#28a745",
+                      borderRadius: "30px",
+                      fontFamily: "GmarketSans",
+                      color: "white",
+                      fontSize: "16px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    추가
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={editCertificate}
+                    disabled={!isFormValid}
+                    style={{
+                      backgroundColor: "#117864",
+                      borderColor: "#28a745",
+                      borderRadius: "30px",
+                      fontFamily: "GmarketSans",
+                      color: "white",
+                      fontSize: "16px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    저장
+                  </Button>
+                )}
                 <Button
-                onClick={addCertificate}
-                disabled={!isFormValid || date === ""}
-                style={{
-                  backgroundColor: "#007bff",
-                  borderColor: "#007bff",
-                  borderRadius: "5px",
-                  color: "white",
-                  fontSize: "16px",
-                  cursor: "pointer",
-                }}
-              >
-                추가
-              </Button>
-            ) : (
-              <Button
-                onClick={editCertificate}
-                disabled={!isFormValid}
-                style={{
-                  backgroundColor: "#28a745",
-                  borderColor: "#28a745",
-                  borderRadius: "5px",
-                  color: "white",
-                  fontSize: "16px",
-                  cursor: "pointer",
-                }}
-              >
-                저장
-              </Button>
-            )}
-            <Button
-              onClick={handleCancleClick}
-              style={{
-                backgroundColor: "#6c757d",
-                borderColor: "#6c757d",
-                borderRadius: "5px",
-                color: "white",
-                fontSize: "16px",
-                cursor: "pointer",
-                margin: "5px",
-              }}
-            >
-              취소
-            </Button>
+                  onClick={handleCancleClick}
+                  style={{
+                    backgroundColor: "#6c757d",
+                    borderColor: "#6c757d",
+                    borderRadius: "30px",
+                    fontFamily: "GmarketSans",
+                    color: "white",
+                    fontSize: "16px",
+                    cursor: "pointer",
+                    margin: "5px",
+                  }}
+                >
+                  취소
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
         )}
       </Container>
       <div style={{ marginBottom: "2rem" }}></div>

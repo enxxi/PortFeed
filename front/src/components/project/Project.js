@@ -45,7 +45,7 @@ export function Project({ isEditable }) {
 
   // input 값 validation
   const isFormValid = title.replaceAll(" ", "") && date.replaceAll(" ", "");
-console.log(project)
+  console.log(project);
   // init component
   useEffect(() => {
     // api 호출
@@ -215,7 +215,7 @@ console.log(project)
                     alignItems="center"
                     key={idx}
                   >
-                    <Box sx={{ backgroundColor: '#f0f0f0', padding: '1rem' }}>
+                    <Box sx={{ backgroundColor: "#f0f0f0", padding: "1rem" }}>
                       <Typography
                         sx={{ width: "auto", fontFamily: "GmarketSans" }}
                         variant="span"
@@ -228,18 +228,20 @@ console.log(project)
                       >
                         {item.date}
                       </Typography>
-                      <Typography
-                        display="flex"
-                        sx={{
-                          pl: 2,
-                          fontFamily: "GmarketSans",
-                          color: "#6E6E6E",
-                          whiteSpace: "pre-wrap"
-                        }}
-                        variant="span"
-                      >
-                        {item.description}
-                      </Typography>
+                      {item.description && (
+                        <Typography
+                          display="flex"
+                          sx={{
+                            pl: 2,
+                            fontFamily: "GmarketSans",
+                            color: "#6E6E6E",
+                            whiteSpace: "pre-wrap",
+                          }}
+                          variant="span"
+                        >
+                          {item.description}
+                        </Typography>
+                      )}
                     </Box>
                     {isEditable && (
                       <Box>
@@ -299,113 +301,117 @@ console.log(project)
 
         {isCreating && (
           <Paper
-          sx={{
-            border: "2px #112222",
-            borderRadius: "5px",
-            width: "auto",
-            mt: 2,
-            mb: 2,
-            ms: 3,
-            mr: 5,
-            p: 2,
-            textAlign: "center",
-          }}
-        >
-          <Grid>
-            <TextField
-              sx={{
-                m: 2,
-                width: "auto",
-                "& input": {
-                  fontFamily: "GmarketSans",
-                },
-              }}
-              required
-              id="outlined-required"
-              label={
-                <span style={{ fontFamily: "GmarketSans" }}>프로젝트명</span>
-              }
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <TextField
-              sx={{
-                m: 2,
-                width: "auto",
-                "& input": {
-                  fontFamily: "GmarketSans",
-                },
-                "&::placeholder": {
-                  fontFamily: "GmarketSans",
-                },
-              }}
-              required
-              label={<span style={{ fontFamily: "GmarketSans" }}>기간</span>}
-              type="string"
-              placeholder="6개월"
-              id="date"
-              value={date || ""}
-              onChange={(e) => setDate(e.target.value)}
-            />
+            sx={{
+              border: "2px #112222",
+              borderRadius: "5px",
+              width: "auto",
 
-            <TextField
-              sx={{ m: 1, width: "90%" }}
-              id="outlined-multiline-static"
-              label={<span style={{ fontFamily: "GmarketSans" }}>상세</span>}
-              multiline
-              rows={4}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              inputProps={{ style: { fontFamily: "GmarketSans" } }}
-            />
-            <Grid>
-              {editingIndex.idx === -1 ? (
+              mb: 2,
+              ms: 3,
+              ml: 3,
+              mr: 3,
+              p: 2,
+              textAlign: "center",
+            }}
+          >
+            <Grid sx={{ margin: 0 }}>
+              <TextField
+                sx={{
+                  m: 2,
+                  width: "auto",
+                  "& input": {
+                    fontFamily: "GmarketSans",
+                  },
+                }}
+                required
+                id="outlined-required"
+                label={
+                  <span style={{ fontFamily: "GmarketSans" }}>프로젝트명</span>
+                }
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <TextField
+                sx={{
+                  m: 2,
+                  width: "auto",
+                  "& input": {
+                    fontFamily: "GmarketSans",
+                  },
+                  "&::placeholder": {
+                    fontFamily: "GmarketSans",
+                  },
+                }}
+                required
+                label={<span style={{ fontFamily: "GmarketSans" }}>기간</span>}
+                type="string"
+                placeholder="6개월"
+                id="date"
+                value={date || ""}
+                onChange={(e) => setDate(e.target.value)}
+              />
+
+              <TextField
+                sx={{ m: 1, width: "90%" }}
+                id="outlined-multiline-static"
+                label={<span style={{ fontFamily: "GmarketSans" }}>상세</span>}
+                multiline
+                rows={4}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                inputProps={{ style: { fontFamily: "GmarketSans" } }}
+              />
+              <Grid>
+                {editingIndex.idx === -1 ? (
+                  <Button
+                    onClick={addProject}
+                    disabled={!isFormValid}
+                    style={{
+                      backgroundColor: "#117864",
+                      borderColor: "#007bff",
+                      fontFamily: "GmarketSans",
+                      borderRadius: "30px",
+                      color: "white",
+                      fontSize: "16px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    추가
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={editProject}
+                    disabled={!isFormValid}
+                    style={{
+                      backgroundColor: "#117864",
+                      borderColor: "#28a745",
+                      borderRadius: "30px",
+                      fontFamily: "GmarketSans",
+                      color: "white",
+                      fontSize: "16px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    저장
+                  </Button>
+                )}
                 <Button
-                onClick={addProject}
-                disabled={!isFormValid}
-                style={{
-                  backgroundColor: "#007bff",
-                  borderColor: "#007bff",
-                  borderRadius: "5px",
-                  color: "white",
-                  fontSize: "16px",
-                  cursor: "pointer",
-                }}
-              >
-                추가
-              </Button>
-            ) : (
-              <Button
-                onClick={editProject}
-                disabled={!isFormValid}
-                style={{
-                  backgroundColor: "#28a745",
-                  borderColor: "#28a745",
-                  borderRadius: "5px",
-                  color: "white",
-                  fontSize: "16px",
-                  cursor: "pointer",
-                }}
-              >
-                저장
-              </Button>
-            )}
-            <Button
-              onClick={handleCancleClick}
-              style={{
-                backgroundColor: "#6c757d",
-                borderColor: "#6c757d",
-                borderRadius: "5px",
-                color: "white",
-                fontSize: "16px",
-                cursor: "pointer",
-                margin: "5px",
-              }}
-            >
-              취소
-            </Button>
+                  onClick={handleCancleClick}
+                  style={{
+                    backgroundColor: "#6c757d",
+                    borderColor: "#6c757d",
+                    fontFamily: "GmarketSans",
+                    borderRadius: "30px",
+                    color: "white",
+                    fontSize: "16px",
+                    cursor: "pointer",
+                    margin: "5px",
+                  }}
+                >
+                  취소
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
           </Paper>
         )}
       </Container>

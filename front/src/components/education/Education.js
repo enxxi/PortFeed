@@ -98,7 +98,7 @@ export function Education({ isEditable }) {
     setSchool(education[idx].school);
     setMajor(education[idx].major);
     setDegree(education[idx].degree);
-    setIsSchoolValid(true)
+    setIsSchoolValid(true);
   };
 
   // 편집
@@ -233,7 +233,7 @@ export function Education({ isEditable }) {
                     justifyContent="space-between"
                     alignItems="center"
                   >
-                    <Box sx={{ backgroundColor: '#f0f0f0', padding: '1rem' }}>
+                    <Box sx={{ backgroundColor: "#f0f0f0", padding: "1rem" }}>
                       <Typography
                         sx={{ width: "auto", fontFamily: "GmarketSans" }}
                         variant="span"
@@ -430,9 +430,10 @@ export function Education({ isEditable }) {
                   onClick={addEducation}
                   disabled={!isFormValid || school === ""}
                   style={{
-                    backgroundColor: "#007bff",
-                    borderColor: "#007bff",
-                    borderRadius: "5px",
+                    backgroundColor: "#117864",
+                    borderColor: "#28a745",
+                    borderRadius: "30px",
+                    fontFamily: "GmarketSans",
                     color: "white",
                     fontSize: "16px",
                     cursor: "pointer",
@@ -445,9 +446,11 @@ export function Education({ isEditable }) {
                   onClick={editEducation}
                   disabled={!isFormValid}
                   style={{
-                    backgroundColor: "#28a745",
+                    backgroundColor: "#117864",
                     borderColor: "#28a745",
-                    borderRadius: "5px",
+                    borderRadius: "30px",
+                    fontFamily: "GmarketSans",
+
                     color: "white",
                     fontSize: "16px",
                     cursor: "pointer",
@@ -460,8 +463,9 @@ export function Education({ isEditable }) {
                 onClick={handleCancleClick}
                 style={{
                   backgroundColor: "#6c757d",
-                  borderColor: "#6c757d",
-                  borderRadius: "5px",
+
+                  borderRadius: "30px",
+                  fontFamily: "GmarketSans",
                   color: "white",
                   fontSize: "16px",
                   cursor: "pointer",
