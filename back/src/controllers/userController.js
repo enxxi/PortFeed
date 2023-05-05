@@ -55,12 +55,12 @@ class userController {
     logger.info(`POST /user/userlist 200 "네트워크로 이동"`);
     try {
       // 전체 사용자 목록을 얻음
-      const page = Number(req.query.page);
+      const page = Number(req.query.page) ?? 1;
       const perPage = parseInt(req.query.perPage);
       const [total, posts] = await Promise.all([
         UserModel.countDocuments({}),
         UserModel.find({})
-          .sort({ createdAt: -1 })
+          .sort({ createdAt: 1 })
           .skip(perPage * (page - 1))
           .limit(perPage), //sort,skip,limit 사용
       ]);
@@ -74,7 +74,6 @@ class userController {
   }
 
   static async userGetCurrentFunction(req, res, next) {
-    
     try {
       // jwt토큰에서 추출된 사용자 id를 가지고 db에서 사용자 정보를 찾음.
       const user_id = req.currentUserId;
@@ -85,7 +84,7 @@ class userController {
       if (currentUserInfo.errorMessage) {
         throw new Error(currentUserInfo.errorMessage);
       }
-      
+
       return res.status(200).send(currentUserInfo);
     } catch (error) {
       next(error);
@@ -93,7 +92,6 @@ class userController {
   }
 
   static async userPutFunction(req, res, next) {
-  
     try {
       // URI로부터 사용자 id를 추출함.
       const user_id = req.params.id;
