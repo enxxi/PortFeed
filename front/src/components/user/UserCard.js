@@ -10,8 +10,8 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
   const path = useLocation();
 
   //uri에 따라 css handling
-  const cardHeight = path.pathname === "/network"? `350px`: ``;
-  const cardMaxHeight = path.pathname === "/network"? `400px`: ``;
+  const cardHeight = path.pathname === "/network"? `380px`: ``;
+  const cardMaxHeight = path.pathname === "/network"? `450px`: ``;
   const cardOverFlow = path.pathname === "/network"? `auto`: ``;
   
   useEffect(() => {
