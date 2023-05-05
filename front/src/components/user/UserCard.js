@@ -1,8 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { Paper, Grid, Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Delete, Edit } from "@mui/icons-material";
 import UserFileEditForm from "./UserFileEditForm";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork, setUser }) {
