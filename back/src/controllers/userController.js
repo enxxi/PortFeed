@@ -53,12 +53,12 @@ class userController {
   static async userGetListFunction(req, res, next) {
     try {
       // 전체 사용자 목록을 얻음
-      const page = Number(req.query.page);
+      const page = Number(req.query.page) ?? 1;
       const perPage = parseInt(req.query.perPage);
       const [total, posts] = await Promise.all([
         UserModel.countDocuments({}),
         UserModel.find({})
-          .sort({ createdAt: -1 })
+          .sort({ createdAt: 1 })
           .skip(perPage * (page - 1))
           .limit(perPage), //sort,skip,limit 사용
       ]);
