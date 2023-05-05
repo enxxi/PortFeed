@@ -179,7 +179,7 @@ function RegisterForm() {
               <Grid item>
                 <Button
                   variant="contained"
-                  color="primary"
+                  color="success"
                   type="submit"
                   sx={{ fontFamily: "GmarketSans" }}
                   disabled={!isFormValid}
@@ -189,9 +189,9 @@ function RegisterForm() {
               </Grid>
               <Grid item>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   sx={{ fontFamily: "GmarketSans" }}
-                  color="inherit"
+                  color="success"
                   onClick={() => navigate("/login")}
                 >
                   로그인하기

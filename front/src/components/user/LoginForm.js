@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  Avatar,
   Container,
   Grid,
   TextField,
@@ -63,26 +64,36 @@ function LoginForm() {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container component="main" maxWidth="xs">
       <Grid
-        container
-        spacing={3}
-        justifyContent="center"
-        alignItems="center"
-        sx={{
-          mt: 9,
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Grid item xs={12}>
-          <Typography
-            variant="h4"
-            align="center"
-            sx={{ fontFamily: "GmarketSans" }}
-          >
+  container
+  spacing={2}
+  direction="column"
+  alignItems="center"
+  sx={{
+    marginTop: 8,
+    backgroundColor: "#7FCFAC",
+    padding: 2,
+    borderRadius: 2,
+    fontFamily: "Elice Digital Baeum",
+  }}
+>
+  <Grid item>
+    <Avatar
+      src="/logos.png"
+      variant="square"
+      alt="logo"
+      sx={{ width: 100, height: 100, mb: 0 }}
+    />
+  </Grid>
+  <Grid item>
+    <Typography
+      sx={{
+        fontFamily: "Elice Digital Baeum",
+        fontSize: "22px",
+        fontWeight: 600,
+      }}
+    >
             로그인
           </Typography>
         </Grid>
@@ -135,20 +146,26 @@ function LoginForm() {
               <Grid item>
                 <Button
                   variant="contained"
-                  color="primary"
+                  color="success"
+                  fullWidth
                   type="submit"
+                  name="GUEST"
                   disabled={!isFormValid}
                   sx={{ fontFamily: "GmarketSans" }}
+                  
                 >
                   로그인
                 </Button>
               </Grid>
               <Grid item>
                 <Button
-                  variant="outlined"
-                  color="inherit"
+                  variant="contained"
+                  color="success"
+                  name="GUEST"
+                  fullWidt
                   onClick={() => navigate("/register")}
                   sx={{ fontFamily: "GmarketSans" }}
+                  
                 >
                   회원가입하기
                 </Button>
