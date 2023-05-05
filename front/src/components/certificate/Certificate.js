@@ -16,6 +16,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export function Certificate({ isEditable }) {
   //user정보 불러오기/
@@ -86,7 +87,12 @@ export function Certificate({ isEditable }) {
         return newCertificate;
       });
     } catch (err) {
-      alert(err.message);
+      Swal.fire({
+        icon: "error",
+        title: err.message,
+        showConfirmButton: false,
+        timer: 1000,
+      });
     }
   };
 
@@ -133,7 +139,12 @@ export function Certificate({ isEditable }) {
       });
       setIsCreating(false);
     } catch (err) {
-      alert(err.message);
+      Swal.fire({
+        icon: "error",
+        title: err.message,
+        showConfirmButton: false,
+        timer: 1000,
+      });
     }
   };
 
@@ -156,7 +167,12 @@ export function Certificate({ isEditable }) {
         setDate("");
         setDescription("");
       } catch (err) {
-        alert(err.message);
+        Swal.fire({
+          icon: "error",
+          title: err.message,
+          showConfirmButton: false,
+          timer: 1000,
+        });
       }
     } else {
       return;

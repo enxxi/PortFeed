@@ -14,6 +14,8 @@ import { useTheme } from "@mui/material/styles";
 import * as Api from "../../lib/apis/api";
 import { DispatchContext } from "../../App";
 
+import Swal from "sweetalert2";
+
 function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useContext(DispatchContext);
@@ -56,10 +58,21 @@ function LoginForm() {
         payload: user,
       });
 
+      await Swal.fire({
+        icon: "success",
+        title: `Hello, ${user.name}님!`,
+        showConfirmButton: false,
+        timer: 1000,
+      });
+
       navigate("/", { replace: true });
     } catch (err) {
-      console.log(err.message);
-      alert(err.message);
+      Swal.fire({
+        icon: "error",
+        title: err.message,
+        showConfirmButton: false,
+        timer: 1000,
+      });
     }
   };
 

@@ -5,6 +5,7 @@ import { Container, Grid, TextField, Button, Typography } from "@mui/material";
 import * as Api from "../../lib/apis/api";
 
 import { DispatchContext } from "../../App";
+import Swal from "sweetalert2";
 
 function RegisterForm() {
   const dispatch = useContext(DispatchContext);
@@ -72,9 +73,21 @@ function RegisterForm() {
         payload: user,
       });
 
+      await Swal.fire({
+        icon: "success",
+        title: `Hello, ${user.name}님!`,
+        showConfirmButton: false,
+        timer: 1000,
+      });
+
       navigate("/", { replace: true });
     } catch (err) {
-      alert(err.message);
+      Swal.fire({
+        icon: "error",
+        title: err.message,
+        showConfirmButton: false,
+        timer: 1000,
+      });
     }
   };
 
