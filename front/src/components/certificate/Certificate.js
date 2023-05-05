@@ -150,33 +150,40 @@ export function Certificate({ isEditable }) {
 
   // 삭제
   const removeCertificate = async (idx, id) => {
-    if (window.confirm("삭제 하시겠습니까?")) {
-      try {
-        await Api.delete(`certificate/${user_id}/${id}`, "").catch((err) => {
-          throw new Error(err.response.data.error);
-        });
-
-        // 상태값 갱신하며 컴포넌트를 재렌더링
-        setCertificate((certificate) => {
-          const newCertificate = [...certificate];
-          newCertificate.splice(idx, 1);
-          return newCertificate;
-        });
-        setName("");
-        setOrganization("");
-        setDate("");
-        setDescription("");
-      } catch (err) {
-        Swal.fire({
-          icon: "error",
-          title: err.message,
-          showConfirmButton: false,
-          timer: 1000,
-        });
+    Swal.fire({
+      icon: "error",
+      text: "삭제 하시겠습니까?",
+      showCancelButton: true,
+      allowOutsideClick: false,
+    }).then(async function (result) {
+      if (result.isConfirmed) {
+        try {
+          await Api.delete(`certificate/${user_id}/${id}`, "").catch((err) => {
+            throw new Error(err.response.data.error);
+          });
+  
+          // 상태값 갱신하며 컴포넌트를 재렌더링
+          setCertificate((certificate) => {
+            const newCertificate = [...certificate];
+            newCertificate.splice(idx, 1);
+            return newCertificate;
+          });
+          setName("");
+          setOrganization("");
+          setDate("");
+          setDescription("");
+        } catch (err) {
+          Swal.fire({
+            icon: "error",
+            title: err.message,
+            showConfirmButton: false,
+            timer: 1000,
+          });
+        }
+      } else {
+        return;
       }
-    } else {
-      return;
-    }
+    });
   };
 
   // +버튼 클릭
