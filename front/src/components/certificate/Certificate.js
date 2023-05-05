@@ -265,6 +265,7 @@ export function Certificate({ isEditable }) {
                         sx={{
                           pl: 2,
                           fontFamily: "GmarketSans",
+                          color: "#6E6E6E",
                           whiteSpace: "pre-wrap",
                         }}
                         variant="span"
