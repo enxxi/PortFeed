@@ -60,7 +60,7 @@ class userController {
       const [total, posts] = await Promise.all([
         UserModel.countDocuments({}),
         UserModel.find({})
-          .sort({ createdAt: -1 })
+          .sort({ createdAt: 1 })
           .skip(perPage * (page - 1))
           .limit(perPage), //sort,skip,limit 사용
       ]);
